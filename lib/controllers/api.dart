@@ -1,12 +1,4 @@
-
-import 'dart:convert';
-
-shopFromJson(String str) => Shop.fromJson(json.decode(str));
-
-String shopApiToJson(Shop data) => json.encode(data.toJson());
-
-
-class Shop {
+class Product {
   int? id;
   String? title;
   int? price;
@@ -16,7 +8,7 @@ class Shop {
   String? updatedAt;
   Category? category;
 
-  Shop(
+  Product(
       {this.id,
       this.title,
       this.price,
@@ -26,7 +18,7 @@ class Shop {
       this.updatedAt,
       this.category});
 
-  Shop.fromJson(Map<String, dynamic> json) {
+  Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
     price = json['price'];
@@ -34,13 +26,12 @@ class Shop {
     images = json['images'].cast<String>();
     creationAt = json['creationAt'];
     updatedAt = json['updatedAt'];
-    category = json['category'] != null
-        ?  Category.fromJson(json['category'])
-        : null;
+    category =
+        json['category'] != null ? Category.fromJson(json['category']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  <String, dynamic>{};
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
     data['title'] = title;
     data['price'] = price;

@@ -9,7 +9,7 @@ class LText extends StatelessWidget {
     super.key,
     required this.text,
     this.color = const Color(0xff1f2223),
-    this.fontSize = 18,
+    this.fontSize = 22,
     this.overflow = TextOverflow.ellipsis,
   });
   @override
