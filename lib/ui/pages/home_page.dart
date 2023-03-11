@@ -1,17 +1,11 @@
-import 'dart:developer';
-
-import 'package:e_commerce/controllers/api.dart';
 import 'package:e_commerce/controllers/network.dart';
-import 'package:e_commerce/provider/product_detail_data.dart';
 import 'package:e_commerce/ui/product_details.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/utils/constant/const.dart';
 import 'package:e_commerce/widgets/appbar.dart';
 import 'package:e_commerce/widgets/big_text.dart';
-import 'package:e_commerce/widgets/medium_text.dart';
 import 'package:e_commerce/widgets/small_text.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -23,8 +17,13 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
-    getProducts();
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    getProducts();
+    super.didChangeDependencies();
   }
 
   @override
@@ -34,26 +33,27 @@ class _HomeViewState extends State<HomeView> {
         builder: (ctx, snapshot) {
           if (snapshot.hasData) {
             return Scaffold(
+              appBar: appBar(
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    LText(text: 'Hello Stephen!'),
+                    SText(text: 'We have some options for you to consider.')
+                  ],
+                ),
+                GestureDetector(
+                  onTap: () {
+                    debugPrint('response.body.toString()');
+                  },
+                  child: const CircleAvatar(
+                    backgroundColor: secondColor,
+                    foregroundColor: mainColor,
+                    child: Icon(Icons.person),
+                  ),
+                ),
+              ),
               body: ListView(
                 children: [
-                  appBar(
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        LText(text: 'Hello Stephen!'),
-                        SText(text: 'We have some options for you to consider.')
-                      ],
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        debugPrint('response.body.toString()');
-                      },
-                      child: const CircleAvatar(
-                        backgroundColor: secondColor,
-                        child: Icon(Icons.person_add),
-                      ),
-                    ),
-                  ),
                   Row(
                     children: [
                       Expanded(
@@ -151,19 +151,17 @@ class _HomeViewState extends State<HomeView> {
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (ctx, i) {
                                   var product = snapshot.data!;
-                                  var provider =
-                                      Provider.of<ProductDetailsProvider>(
-                                    context,
-                                    listen: false,
-                                  );
+
                                   return GestureDetector(
-                                    onTap: () =>
-                                      
-                                      Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                              builder: (ctx) =>
-                                                  ProductDetails(image: product[i].images, price: product[i].price.toString(), title: product[i].title!,description: product[i].description!)))
-                                    ,
+                                    onTap: () => Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                            builder: (ctx) => ProductDetails(
+                                                image: product[i].images,
+                                                price:
+                                                    product[i].price.toString(),
+                                                title: product[i].title!,
+                                                description:
+                                                    product[i].description!))),
                                     child: justForYouItems(
                                         i,
                                         product[i].images,
@@ -202,7 +200,7 @@ class _HomeViewState extends State<HomeView> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     image: DecorationImage(
-                        image: NetworkImage(image[i]), fit: BoxFit.cover)),
+                        image: NetworkImage(image), fit: BoxFit.cover)),
               ),
             ),
             Align(
@@ -257,7 +255,11 @@ class _HomeViewState extends State<HomeView> {
             height: 5,
           ),
           //item identity and price
-          LText(text: productName),
+          LText(
+            text: productName,
+            overflow: TextOverflow.ellipsis,
+            fontSize: 18,
+          ),
           SText(text: 'GHC $productPrice'),
         ],
       ),

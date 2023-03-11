@@ -1,7 +1,9 @@
+import 'package:badges/badges.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
+import 'package:e_commerce/widgets/badge.dart';
 import 'package:flutter/material.dart';
 
-import 'cart_page.dart';
+import '../cart_page.dart';
 import 'home_page.dart';
 
 class MainScreen extends StatefulWidget {
@@ -42,8 +44,7 @@ class _MainScreenState extends State<MainScreen> {
                 items: const [
                   BottomNavigationBarItem(
                       icon: Icon(Icons.home_filled), label: 'Home'),
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.shopping_cart), label: 'Cart'),
+                  BottomNavigationBarItem(icon: CartBadge(), label: 'Cart'),
                 ]),
           ),
         );
