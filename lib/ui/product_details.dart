@@ -29,9 +29,9 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
+  bool clicked = false;
   @override
   Widget build(BuildContext context) {
-    bool clicked = false;
     return Scaffold(
         appBar: AppBar(
           backgroundColor: scaffold,
@@ -78,52 +78,49 @@ class _ProductDetailsState extends State<ProductDetails> {
           ),
         ]),
         bottomNavigationBar: bottomBar(
-          context,
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SText(text: 'Price:'),
-              LText(text: 'GHC ${widget.price}')
-            ],
-          ),
-          clicked == true
-              ? ElevatedButton(
-                  onPressed: () {
-                    Provider.of<CartCounter>(context, listen: false)
-                        .counterAdd();
-                    Provider.of<AddToCartProvider>(context, listen: false)
-                        .addToCart(
-                      Cart(
-                        image: widget.image,
-                        price: widget.price,
-                        title: widget.title,
-                      ),
-                    );
-                    setState(() {
-                      clicked == true;
-                    });
-                  },
-                  child: const Text('Add to cart'),
-                )
-              : SizedBox(
-                  width: MediaQuery.of(context).size.width / 4,
-                  child: Row(
-                    children: [
-                      const Card(
-                          child: Icon(
-                        Icons.remove_circle,
-                        color: mainColor,
-                      )),
-                      MText(text: '100'),
-                      const Card(
-                        child: Icon(
-                          Icons.add_circle,
+            context,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SText(text: 'Price:'),
+                LText(text: 'GHC ${widget.price}')
+              ],
+            ),
+            clicked
+                ? SizedBox(
+                    width: MediaQuery.of(context).size.width / 4,
+                    child: Row(
+                      children: [
+                        const Card(
+                            child: Icon(
+                          Icons.remove_circle,
                           color: mainColor,
-                        ),
-                      )
-                    ],
-                  )),
-        ));
+                        )),
+                        MText(text: '100'),
+                        const Card(
+                          child: Icon(
+                            Icons.add_circle,
+                            color: mainColor,
+                          ),
+                        )
+                      ],
+                    ))
+                : ElevatedButton(
+                    onPressed: () {
+                      context.read<CartCounter>().counterAdd();
+                      context.read<AddToCartProvider>().addToCart(
+                            Cart(
+                              image: widget.image,
+                              price: widget.price,
+                              title: widget.title,
+                            ),
+                          );
+                      setState(() {
+                        clicked == true;
+                      });
+                    },
+                    child: const Text('Add to cart'),
+                  )));
   }
 }

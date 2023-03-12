@@ -1,5 +1,6 @@
 import 'package:e_commerce/model/cart.dart';
 import 'package:e_commerce/provider/add_to_cart.dart';
+import 'package:e_commerce/provider/cart_counter.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/widgets/bottom_bar.dart';
 import 'package:e_commerce/widgets/medium_text.dart';
@@ -21,7 +22,7 @@ class _CartViewState extends State<CartView> {
   @override
   Widget build(BuildContext context) {
     // var provider = context.read<ProductDetailsProvider>();
-    var provider = context.read<AddToCartProvider>();
+    var provider = context.watch<AddToCartProvider>();
 
     return Scaffold(
       appBar: appBar(
@@ -43,7 +44,7 @@ class _CartViewState extends State<CartView> {
                       itemCount: provider.cart.length,
                       itemBuilder: (context, index) {
                         var cart = provider.cart[index];
-                        return cartTile(cart, context);
+                        return cartTile(index, cart, context);
                       }),
                 ),
                 Visibility(
@@ -74,8 +75,9 @@ class _CartViewState extends State<CartView> {
     );
   }
 
-  ListTile cartTile(Cart cart, BuildContext context) {
+  ListTile cartTile(int i, Cart cart, BuildContext context) {
     return ListTile(
+      // onLongPress: () => context.read<AddToCartProvider>().removeFromCart(i),
       contentPadding: const EdgeInsets.symmetric(horizontal: 5),
       dense: true,
       leading: Container(
@@ -96,16 +98,32 @@ class _CartViewState extends State<CartView> {
           width: MediaQuery.of(context).size.width / 4,
           child: Row(
             children: [
-              const Card(
-                  child: Icon(
-                Icons.remove_circle,
-                color: mainColor,
-              )),
-              MText(text: '100'),
-              const Card(
-                child: Icon(
-                  Icons.add_circle,
+              GestureDetector(
+                onTap: () {
+                  context.read<CartCounter>().counterReduce();
+                  // context.read<AddToCartProvider>().removeFromCart(i);
+                },
+                child: const Card(
+                    child: Icon(
+                  Icons.remove_circle,
                   color: mainColor,
+                )),
+              ),
+              MText(
+                  text: context
+                      .watch<CartCounter>()
+                      .cartQuantityAtIndex
+                      .toString()),
+              GestureDetector(
+                onTap: () {
+                  context.read<CartCounter>().counterAdd();
+                  context.read<CartCounter>().counterAddAtIndex(i);
+                },
+                child: const Card(
+                  child: Icon(
+                    Icons.add_circle,
+                    color: mainColor,
+                  ),
                 ),
               )
             ],

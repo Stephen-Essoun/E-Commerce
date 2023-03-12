@@ -93,7 +93,7 @@ class _HomeViewState extends State<HomeView> {
                         top: wallPadding,
                         bottom: wallPadding,
                         left: wallPadding),
-                    height: MediaQuery.of(context).size.height / 4,
+                    height: MediaQuery.of(context).size.height / 3.5,
                     child: Column(
                       children: [
                         Row(
@@ -128,7 +128,7 @@ class _HomeViewState extends State<HomeView> {
                         top: wallPadding,
                         bottom: wallPadding,
                         left: wallPadding),
-                    height: MediaQuery.of(context).size.height / 2.2,
+                    height: MediaQuery.of(context).size.height / 2.1,
                     child: Column(
                       children: [
                         Row(
@@ -163,7 +163,6 @@ class _HomeViewState extends State<HomeView> {
                                                 description:
                                                     product[i].description!))),
                                     child: justForYouItems(
-                                        i,
                                         product[i].images,
                                         product[i].title!,
                                         product[i].price.toString()),
@@ -176,10 +175,17 @@ class _HomeViewState extends State<HomeView> {
               ),
             );
           } else if (snapshot.hasError) {
-            return Text('${snapshot.error}');
+            return LText(
+                overflow: TextOverflow.clip,
+                text:
+                    'Please check your internet connection\nand relaunch the app');
           }
           return const Center(
-            child: CircularProgressIndicator(),
+            child: CircularProgressIndicator(
+              color: mainColor,
+              backgroundColor: secondColor,
+              semanticsLabel: 'Loading...',
+            ),
           );
         });
   }
@@ -192,7 +198,7 @@ class _HomeViewState extends State<HomeView> {
           color: i.isEven ? secondColor : thirdColor,
           borderRadius: BorderRadius.circular(5),
         ),
-        width: MediaQuery.of(context).size.width / 3,
+        width: MediaQuery.of(context).size.width / 2.8,
         child: Stack(
           children: [
             Center(
@@ -219,8 +225,7 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget justForYouItems(
-      int i, image, String productName, String productPrice) {
+  Widget justForYouItems(image, String productName, String productPrice) {
     return Padding(
       padding: const EdgeInsets.only(right: 10),
       child: Column(
