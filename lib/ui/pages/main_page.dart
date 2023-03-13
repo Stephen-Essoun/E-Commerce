@@ -41,7 +41,7 @@ class _MainScreenState extends State<MainScreen> {
                 selectedFontSize: 12,
                 unselectedFontSize: 10,
                 onTap: (index) => onTap.whenTapped(index),
-                items: const [
+                items:  [
                   BottomNavigationBarItem(
                       icon: Icon(Icons.home_filled), label: 'Home'),
                   BottomNavigationBarItem(icon: CartBadge(), label: 'Cart'),

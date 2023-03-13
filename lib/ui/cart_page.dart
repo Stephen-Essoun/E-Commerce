@@ -1,14 +1,14 @@
-import 'package:e_commerce/model/cart.dart';
 import 'package:e_commerce/provider/add_to_cart.dart';
-import 'package:e_commerce/provider/cart_counter.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/widgets/bottom_bar.dart';
 import 'package:e_commerce/widgets/medium_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../utils/snackbar.dart';
 import '../widgets/appbar.dart';
 import '../widgets/big_text.dart';
+import '../widgets/cart_tile.dart';
 import '../widgets/small_text.dart';
 
 class CartView extends StatefulWidget {
@@ -19,6 +19,7 @@ class CartView extends StatefulWidget {
 }
 
 class _CartViewState extends State<CartView> {
+  int counter = 1;
   @override
   Widget build(BuildContext context) {
     // var provider = context.read<ProductDetailsProvider>();
@@ -44,7 +45,7 @@ class _CartViewState extends State<CartView> {
                       itemCount: provider.cart.length,
                       itemBuilder: (context, index) {
                         var cart = provider.cart[index];
-                        return cartTile(index, cart, context);
+                        return CartTile(i: index, cart: cart, context: context);
                       }),
                 ),
                 Visibility(
@@ -63,7 +64,10 @@ class _CartViewState extends State<CartView> {
                         ],
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              snackBar('Successfully checked out!'));
+                        },
                         child: const Text('Checkout'),
                       )),
                 ),
@@ -72,62 +76,6 @@ class _CartViewState extends State<CartView> {
                 )
               ],
             ),
-    );
-  }
-
-  ListTile cartTile(int i, Cart cart, BuildContext context) {
-    return ListTile(
-      // onLongPress: () => context.read<AddToCartProvider>().removeFromCart(i),
-      contentPadding: const EdgeInsets.symmetric(horizontal: 5),
-      dense: true,
-      leading: Container(
-          height: 150,
-          width: 70,
-          decoration: BoxDecoration(
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: NetworkImage(cart.image[0]),
-            ),
-          )),
-      title: MText(
-        text: cart.title,
-        overflow: TextOverflow.clip,
-      ),
-      subtitle: MText(text: 'GHC ${cart.price}'),
-      trailing: SizedBox(
-          width: MediaQuery.of(context).size.width / 4,
-          child: Row(
-            children: [
-              GestureDetector(
-                onTap: () {
-                  context.read<CartCounter>().counterReduce();
-                  // context.read<AddToCartProvider>().removeFromCart(i);
-                },
-                child: const Card(
-                    child: Icon(
-                  Icons.remove_circle,
-                  color: mainColor,
-                )),
-              ),
-              MText(
-                  text: context
-                      .watch<CartCounter>()
-                      .cartQuantityAtIndex
-                      .toString()),
-              GestureDetector(
-                onTap: () {
-                  context.read<CartCounter>().counterAdd();
-                  context.read<CartCounter>().counterAddAtIndex(i);
-                },
-                child: const Card(
-                  child: Icon(
-                    Icons.add_circle,
-                    color: mainColor,
-                  ),
-                ),
-              )
-            ],
-          )),
     );
   }
 }

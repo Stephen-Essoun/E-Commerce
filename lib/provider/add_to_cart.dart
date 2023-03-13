@@ -13,5 +13,4 @@ class AddToCartProvider extends ChangeNotifier {
     _cart.removeAt(cartIndex);
     notifyListeners();
   }
-  
 }

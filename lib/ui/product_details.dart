@@ -1,6 +1,7 @@
 import 'package:e_commerce/model/cart.dart';
 import 'package:e_commerce/provider/add_to_cart.dart';
 import 'package:e_commerce/provider/cart_counter.dart';
+import 'package:e_commerce/ui/cart_page.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/utils/constant/const.dart';
 import 'package:e_commerce/widgets/big_text.dart';
@@ -13,11 +14,11 @@ import '../widgets/badge.dart';
 import '../widgets/small_text.dart';
 
 class ProductDetails extends StatefulWidget {
-  String title;
-  dynamic image;
-  String price;
-  String description;
-  ProductDetails(
+  final String title;
+  final dynamic image;
+  final String price;
+  final String description;
+  const ProductDetails(
       {super.key,
       required this.image,
       required this.price,
@@ -37,11 +38,14 @@ class _ProductDetailsState extends State<ProductDetails> {
           backgroundColor: scaffold,
           elevation: 0,
           foregroundColor: black,
-          actions: const [
+          actions: [
             Center(
               child: Padding(
-                padding: EdgeInsets.only(right: wallPadding),
-                child: CartBadge(),
+                padding: const EdgeInsets.only(right: wallPadding),
+                child: GestureDetector(
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => const CartView())),
+                    child: CartBadge()),
               ),
             )
           ],
@@ -87,40 +91,21 @@ class _ProductDetailsState extends State<ProductDetails> {
                 LText(text: 'GHC ${widget.price}')
               ],
             ),
-            clicked
-                ? SizedBox(
-                    width: MediaQuery.of(context).size.width / 4,
-                    child: Row(
-                      children: [
-                        const Card(
-                            child: Icon(
-                          Icons.remove_circle,
-                          color: mainColor,
-                        )),
-                        MText(text: '100'),
-                        const Card(
-                          child: Icon(
-                            Icons.add_circle,
-                            color: mainColor,
-                          ),
-                        )
-                      ],
-                    ))
-                : ElevatedButton(
-                    onPressed: () {
-                      context.read<CartCounter>().counterAdd();
-                      context.read<AddToCartProvider>().addToCart(
-                            Cart(
-                              image: widget.image,
-                              price: widget.price,
-                              title: widget.title,
-                            ),
-                          );
-                      setState(() {
-                        clicked == true;
-                      });
-                    },
-                    child: const Text('Add to cart'),
-                  )));
+            ElevatedButton(
+              onPressed: () {
+                context.read<CartCounter>().counterAdd();
+                context.read<AddToCartProvider>().addToCart(
+                      Cart(
+                        image: widget.image,
+                        price: widget.price,
+                        title: widget.title,
+                      ),
+                    );
+                setState(() {
+                  clicked == true;
+                });
+              },
+              child: const Text('Add to cart'),
+            )));
   }
 }

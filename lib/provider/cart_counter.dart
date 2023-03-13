@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 class CartCounter extends ChangeNotifier {
   int _cartQuantity = 0;
-  int _cartQuantityAtIndex = 1;
+  int _cartQuantityAtIndex = 0;
   int get cartQuantity => _cartQuantity;
   int get cartQuantityAtIndex => _cartQuantityAtIndex;
 
@@ -12,7 +12,13 @@ class CartCounter extends ChangeNotifier {
   }
 
   counterAddAtIndex(int id) {
-    id != 0 ? _cartQuantityAtIndex++ : null;
+    id >= 0 ? _cartQuantityAtIndex++ : null;
+    notifyListeners();
+  }
+
+  counterReduceAtIndex(int id) {
+    id > 1 ? _cartQuantityAtIndex-- : null;
+    notifyListeners();
   }
 
   counterReduce() {

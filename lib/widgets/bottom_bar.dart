@@ -1,7 +1,7 @@
 import 'package:e_commerce/utils/constant/const.dart';
 import 'package:flutter/material.dart';
 
-Widget bottomBar(context, leading,Widget button) {
+Widget bottomBar(context, leading, Widget button) {
   return Padding(
     padding: const EdgeInsets.symmetric(
       horizontal: wallPadding,
