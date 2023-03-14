@@ -1,6 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
-import 'package:e_commerce/widgets/badge.dart';
+import 'package:e_commerce/utils/widgets/badge.dart';
 import 'package:flutter/material.dart';
 
 import '../cart_page.dart';
@@ -27,26 +27,26 @@ class _MainScreenState extends State<MainScreen> {
           extendBody: true,
           body: SafeArea(
             bottom: false,
-            child: pages[value],
+            child: IndexedStack(
+              index: value,
+              children: pages,
+            ),
           ),
-          bottomNavigationBar: BottomAppBar(
-            color: scaffold,
-            child: BottomNavigationBar(
-                backgroundColor: scaffold,
-                elevation: 0,
-                type: BottomNavigationBarType.fixed,
-                selectedItemColor: mainColor,
-                unselectedItemColor: grey,
-                currentIndex: value,
-                selectedFontSize: 12,
-                unselectedFontSize: 10,
-                onTap: (index) => onTap.whenTapped(index),
-                items:  [
-                  BottomNavigationBarItem(
-                      icon: Icon(Icons.home_filled), label: 'Home'),
-                  BottomNavigationBarItem(icon: CartBadge(), label: 'Cart'),
-                ]),
-          ),
+          bottomNavigationBar: BottomNavigationBar(
+              backgroundColor: white,
+              elevation: 0,
+              type: BottomNavigationBarType.fixed,
+              selectedItemColor: mainColor,
+              unselectedItemColor: grey,
+              currentIndex: value,
+              selectedFontSize: 12,
+              unselectedFontSize: 10,
+              onTap: (index) => onTap.whenTapped(index),
+              items: [
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.home_filled), label: 'Home'),
+                BottomNavigationBarItem(icon: CartBadge(), label: 'Cart'),
+              ]),
         );
       },
     );

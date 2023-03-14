@@ -2,16 +2,17 @@ import 'package:e_commerce/model/cart.dart';
 import 'package:e_commerce/provider/add_to_cart.dart';
 import 'package:e_commerce/provider/cart_counter.dart';
 import 'package:e_commerce/ui/cart_page.dart';
+import 'package:e_commerce/ui/pages/main_page.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/utils/constant/const.dart';
-import 'package:e_commerce/widgets/big_text.dart';
-import 'package:e_commerce/widgets/bottom_bar.dart';
-import 'package:e_commerce/widgets/medium_text.dart';
+import 'package:e_commerce/utils/widgets/big_text.dart';
+import 'package:e_commerce/utils/widgets/bottom_bar.dart';
+import 'package:e_commerce/utils/widgets/medium_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../widgets/badge.dart';
-import '../widgets/small_text.dart';
+import '../utils/widgets/badge.dart';
+import '../utils/widgets/small_text.dart';
 
 class ProductDetails extends StatefulWidget {
   final String title;
@@ -30,22 +31,28 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
-  bool clicked = false;
+  bool visible = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          backgroundColor: scaffold,
+          backgroundColor: white,
           elevation: 0,
           foregroundColor: black,
           actions: [
             Center(
               child: Padding(
                 padding: const EdgeInsets.only(right: wallPadding),
-                child: GestureDetector(
-                    onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => const CartView())),
-                    child: CartBadge()),
+                child: ValueListenableBuilder(
+                    valueListenable: OnTap(),
+                    builder: (context, val, _) {
+                      return GestureDetector(
+                          onTap: () {
+                            OnTap().whenTapped(1);
+                            Navigator.of(context).pop();
+                          },
+                          child: CartBadge());
+                    }),
               ),
             )
           ],
@@ -88,24 +95,34 @@ class _ProductDetailsState extends State<ProductDetails> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SText(text: 'Price:'),
-                LText(text: 'GHC ${widget.price}')
+                LText(
+                  text: 'GHC ${widget.price}',
+                  fontSize: 18,
+                )
               ],
             ),
             ElevatedButton(
-              onPressed: () {
-                context.read<CartCounter>().counterAdd();
-                context.read<AddToCartProvider>().addToCart(
-                      Cart(
-                        image: widget.image,
-                        price: widget.price,
-                        title: widget.title,
-                      ),
-                    );
-                setState(() {
-                  clicked == true;
-                });
-              },
-              child: const Text('Add to cart'),
+              style: ButtonStyle(
+                  foregroundColor: MaterialStateProperty.all(
+                      visible == true ? mainColor : null),
+                  backgroundColor:
+                      MaterialStateProperty.all(visible == true ? grey : null)),
+              onPressed: visible == false
+                  ? () async {
+                      // context.read<CartCounter>().counterAdd();
+                      context.read<AddToCartProvider>().addToCart(
+                            Cart(
+                              image: widget.image,
+                              price: widget.price,
+                              title: widget.title,
+                            ),
+                          );
+                      setState(() {
+                        visible = true;
+                      });
+                    }
+                  : null,
+              child: Text(visible == true ? 'Product added' : 'Add to cart'),
             )));
   }
 }

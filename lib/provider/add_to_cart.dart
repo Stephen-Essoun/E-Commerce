@@ -4,8 +4,15 @@ import 'package:flutter/cupertino.dart';
 class AddToCartProvider extends ChangeNotifier {
   final List<Cart> _cart = [];
   List<Cart> get cart => _cart;
+ double _totalPrice = 0.0;
+ double get totalPrice => _totalPrice;
   void addToCart(Cart cart) {
     _cart.add(cart);
+    notifyListeners();
+  }
+
+  void emptyList() {
+    _cart.clear();
     notifyListeners();
   }
 
@@ -13,4 +20,15 @@ class AddToCartProvider extends ChangeNotifier {
     _cart.removeAt(cartIndex);
     notifyListeners();
   }
+  
+ void addTotalPrice(double productPrice) {
+   _totalPrice = _totalPrice + productPrice;
+   notifyListeners();
+ }
+
+ void removeTotalPrice(double productPrice) {
+   _totalPrice = _totalPrice - productPrice;
+   notifyListeners();
+ }
+
 }

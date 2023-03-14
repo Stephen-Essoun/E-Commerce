@@ -4,7 +4,8 @@ import 'package:badges/badges.dart';
 import 'package:e_commerce/provider/cart_counter.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../utils/constant/colors.dart';
+import '../../provider/add_to_cart.dart';
+import '../constant/colors.dart';
 import 'cart_tile.dart';
 
 class CartBadge extends StatelessWidget {
@@ -15,11 +16,12 @@ class CartBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Badge(
-        showBadge: context.read<CartCounter>().cartQuantity <= 0 ? false : true,
+        showBadge:
+            context.watch<AddToCartProvider>().cart.isEmpty ? false : true,
         badgeStyle: BadgeStyle(
-            badgeColor: scaffold, borderRadius: BorderRadius.circular(9)),
+            badgeColor: white, borderRadius: BorderRadius.circular(9)),
         badgeContent: Text(
-            ' ${context.watch<CartCounter>().cartQuantity + context.watch<CartCounter>().cartQuantityAtIndex}'),
+            ' ${context.watch<AddToCartProvider>().cart.length + context.watch<CartCounter>().cartQuantity}'),
         child: const Icon(Icons.shopping_cart_outlined));
   }
 }

@@ -1,15 +1,16 @@
 import 'package:e_commerce/provider/add_to_cart.dart';
+import 'package:e_commerce/provider/cart_counter.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
-import 'package:e_commerce/widgets/bottom_bar.dart';
-import 'package:e_commerce/widgets/medium_text.dart';
+import 'package:e_commerce/utils/widgets/bottom_bar.dart';
+import 'package:e_commerce/utils/widgets/medium_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../utils/snackbar.dart';
-import '../widgets/appbar.dart';
-import '../widgets/big_text.dart';
-import '../widgets/cart_tile.dart';
-import '../widgets/small_text.dart';
+import '../utils/widgets/appbar.dart';
+import '../utils/widgets/big_text.dart';
+import '../utils/widgets/cart_tile.dart';
+import '../utils/widgets/small_text.dart';
 
 class CartView extends StatefulWidget {
   const CartView({super.key});
@@ -20,6 +21,7 @@ class CartView extends StatefulWidget {
 
 class _CartViewState extends State<CartView> {
   int counter = 1;
+  var price;
   @override
   Widget build(BuildContext context) {
     // var provider = context.read<ProductDetailsProvider>();
@@ -30,9 +32,13 @@ class _CartViewState extends State<CartView> {
         LText(text: 'My Cart'),
         GestureDetector(
           onTap: () {},
-          child: const CircleAvatar(
+          child: CircleAvatar(
             backgroundColor: secondColor,
-            child: Icon(Icons.person),
+            child: Placeholder(
+                child: MText(
+              text: 'user',
+              color: white,
+            )),
           ),
         ),
       ),
@@ -45,6 +51,7 @@ class _CartViewState extends State<CartView> {
                       itemCount: provider.cart.length,
                       itemBuilder: (context, index) {
                         var cart = provider.cart[index];
+                        price = cart;
                         return CartTile(i: index, cart: cart, context: context);
                       }),
                 ),
@@ -60,11 +67,15 @@ class _CartViewState extends State<CartView> {
                             text: 'Cart total:',
                             fontSize: 15,
                           ),
-                          LText(text: 'GHC 200')
+                          LText(
+                              text:
+                                  'GHC ${context.watch<AddToCartProvider>().totalPrice}')
                         ],
                       ),
                       ElevatedButton(
                         onPressed: () {
+                          context.read<AddToCartProvider>().emptyList();
+                          context.read<CartCounter>().setToZero();
                           ScaffoldMessenger.of(context).showSnackBar(
                               snackBar('Successfully checked out!'));
                         },

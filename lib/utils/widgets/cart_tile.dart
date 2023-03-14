@@ -3,11 +3,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../model/cart.dart';
-import '../provider/add_to_cart.dart';
-import '../provider/cart_counter.dart';
-import '../utils/constant/colors.dart';
-import '../utils/snackbar.dart';
+import '../../model/cart.dart';
+import '../../provider/add_to_cart.dart';
+import '../../provider/cart_counter.dart';
+import '../constant/colors.dart';
+import '../snackbar.dart';
 import 'medium_text.dart';
 
 class CartTile extends StatefulWidget {
@@ -65,8 +65,9 @@ class CartTileState extends State<CartTile> {
                     _counter--;
                   });
                   context.read<CartCounter>().counterReduce();
-                  context.read<CartCounter>().counterReduceAtIndex(id);
-                } else if (_counter == 1) {
+                  // context.read<CartCounter>().counterReduceAtIndex(id);
+                }
+                if (_counter <= 1) {
                   context.read<AddToCartProvider>().removeFromCart(widget.i);
                   context.read<CartCounter>().counterReduce();
                 }
@@ -87,8 +88,10 @@ class CartTileState extends State<CartTile> {
                 setState(() {
                   _counter++;
                 });
-                context.read<CartCounter>().counterAddAtIndex(id);
-                log(_counter.toString());
+                context.read<CartCounter>().counterAdd();
+                log('counted $_counter');
+                ScaffoldMessenger.of(context)
+                    .showSnackBar(snackBar('cart successfully updated'));
               },
               child: const Card(
                 child: Icon(

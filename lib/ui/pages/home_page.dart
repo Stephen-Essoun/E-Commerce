@@ -2,9 +2,9 @@ import 'package:e_commerce/controllers/network.dart';
 import 'package:e_commerce/ui/product_details.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/utils/constant/const.dart';
-import 'package:e_commerce/widgets/appbar.dart';
-import 'package:e_commerce/widgets/big_text.dart';
-import 'package:e_commerce/widgets/small_text.dart';
+import 'package:e_commerce/utils/widgets/appbar.dart';
+import 'package:e_commerce/utils/widgets/big_text.dart';
+import 'package:e_commerce/utils/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 
 class HomeView extends StatefulWidget {
@@ -157,7 +157,7 @@ class _HomeViewState extends State<HomeView> {
                                               builder: (ctx) => ProductDetails(
                                                   image: product[i].images,
                                                   price: product[i]
-                                                      .price
+                                                      .price!
                                                       .toString(),
                                                   title: product[i].title!,
                                                   description: product[i]
