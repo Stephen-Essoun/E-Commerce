@@ -28,7 +28,6 @@ class CartTile extends StatefulWidget {
 
 class CartTileState extends State<CartTile> {
   int _counter = 1;
-  // int get counter => _counter;
 
   @override
   Widget build(BuildContext context) {
@@ -60,17 +59,27 @@ class CartTileState extends State<CartTile> {
           children: [
             GestureDetector(
               onTap: () {
-                if (_counter > 1) {
+                if (_counter >= 1) {
                   setState(() {
                     _counter--;
                   });
                   context.read<CartCounter>().counterReduce();
+                  context
+                      .read<AddToCartProvider>()
+                      .removeTotalPrice(widget.cart.price[id] * (_counter + 1));
                   // context.read<CartCounter>().counterReduceAtIndex(id);
                 }
-                if (_counter <= 1) {
+                if (_counter == 0) {
                   context.read<AddToCartProvider>().removeFromCart(widget.i);
+                  context
+                      .read<AddToCartProvider>()
+                      .removeTotalPrice(widget.cart.price[id] * (_counter + 1));
                   context.read<CartCounter>().counterReduce();
                 }
+                context.read<AddToCartProvider>().cart.isEmpty
+                    ? context.read<AddToCartProvider>().setToZero()
+                    : null;
+
                 ScaffoldMessenger.of(context)
                     .showSnackBar(snackBar('cart successfully updated'));
               },
@@ -89,6 +98,9 @@ class CartTileState extends State<CartTile> {
                   _counter++;
                 });
                 context.read<CartCounter>().counterAdd();
+                context
+                    .read<AddToCartProvider>()
+                    .addTotalPrice(widget.cart.price[id] * _counter);
                 log('counted $_counter');
                 ScaffoldMessenger.of(context)
                     .showSnackBar(snackBar('cart successfully updated'));

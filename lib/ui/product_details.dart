@@ -108,7 +108,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   backgroundColor:
                       MaterialStateProperty.all(visible == true ? grey : null)),
               onPressed: visible == false
-                  ? () async {
+                  ? () {
                       // context.read<CartCounter>().counterAdd();
                       context.read<AddToCartProvider>().addToCart(
                             Cart(
@@ -117,6 +117,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                               title: widget.title,
                             ),
                           );
+                      context
+                          .read<AddToCartProvider>()
+                          .addTotalPrice(widget.price);
+
                       setState(() {
                         visible = true;
                       });

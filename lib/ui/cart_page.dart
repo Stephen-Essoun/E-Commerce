@@ -68,6 +68,7 @@ class _CartViewState extends State<CartView> {
                             fontSize: 15,
                           ),
                           LText(
+                              overflow: TextOverflow.clip,
                               text:
                                   'GHC ${context.watch<AddToCartProvider>().totalPrice}')
                         ],
