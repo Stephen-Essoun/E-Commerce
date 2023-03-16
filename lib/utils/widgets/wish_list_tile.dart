@@ -23,7 +23,7 @@ class WishListTile extends StatelessWidget {
               AspectRatio(
                 aspectRatio: 1,
                 child: Container(
-                    decoration:const BoxDecoration(
+                    decoration: const BoxDecoration(
                         // image: DecorationImage(
                         //   fit: BoxFit.cover,
                         //   image: NetworkImage(widget.cart.image[0]),
@@ -35,11 +35,22 @@ class WishListTile extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  MText(text: 'text'),
-                  MText(text: 'text'),
-                  ElevatedButton(onPressed: () {}, child: const Text('Add to cart'))
+                  MText(text: 'Product name'),
+                  MText(text: 'Product price'),
+                  ElevatedButton(
+                      onPressed: () {}, child: const Text('Add to cart'))
                 ],
               ),
+              const Spacer(),
+              const Align(
+                  alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: EdgeInsets.all(8.0),
+                    child: Icon(
+                      Icons.favorite,
+                      color: Colors.red,
+                    ),
+                  ))
             ],
           ),
         ),
