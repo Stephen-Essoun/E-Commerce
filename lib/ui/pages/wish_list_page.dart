@@ -21,6 +21,7 @@ class _WishListViewState extends State<WishListView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: white,
       appBar: myTile(
         leading: LText(text: 'WishList'),
         trailing: GestureDetector(
