@@ -23,13 +23,12 @@ class _CartViewState extends State<CartView> {
   int counter = 1;
   @override
   Widget build(BuildContext context) {
-    // var provider = context.read<ProductDetailsProvider>();
     var provider = context.watch<AddToCartProvider>();
 
     return Scaffold(
-      appBar: appBar(
-        LText(text: 'My Cart'),
-        GestureDetector(
+      appBar: myTile(
+       leading:LText(text: 'My Cart'),
+       trailing:GestureDetector(
           onTap: () {},
           child: CircleAvatar(
             backgroundColor: secondColor,
@@ -48,7 +47,6 @@ class _CartViewState extends State<CartView> {
                 Expanded(
                   child: ListView.builder(
                       itemCount: provider.cart.length,
-                      
                       itemBuilder: (context, index) {
                         var cart = provider.cart[index];
                         return CartTile(i: index, cart: cart, context: context);

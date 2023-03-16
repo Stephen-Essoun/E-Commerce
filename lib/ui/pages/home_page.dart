@@ -35,15 +35,15 @@ class _HomeViewState extends State<HomeView> {
             builder: (ctx, snapshot) {
               if (snapshot.hasData) {
                 return Scaffold(
-                  appBar: appBar(
-                    Column(
+                  appBar: myTile(
+                 leading:  Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         LText(text: 'Hello Stephen!'),
                         SText(text: 'We have some options for you to consider.')
                       ],
                     ),
-                    GestureDetector(
+                 trailing: GestureDetector(
                       onTap: () {
                         debugPrint('response.body.toString()');
                       },

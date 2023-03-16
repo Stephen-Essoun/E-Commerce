@@ -1,4 +1,5 @@
 import 'package:badges/badges.dart';
+import 'package:e_commerce/ui/pages/wish_list_page.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/utils/widgets/badge.dart';
 import 'package:flutter/material.dart';
@@ -14,12 +15,11 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  int currentIndex = 0;
-  List<Widget> pages = const [HomeView(), CartView()];
+  List<Widget> pages = const [HomeView(), WishListView(), CartView()];
+  OnTap onTap = OnTap();
 
   @override
   Widget build(BuildContext context) {
-    OnTap onTap = OnTap();
     return ValueListenableBuilder(
       valueListenable: onTap,
       builder: (context, value, child) {
@@ -43,8 +43,10 @@ class _MainScreenState extends State<MainScreen> {
               unselectedFontSize: 10,
               onTap: (index) => onTap.whenTapped(index),
               items: [
-                BottomNavigationBarItem(
-                    icon: Icon(Icons.home_filled), label: 'Home'),
+                const BottomNavigationBarItem(
+                    icon: Icon(Icons.home_outlined), label: 'Home'),
+                const BottomNavigationBarItem(
+                    icon: Icon(Icons.favorite_outline), label: 'Wishlist'),
                 BottomNavigationBarItem(icon: CartBadge(), label: 'Cart'),
               ]),
         );

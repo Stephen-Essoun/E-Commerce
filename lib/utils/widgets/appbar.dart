@@ -1,7 +1,7 @@
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:flutter/material.dart';
 
-PreferredSizeWidget appBar(leading, trailing) {
+PreferredSizeWidget myTile({leading, trailing}) {
   return AppBar(
     foregroundColor: black,
     backgroundColor: white,
