@@ -1,4 +1,5 @@
 import 'package:e_commerce/controllers/network.dart';
+import 'package:e_commerce/ui/pages/main_page.dart';
 import 'package:e_commerce/ui/product_details.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/utils/constant/const.dart';
@@ -181,21 +182,31 @@ class _HomeViewState extends State<HomeView> {
                   ),
                 );
               } else if (snapshot.hasError) {
-                return Center(
-                  child: Column(
-                    // crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Text(
-                        'Please check your internet connection\nand pull down to reload',
+                return Scaffold(
+                  body: RefreshIndicator(
+                    onRefresh: getProducts,
+                    child: Center(
+                      child: Column(
+                        // crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Please check your internet connection\nand click or pull down to reload',
+                          ),
+                          TextButton(
+                              onPressed: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (ctx) => const MainScreen())),
+                              child: const Text('Refresh'))
+                        ],
                       ),
-                      TextButton(
-                          onPressed: getProducts, child: Text('Refresh'))
-                    ],
+                    ),
                   ),
                 );
               }
-              return Center(child:Column(
+              return Center(
+                  child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   SpinKitWave(
@@ -208,8 +219,13 @@ class _HomeViewState extends State<HomeView> {
                       );
                     },
                   ),
-                  const SizedBox(height: 5,),
-                  MText(text: 'Loading...',fontSize: 12,)
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  MText(
+                    text: 'Loading...',
+                    fontSize: 12,
+                  )
                 ],
               ));
             }));

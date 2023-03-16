@@ -49,6 +49,7 @@ class _CartViewState extends State<CartView> {
                 Expanded(
                   child: ListView.builder(
                       itemCount: provider.cart.length,
+                      
                       itemBuilder: (context, index) {
                         var cart = provider.cart[index];
                         price = cart;
