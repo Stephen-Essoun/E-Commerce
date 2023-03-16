@@ -21,7 +21,6 @@ class CartView extends StatefulWidget {
 
 class _CartViewState extends State<CartView> {
   int counter = 1;
-  var price;
   @override
   Widget build(BuildContext context) {
     // var provider = context.read<ProductDetailsProvider>();
@@ -52,7 +51,6 @@ class _CartViewState extends State<CartView> {
                       
                       itemBuilder: (context, index) {
                         var cart = provider.cart[index];
-                        price = cart;
                         return CartTile(i: index, cart: cart, context: context);
                       }),
                 ),
