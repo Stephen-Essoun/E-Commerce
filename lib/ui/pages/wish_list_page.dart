@@ -1,9 +1,11 @@
+import 'package:e_commerce/provider/add_to_wishlist.dart';
 import 'package:e_commerce/utils/constant/const.dart';
 import 'package:e_commerce/utils/widgets/appbar.dart';
 import 'package:e_commerce/utils/widgets/big_text.dart';
 import 'package:e_commerce/utils/widgets/medium_text.dart';
 import 'package:e_commerce/utils/widgets/small_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../utils/constant/colors.dart';
 import '../../utils/widgets/wish_list_tile.dart';
@@ -18,6 +20,8 @@ class WishListView extends StatefulWidget {
 class _WishListViewState extends State<WishListView> {
   List items = [1, 1, 1, 1, 1, 1, 1];
   bool isExpanded = false;
+  WishListProvider? getProduct;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,19 +39,23 @@ class _WishListViewState extends State<WishListView> {
           ),
         ),
       ),
-      body: ListView(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-                horizontal: wallPadding, vertical: wallPadding),
-            child: wishListTile(context),
-          ),
-        ],
-      ),
+      body: context.watch<WishListProvider>().wishList.isEmpty
+          ? Center(child: MText(text: 'No favorited products to show'))
+          : ListView(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: wallPadding, vertical: wallPadding),
+                  child: wishListTile(context),
+                ),
+              ],
+            ),
     );
   }
 
-  Container wishListTile(BuildContext context) {
+  Widget wishListTile(BuildContext context) {
+    var getProduct = context.watch<WishListProvider>();
+
     return Container(
         constraints: BoxConstraints(
           maxHeight: isExpanded
@@ -75,11 +83,11 @@ class _WishListViewState extends State<WishListView> {
             ),
             Expanded(
               child: ListView.builder(
-                itemCount: items.length,
-                itemBuilder: (context, i) => WishListTile(
-                  items: items,
-                  i: i,
-                ),
+                itemCount: getProduct.wishList.length,
+                itemBuilder: (context, i) {
+                  return WishListTile(
+                      product: getProduct.wishList[i], i: i, context: context);
+                },
               ),
             ),
             const Divider(

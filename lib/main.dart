@@ -1,4 +1,5 @@
 import 'package:e_commerce/provider/add_to_cart.dart';
+import 'package:e_commerce/provider/add_to_wishlist.dart';
 import 'package:e_commerce/provider/cart_counter.dart';
 import 'package:e_commerce/provider/product_detail_data.dart';
 import 'package:e_commerce/ui/pages/home_page.dart';
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (ctx) => ProductDetailsProvider()),
         ChangeNotifierProvider(create: (ctx) => AddToCartProvider()),
-        ChangeNotifierProvider(create: (ctx) => CartCounter()),
+        ChangeNotifierProvider(create: (ctx) => CartCounterProvider()),
+        ChangeNotifierProvider(create: (ctx) => WishListProvider()),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,

@@ -63,7 +63,7 @@ class CartTileState extends State<CartTile> {
                   setState(() {
                     _counter--;
                   });
-                  context.read<CartCounter>().counterReduce();
+                  context.read<CartCounterProvider>().counterReduce();
                   context
                       .read<AddToCartProvider>()
                       .removeTotalPrice(widget.cart.price[id] * (_counter + 1));
@@ -74,7 +74,7 @@ class CartTileState extends State<CartTile> {
                   context
                       .read<AddToCartProvider>()
                       .removeTotalPrice(widget.cart.price[id] * (_counter + 1));
-                  context.read<CartCounter>().counterReduce();
+                  context.read<CartCounterProvider>().counterReduce();
                 }
                 context.read<AddToCartProvider>().cart.isEmpty
                     ? context.read<AddToCartProvider>().setToZero()
@@ -97,7 +97,7 @@ class CartTileState extends State<CartTile> {
                 setState(() {
                   _counter++;
                 });
-                context.read<CartCounter>().counterAdd();
+                context.read<CartCounterProvider>().counterAdd();
                 context
                     .read<AddToCartProvider>()
                     .addTotalPrice(widget.cart.price[id] * _counter);

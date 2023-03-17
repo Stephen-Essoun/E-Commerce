@@ -1,4 +1,8 @@
+import 'dart:developer';
+
 import 'package:e_commerce/controllers/network.dart';
+import 'package:e_commerce/model/wish_list.dart';
+import 'package:e_commerce/provider/add_to_wishlist.dart';
 import 'package:e_commerce/ui/pages/main_page.dart';
 import 'package:e_commerce/ui/product_details.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
@@ -9,6 +13,7 @@ import 'package:e_commerce/utils/widgets/medium_text.dart';
 import 'package:e_commerce/utils/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -36,17 +41,15 @@ class _HomeViewState extends State<HomeView> {
               if (snapshot.hasData) {
                 return Scaffold(
                   appBar: myTile(
-                 leading:  Column(
+                    leading: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         LText(text: 'Hello Stephen!'),
                         SText(text: 'We have some options for you to consider.')
                       ],
                     ),
-                 trailing: GestureDetector(
-                      onTap: () {
-                        debugPrint('response.body.toString()');
-                      },
+                    trailing: GestureDetector(
+                      onTap: () {},
                       child: const CircleAvatar(
                         backgroundColor: secondColor,
                         foregroundColor: mainColor,
@@ -247,7 +250,10 @@ class _HomeViewState extends State<HomeView> {
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     image: DecorationImage(
-                        image: NetworkImage(image), fit: BoxFit.cover)),
+                        image: NetworkImage(i.isEven
+                            ? 'https://images.news18.com/ibnlive/uploads/2021/06/1624945730_featured-image-2021-06-29t111724.512.jpg'
+                            : 'https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/811iKNVdLDL._AC_UF894,1000_QL80_.jpg'),
+                        fit: BoxFit.cover)),
               ),
             ),
             Align(
@@ -266,7 +272,13 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget justForYouItems(image, String productName, String productPrice) {
+  Widget justForYouItems(
+    image,
+    String productName,
+    String productPrice,
+  ) {
+    bool isLiked = false;
+
     return Padding(
       padding: const EdgeInsets.only(right: 10),
       child: Column(
@@ -284,15 +296,33 @@ class _HomeViewState extends State<HomeView> {
                     child: Container(
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
-                          image: DecorationImage(
-                              image: NetworkImage(image[0]),
+                          image: const DecorationImage(
+                              image: NetworkImage(
+                                  'https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/811iKNVdLDL._AC_UF894,1000_QL80_.jpg'),
                               fit: BoxFit.cover)),
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Icon(Icons.favorite_outline),
-                  )
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            isLiked = !isLiked;
+                          });
+                          log('clicked');
+                          Provider.of<WishListProvider>(context, listen: false)
+                              .addToWishList(WishList(
+                                  image: image,
+                                  price: productPrice,
+                                  title: productName,
+                                  isFavorited: true));
+                          log('${context.read<WishListProvider>().wishList.length}');
+                        },
+                        icon: Icon(
+                          Icons.favorite_rounded,
+                          color: isLiked == false ? grey : favorited,
+                        )),
+                  ),
                 ],
               ),
             ),

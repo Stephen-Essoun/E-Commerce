@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 
-class CartCounter extends ChangeNotifier {
+class CartCounterProvider extends ChangeNotifier {
   int _cartQuantity = 0;
   int get cartQuantity => _cartQuantity;
 

@@ -20,3 +20,5 @@ Future<List<Product>> getProducts() async {
     throw Exception("Failed to get data from $url");
   }
 }
+
+//  void fetchProducts()async{}

@@ -27,8 +27,8 @@ class _CartViewState extends State<CartView> {
 
     return Scaffold(
       appBar: myTile(
-       leading:LText(text: 'My Cart'),
-       trailing:GestureDetector(
+        leading: LText(text: 'My Cart'),
+        trailing: GestureDetector(
           onTap: () {},
           child: CircleAvatar(
             backgroundColor: secondColor,
@@ -73,7 +73,7 @@ class _CartViewState extends State<CartView> {
                       ElevatedButton(
                         onPressed: () {
                           context.read<AddToCartProvider>().emptyList();
-                          context.read<CartCounter>().setToZero();
+                          context.read<CartCounterProvider>().setToZero();
                           ScaffoldMessenger.of(context).showSnackBar(
                               snackBar('Successfully checked out!'));
                         },

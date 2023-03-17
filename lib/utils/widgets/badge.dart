@@ -21,7 +21,7 @@ class CartBadge extends StatelessWidget {
         badgeStyle: BadgeStyle(
             badgeColor: white, borderRadius: BorderRadius.circular(9)),
         badgeContent: Text(
-            ' ${context.watch<AddToCartProvider>().cart.length + context.watch<CartCounter>().cartQuantity}'),
+            ' ${context.watch<AddToCartProvider>().cart.length + context.watch<CartCounterProvider>().cartQuantity}'),
         child: const Icon(Icons.shopping_cart_outlined));
   }
 }
