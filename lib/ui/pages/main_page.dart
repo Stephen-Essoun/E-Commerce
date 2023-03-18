@@ -1,5 +1,6 @@
 import 'package:badges/badges.dart';
 import 'package:e_commerce/ui/pages/wish_list_page.dart';
+import 'package:e_commerce/ui/user_profile.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/utils/widgets/badge.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +16,12 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  List<Widget> pages = const [HomeView(), WishListView(), CartView()];
+  List<Widget> pages = const [
+    HomeView(),
+    WishListView(),
+    CartView(),
+    UserProfile()
+  ];
   OnTap onTap = OnTap();
 
   @override

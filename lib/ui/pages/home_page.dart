@@ -6,6 +6,7 @@ import 'package:e_commerce/provider/add_to_wishlist.dart';
 import 'package:e_commerce/provider/handle_isfavorited.dart';
 import 'package:e_commerce/ui/pages/main_page.dart';
 import 'package:e_commerce/ui/product_details.dart';
+import 'package:e_commerce/ui/user_profile.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/utils/constant/const.dart';
 import 'package:e_commerce/utils/widgets/appbar.dart';
@@ -50,7 +51,8 @@ class _HomeViewState extends State<HomeView> {
                       ],
                     ),
                     trailing: GestureDetector(
-                      onTap: () {},
+                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const UserProfile())),
                       child: const CircleAvatar(
                         backgroundColor: secondColor,
                         foregroundColor: mainColor,

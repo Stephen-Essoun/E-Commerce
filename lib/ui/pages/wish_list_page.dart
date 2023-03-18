@@ -18,7 +18,6 @@ class WishListView extends StatefulWidget {
 }
 
 class _WishListViewState extends State<WishListView> {
-  List items = [1, 1, 1, 1, 1, 1, 1];
   bool isExpanded = false;
   WishListProvider? getProduct;
 
