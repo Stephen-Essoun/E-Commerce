@@ -48,6 +48,21 @@ class _WishListViewState extends State<WishListView> {
                       horizontal: wallPadding, vertical: wallPadding),
                   child: wishListTile(context),
                 ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: wallPadding),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                        elevation: 0,
+                        backgroundColor: white,
+                        foregroundColor: mainColor,
+                        side: const BorderSide(
+                            width: 2, // the thickness
+                            color: mainColor // the color of the border
+                            )),
+                    child: const Text('+ create a wishlist'),
+                  ),
+                )
               ],
             ),
     );
@@ -55,12 +70,12 @@ class _WishListViewState extends State<WishListView> {
 
   Widget wishListTile(BuildContext context) {
     var getProduct = context.watch<WishListProvider>();
-
+    var containerHeight = MediaQuery.of(context).size.height * 0.56;
     return Container(
         constraints: BoxConstraints(
-          maxHeight: isExpanded
-              ? MediaQuery.of(context).size.height
-              : MediaQuery.of(context).size.height * 0.65,
+          maxHeight: isExpanded == false || getProduct.wishList.length < 4
+              ? containerHeight
+              : MediaQuery.of(context).size.height / 1.3,
         ),
         decoration: BoxDecoration(
             border: Border.all(color: secondColor),
@@ -68,6 +83,8 @@ class _WishListViewState extends State<WishListView> {
         child: Column(
           children: [
             ListTile(
+                visualDensity: const VisualDensity(vertical: -4),
+                dense: true,
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
@@ -90,25 +107,42 @@ class _WishListViewState extends State<WishListView> {
                 },
               ),
             ),
-            const Divider(
-              height: 0,
-              color: secondColor,
+            Visibility(
+              visible: getProduct.wishList.length < 4 ? false : true,
+              child: const Divider(
+                height: 0,
+                color: secondColor,
+              ),
             ),
-            ListTile(
-              onTap: () {
-                setState(() {
-                  isExpanded = !isExpanded;
-                });
-              },
-              shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10))),
-              title: Center(
-                  child: SText(
-                text: isExpanded ? 'Show less' : 'Show more',
-                fontSize: 15,
-              )),
+            Visibility(
+              visible: getProduct.wishList.length < 4 ? false : true,
+              child: ListTile(
+                dense: true,
+                visualDensity: const VisualDensity(vertical: -4),
+                onTap: () {
+                  setState(() {
+                    isExpanded = !isExpanded;
+                  });
+                  getProduct.wishList.length > 3 || isExpanded == false
+                      ? containerHeight ==
+                          MediaQuery.of(context).size.height * 0.65
+                      : null;
+                },
+                shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10))),
+                title: Center(
+                    child: SText(
+                  text: isExpanded
+                      ? 'Show less'
+                      : 'Show ${getProduct.wishList.length - 3} more items',
+                  fontSize: 15,
+                )),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
             ),
           ],
         ));

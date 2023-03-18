@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:e_commerce/controllers/network.dart';
 import 'package:e_commerce/model/wish_list.dart';
 import 'package:e_commerce/provider/add_to_wishlist.dart';
+import 'package:e_commerce/provider/handle_isfavorited.dart';
 import 'package:e_commerce/ui/pages/main_page.dart';
 import 'package:e_commerce/ui/product_details.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
@@ -175,7 +176,9 @@ class _HomeViewState extends State<HomeView> {
                                         child: justForYouItems(
                                             product[i].images,
                                             product[i].title!,
-                                            product[i].price.toString()),
+                                            product[i].price.toString(),
+                                            false,
+                                            i),
                                       );
                                     }))
                           ],
@@ -247,22 +250,20 @@ class _HomeViewState extends State<HomeView> {
           children: [
             Center(
               child: Container(
+                foregroundDecoration:
+                    BoxDecoration(color: black.withOpacity(0.5)),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     image: DecorationImage(
-                        image: NetworkImage(i.isEven
-                            ? 'https://images.news18.com/ibnlive/uploads/2021/06/1624945730_featured-image-2021-06-29t111724.512.jpg'
-                            : 'https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/811iKNVdLDL._AC_UF894,1000_QL80_.jpg'),
-                        fit: BoxFit.cover)),
+                        image: NetworkImage(image), fit: BoxFit.cover)),
               ),
             ),
             Align(
-                alignment: Alignment.bottomCenter,
+                alignment: Alignment.center,
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: SText(
                     text: name,
-                    backgroundColor: black.withOpacity(0.5),
                     color: Colors.white,
                   ),
                 ))
@@ -273,12 +274,7 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget justForYouItems(
-    image,
-    String productName,
-    String productPrice,
-  ) {
-    bool isLiked = false;
-
+      image, String productName, String productPrice, bool isLiked, int index) {
     return Padding(
       padding: const EdgeInsets.only(right: 10),
       child: Column(
@@ -289,41 +285,61 @@ class _HomeViewState extends State<HomeView> {
               decoration: BoxDecoration(
                   color: secondColor, borderRadius: BorderRadius.circular(5)),
               width: MediaQuery.of(context).size.width / 1.5,
-              child: Stack(
-                alignment: AlignmentDirectional.topEnd,
-                children: [
-                  Center(
-                    child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          image: const DecorationImage(
-                              image: NetworkImage(
-                                  'https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/811iKNVdLDL._AC_UF894,1000_QL80_.jpg'),
-                              fit: BoxFit.cover)),
-                    ),
+              child: InkWell(
+                onDoubleTap: () {
+                  setState(() {
+                    isLiked = !isLiked;
+                  });
+                },
+                child: Center(
+                  child: Stack(
+                    alignment: AlignmentDirectional.topEnd,
+                    children: [
+                      Center(
+                        child: Container(
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              image: DecorationImage(
+                                  image: NetworkImage(image[0]),
+                                  fit: BoxFit.cover)),
+                        ),
+                      ),
+                      Padding(
+                          padding: const EdgeInsets.all(wallPadding),
+                          // child: IconButton(
+                          //     onPressed: () {
+                          //       log('clicked');
+
+                          // Provider.of<WishListProvider>(context,
+                          //         listen: false)
+                          //     .addToWishList(WishList(
+                          //         image: image,
+                          //         price: productPrice,
+                          //         title: productName,
+                          //         isFavorited: isLiked));
+                          //   log('${context.read<WishListProvider>().wishList.length}');
+                          // },
+                          child: InkWell(
+                            onTap: () => setState(() {
+                              isLiked != isLiked;
+                              Provider.of<WishListProvider>(context,
+                                      listen: false)
+                                  .addToWishList(WishList(
+                                      image: image,
+                                      price: productPrice,
+                                      title: productName,
+                                      isFavorited: isLiked));
+                            }),
+                            child: Icon(
+                              isLiked
+                                  ? Icons.favorite_rounded
+                                  : Icons.favorite_outline_outlined,
+                              color: favorited,
+                            ),
+                          )),
+                    ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            isLiked = !isLiked;
-                          });
-                          log('clicked');
-                          Provider.of<WishListProvider>(context, listen: false)
-                              .addToWishList(WishList(
-                                  image: image,
-                                  price: productPrice,
-                                  title: productName,
-                                  isFavorited: true));
-                          log('${context.read<WishListProvider>().wishList.length}');
-                        },
-                        icon: Icon(
-                          Icons.favorite_rounded,
-                          color: isLiked == false ? grey : favorited,
-                        )),
-                  ),
-                ],
+                ),
               ),
             ),
           ),

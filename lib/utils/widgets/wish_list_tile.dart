@@ -3,7 +3,9 @@ import 'package:e_commerce/utils/widgets/medium_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../model/cart.dart';
 import '../../model/wish_list.dart';
+import '../../provider/add_to_cart.dart';
 import '../constant/colors.dart';
 
 class WishListTile extends StatefulWidget {
@@ -36,11 +38,15 @@ class _WishListTileState extends State<WishListTile> {
             children: [
               AspectRatio(
                 aspectRatio: 1,
-                child: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      fit: BoxFit.contain,
-                      image: NetworkImage(widget.product.image[0]),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: secondColor,
+                      image: DecorationImage(
+                        fit: BoxFit.contain,
+                        image: NetworkImage(widget.product.image[0]),
+                      ),
                     ),
                   ),
                 ),
@@ -50,7 +56,7 @@ class _WishListTileState extends State<WishListTile> {
               ),
               Expanded(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     MText(
@@ -59,19 +65,35 @@ class _WishListTileState extends State<WishListTile> {
                     ),
                     MText(text: 'GHC ${widget.product.price}'),
                     ElevatedButton(
-                        onPressed: () {}, child: const Text('Add to cart'))
+                        onPressed: () {
+                          context.read<AddToCartProvider>().addToCart(
+                                Cart(
+                                  image: widget.product.image,
+                                  price: widget.product.price,
+                                  title: widget.product.title,
+                                ),
+                              );
+                          context
+                              .read<AddToCartProvider>()
+                              .addTotalPrice(widget.product.price);
+                          context
+                              .read<WishListProvider>()
+                              .removeFromWishList(widget.i);
+                        },
+                        child: const Text('Add to cart'))
                   ],
                 ),
               ),
-              const Align(
-                  alignment: Alignment.topRight,
-                  child: Padding(
-                    padding: EdgeInsets.all(8.0),
-                    child: Icon(
-                      Icons.favorite,
-                      color: Colors.red,
-                    ),
-                  ))
+              Align(
+                  alignment: Alignment.bottomRight,
+                  child: IconButton(
+                      onPressed: () => context
+                          .read<WishListProvider>()
+                          .removeFromWishList(widget.i),
+                      icon: const Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                      )))
             ],
           ),
         ),
