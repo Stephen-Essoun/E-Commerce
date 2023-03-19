@@ -1,4 +1,5 @@
 import 'package:e_commerce/provider/add_to_wishlist.dart';
+import 'package:e_commerce/ui/product_details.dart';
 import 'package:e_commerce/utils/constant/const.dart';
 import 'package:e_commerce/utils/widgets/appbar.dart';
 import 'package:e_commerce/utils/widgets/big_text.dart';
@@ -69,12 +70,13 @@ class _WishListViewState extends State<WishListView> {
 
   Widget wishListTile(BuildContext context) {
     var getProduct = context.watch<WishListProvider>();
-    var containerHeight = MediaQuery.of(context).size.height * 0.56;
+    var containerSmallHeight = MediaQuery.of(context).size.height * 0.56;
+    var containerLargeHeight = MediaQuery.of(context).size.height / 1.3;
     return Container(
         constraints: BoxConstraints(
           maxHeight: isExpanded == false || getProduct.wishList.length < 4
-              ? containerHeight
-              : MediaQuery.of(context).size.height / 1.3,
+              ? containerSmallHeight
+              : containerLargeHeight,
         ),
         decoration: BoxDecoration(
             border: Border.all(color: secondColor),
@@ -122,10 +124,6 @@ class _WishListViewState extends State<WishListView> {
                   setState(() {
                     isExpanded = !isExpanded;
                   });
-                  getProduct.wishList.length > 3 || isExpanded == false
-                      ? containerHeight ==
-                          MediaQuery.of(context).size.height * 0.65
-                      : null;
                 },
                 shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(

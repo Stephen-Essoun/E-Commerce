@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../model/cart.dart';
 import '../../model/wish_list.dart';
 import '../../provider/add_to_cart.dart';
+import '../../ui/product_details.dart';
 import '../constant/colors.dart';
 
 class WishListTile extends StatefulWidget {
@@ -32,69 +33,81 @@ class _WishListTileState extends State<WishListTile> {
         ),
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.15,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              AspectRatio(
-                aspectRatio: 1,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: secondColor,
-                      image: DecorationImage(
-                        fit: BoxFit.contain,
-                        image: NetworkImage(widget.product.image[0]),
+          child: GestureDetector(
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (ctx) => ProductDetails(
+                    image: widget.product.image,
+                    price: widget.product.price,
+                    title: widget.product.title,
+                    description: widget.product.description),
+              ),
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AspectRatio(
+                  aspectRatio: 1,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: secondColor,
+                        image: DecorationImage(
+                          fit: BoxFit.contain,
+                          image: NetworkImage(widget.product.image[0]),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(
-                width: 5,
-              ),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    MText(
-                      text: widget.product.title,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    MText(text: 'GHC ${widget.product.price}'),
-                    ElevatedButton(
-                        onPressed: () {
-                          context.read<AddToCartProvider>().addToCart(
-                                Cart(
-                                  image: widget.product.image,
-                                  price: widget.product.price,
-                                  title: widget.product.title,
-                                ),
-                              );
-                          context
-                              .read<AddToCartProvider>()
-                              .addTotalPrice(widget.product.price);
-                          context
-                              .read<WishListProvider>()
-                              .removeFromWishList(widget.i);
-                        },
-                        child: const Text('Add to cart'))
-                  ],
+                const SizedBox(
+                  width: 5,
                 ),
-              ),
-              Align(
-                  alignment: Alignment.bottomRight,
-                  child: IconButton(
-                      onPressed: () => context
-                          .read<WishListProvider>()
-                          .removeFromWishList(widget.i),
-                      icon: const Icon(
-                        Icons.favorite,
-                        color: Colors.red,
-                      )))
-            ],
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      MText(
+                        text: widget.product.title,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      MText(text: 'GHC ${widget.product.price}'),
+                      ElevatedButton(
+                          onPressed: () {
+                            context.read<AddToCartProvider>().addToCart(
+                                  Cart(
+                                    image: widget.product.image,
+                                    price: widget.product.price,
+                                    title: widget.product.title,
+                                  ),
+                                );
+                            context
+                                .read<AddToCartProvider>()
+                                .addTotalPrice(widget.product.price);
+                            context
+                                .read<WishListProvider>()
+                                .removeFromWishList(widget.i);
+                          },
+                          child: const Text('Add to cart'))
+                    ],
+                  ),
+                ),
+                Align(
+                    alignment: Alignment.bottomRight,
+                    child: IconButton(
+                        onPressed: () => context
+                            .read<WishListProvider>()
+                            .removeFromWishList(widget.i),
+                        icon: const Icon(
+                          Icons.favorite,
+                          color: Colors.red,
+                        )))
+              ],
+            ),
           ),
         ),
         widget.i == context.watch<WishListProvider>().wishList.length - 1
