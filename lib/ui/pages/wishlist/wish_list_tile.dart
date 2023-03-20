@@ -1,13 +1,14 @@
 import 'package:e_commerce/provider/add_to_wishlist.dart';
+import 'package:e_commerce/provider/handle_isfavorited.dart';
 import 'package:e_commerce/utils/widgets/medium_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../model/cart.dart';
-import '../../model/wish_list.dart';
-import '../../provider/add_to_cart.dart';
-import '../../ui/product_details.dart';
-import '../constant/colors.dart';
+import '../../../model/cart.dart';
+import '../../../model/wish_list.dart';
+import '../../../provider/add_to_cart.dart';
+import '../../product_details.dart';
+import '../../../utils/constant/colors.dart';
 
 class WishListTile extends StatefulWidget {
   const WishListTile(
@@ -39,9 +40,9 @@ class _WishListTileState extends State<WishListTile> {
               MaterialPageRoute(
                 builder: (ctx) => ProductDetails(
                     image: widget.product.image,
-                    price: widget.product.price,
+                    price: widget.product.description,
                     title: widget.product.title,
-                    description: widget.product.description),
+                    description: widget.product.price),
               ),
             ),
             child: Row(
@@ -99,9 +100,13 @@ class _WishListTileState extends State<WishListTile> {
                 Align(
                     alignment: Alignment.bottomRight,
                     child: IconButton(
-                        onPressed: () => context
-                            .read<WishListProvider>()
-                            .removeFromWishList(widget.i),
+                        onPressed: () {
+                          // context.read<IsFavoritedProvider>().setIsFavorited();
+
+                          context
+                              .read<WishListProvider>()
+                              .removeFromWishList(widget.i);
+                        },
                         icon: const Icon(
                           Icons.favorite,
                           color: Colors.red,

@@ -8,8 +8,8 @@ import 'package:e_commerce/utils/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../utils/constant/colors.dart';
-import '../../utils/widgets/wish_list_tile.dart';
+import '../../../utils/constant/colors.dart';
+import 'wish_list_tile.dart';
 
 class WishListView extends StatefulWidget {
   const WishListView({super.key});

@@ -6,11 +6,11 @@ import 'package:e_commerce/utils/widgets/medium_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../utils/snackbar.dart';
-import '../utils/widgets/appbar.dart';
-import '../utils/widgets/big_text.dart';
-import '../utils/widgets/cart_tile.dart';
-import '../utils/widgets/small_text.dart';
+import '../../../utils/snackbar.dart';
+import '../../../utils/widgets/appbar.dart';
+import '../../../utils/widgets/big_text.dart';
+import 'cart_tile.dart';
+import '../../../utils/widgets/small_text.dart';
 
 class CartView extends StatefulWidget {
   const CartView({super.key});

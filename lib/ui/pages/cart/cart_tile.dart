@@ -3,12 +3,12 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../../model/cart.dart';
-import '../../provider/add_to_cart.dart';
-import '../../provider/cart_counter.dart';
-import '../constant/colors.dart';
-import '../snackbar.dart';
-import 'medium_text.dart';
+import '../../../model/cart.dart';
+import '../../../provider/add_to_cart.dart';
+import '../../../provider/cart_counter.dart';
+import '../../../utils/constant/colors.dart';
+import '../../../utils/snackbar.dart';
+import '../../../utils/widgets/medium_text.dart';
 
 class CartTile extends StatefulWidget {
   const CartTile({

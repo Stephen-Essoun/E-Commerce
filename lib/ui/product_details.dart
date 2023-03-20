@@ -1,7 +1,7 @@
 import 'package:e_commerce/model/cart.dart';
 import 'package:e_commerce/provider/add_to_cart.dart';
 import 'package:e_commerce/provider/cart_counter.dart';
-import 'package:e_commerce/ui/cart_page.dart';
+import 'package:e_commerce/ui/pages/cart/cart_page.dart';
 import 'package:e_commerce/ui/pages/main_page.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/utils/constant/const.dart';

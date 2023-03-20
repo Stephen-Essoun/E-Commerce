@@ -17,6 +17,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 
+import 'category_card.dart';
+import 'just_for_you_card.dart';
+
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
 
@@ -60,7 +63,8 @@ class _HomeViewState extends State<HomeView> {
                       ),
                     ),
                   ),
-                  body: Column(
+                  body: ListView(
+                    physics: const NeverScrollableScrollPhysics(),
                     children: [
                       Row(
                         children: [
@@ -125,7 +129,10 @@ class _HomeViewState extends State<HomeView> {
                                     itemBuilder: (ctx, i) {
                                       var category =
                                           snapshot.data![i].category!;
-                                      return categoriesItem(i, category.image,
+                                      return categoriesItem(
+                                          context,
+                                          i,
+                                          category.image,
                                           category.name.toString());
                                     }))
                           ],
@@ -175,13 +182,14 @@ class _HomeViewState extends State<HomeView> {
                                                             product[i].title!,
                                                         description: product[i]
                                                             .description!))),
-                                        child: justForYouItems(
-                                            product[i].images,
-                                            product[i].title!,
-                                            product[i].description!,
-                                            product[i].price.toString(),
-                                            false,
-                                            i),
+                                        child: JustForYouCard(
+                                            image: product[i].images,
+                                            productName: product[i].title!,
+                                            productPrice:
+                                                product[i].price.toString(),
+                                            description:
+                                                product[i].description!,
+                                            index: i),
                                       );
                                     }))
                           ],
@@ -238,121 +246,5 @@ class _HomeViewState extends State<HomeView> {
                 ],
               ));
             }));
-  }
-
-  Widget categoriesItem(int i, image, String name) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 10),
-      child: Container(
-        decoration: BoxDecoration(
-          color: i.isEven ? secondColor : thirdColor,
-          borderRadius: BorderRadius.circular(5),
-        ),
-        width: MediaQuery.of(context).size.width / 2.8,
-        child: Stack(
-          children: [
-            Center(
-              child: Container(
-                foregroundDecoration:
-                    BoxDecoration(color: black.withOpacity(0.5)),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    image: DecorationImage(
-                        image: NetworkImage(image), fit: BoxFit.cover)),
-              ),
-            ),
-            Align(
-                alignment: Alignment.center,
-                child: Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: SText(
-                    text: name,
-                    color: Colors.white,
-                  ),
-                ))
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget justForYouItems(image, String productName, String productPrice,
-      String description, bool isLiked, int index) {
-    bool isLiked = false;
-    return Padding(
-      padding: const EdgeInsets.only(right: 10),
-      child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.7,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                    color: secondColor, borderRadius: BorderRadius.circular(5)),
-                width: MediaQuery.of(context).size.width / 1.5,
-                child: InkWell(
-                  onDoubleTap: () {
-                    setState(() {
-                      isLiked = !isLiked;
-                    });
-                  },
-                  child: Center(
-                    child: Stack(
-                      alignment: AlignmentDirectional.topEnd,
-                      children: [
-                        Center(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                image: DecorationImage(
-                                    image: NetworkImage(image[0]),
-                                    fit: BoxFit.cover)),
-                          ),
-                        ),
-                        Padding(
-                            padding: const EdgeInsets.all(wallPadding),
-                            child: InkWell(
-                              onTap: () => setState(() {
-                                isLiked = !isLiked;
-                                Provider.of<WishListProvider>(context,
-                                        listen: false)
-                                    .addToWishList(WishList(
-                                        image: image,
-                                        price: productPrice,
-                                        description: description,
-                                        title: productName,
-                                        isFavorited: isLiked));
-                              }),
-                              child: Icon(
-                                isLiked == true
-                                    ? Icons.favorite_rounded
-                                    : Icons.favorite_outline_outlined,
-                                color: favorited,
-                              ),
-                            )),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(
-              height: 5,
-            ),
-            //item identity and price
-            LText(
-              text: productName,
-              overflow: TextOverflow.ellipsis,
-              fontSize: 18,
-            ),
-            SText(
-              text: 'GHC $productPrice',
-              overflow: TextOverflow.ellipsis,
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

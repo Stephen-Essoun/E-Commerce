@@ -3,7 +3,9 @@ import 'package:e_commerce/provider/add_to_wishlist.dart';
 import 'package:e_commerce/provider/cart_counter.dart';
 import 'package:e_commerce/provider/handle_isfavorited.dart';
 import 'package:e_commerce/provider/product_detail_data.dart';
-import 'package:e_commerce/ui/pages/home_page.dart';
+import 'package:e_commerce/provider/user_profile_pic.dart';
+import 'package:e_commerce/ui/onboarding/main_page.dart';
+import 'package:e_commerce/ui/pages/home/home_page.dart';
 import 'package:e_commerce/ui/pages/main_page.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +27,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (ctx) => CartCounterProvider()),
         ChangeNotifierProvider(create: (ctx) => WishListProvider()),
         ChangeNotifierProvider(create: (ctx) => IsFavoritedProvider()),
+        ChangeNotifierProvider(create: (ctx) => UsersPic()),
 
       ],
       child: MaterialApp(
@@ -35,7 +38,7 @@ class MyApp extends StatelessWidget {
               elevatedButtonTheme: ElevatedButtonThemeData(
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(mainColor)))),
-          home: const MainScreen()),
+          home: const OnBoarding()),
     );
   }
 }

@@ -1,13 +1,34 @@
+import 'dart:io';
+
+import 'package:e_commerce/provider/user_profile_pic.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/utils/constant/const.dart';
 import 'package:e_commerce/utils/widgets/appbar.dart';
 import 'package:e_commerce/utils/widgets/medium_text.dart';
 import 'package:e_commerce/utils/widgets/small_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 
-class UserProfile extends StatelessWidget {
+class UserProfile extends StatefulWidget {
   const UserProfile({super.key});
+
+  @override
+  State<UserProfile> createState() => _UserProfileState();
+}
+
+class _UserProfileState extends State<UserProfile> {
+  File? imagePath;
+  pickImage() async {
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    if (image == null) return;
+    var img = File(image.path);
+    setState(() {
+      imagePath = img;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,41 +37,49 @@ class UserProfile extends StatelessWidget {
       appBar: myTile(leading: MText(text: 'Profile')),
       body: Column(
         children: [
-          Container(
-            height: MediaQuery.of(context).size.height / 5,
-            decoration: BoxDecoration(border: Border.all(color: secondColor)),
-            child: Row(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(wallPadding),
-                  child: Container(
-                    height: 80,
-                    width: 80,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: thirdColor,
+          GestureDetector(
+            onTap: () async => context.read<UsersPic>().pickImage,
+            child: Container(
+              height: MediaQuery.of(context).size.height / 5,
+              decoration: BoxDecoration(border: Border.all(color: secondColor)),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(wallPadding),
+                    child: Container(
+                      height: 80,
+                      width: 80,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: thirdColor,
+                        image: DecorationImage(
+                          image:
+                              AssetImage(context.watch<UsersPic>().imagePath),
+                        ),
+                      ),
+                      // child: Image.file(imagePath!)??Text(data),
                     ),
                   ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    MText(text: 'Name'),
-                    SText(text: 'email'),
-                    ElevatedButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(Icons.edit_outlined),
-                      label: const Text('edit my profile'),
-                      style: ElevatedButton.styleFrom(
-                          elevation: 0,
-                          backgroundColor: white,
-                          foregroundColor: black,
-                          side: const BorderSide(color: secondColor)),
-                    ),
-                  ],
-                )
-              ],
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      MText(text: 'Stephen Essoun'),
+                      SText(text: 'essoun379@gmail.com'),
+                      ElevatedButton.icon(
+                        onPressed: () {},
+                        icon: const Icon(Icons.edit_outlined),
+                        label: const Text('edit my profile'),
+                        style: ElevatedButton.styleFrom(
+                            elevation: 0,
+                            backgroundColor: white,
+                            foregroundColor: black,
+                            side: const BorderSide(color: secondColor)),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
           wSpacing,

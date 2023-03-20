@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 class LText extends StatelessWidget {
   final String text;
   final Color? color;
+  final TextAlign? textAlign;
   double? fontSize;
   TextOverflow? overflow;
   LText({
@@ -10,12 +11,13 @@ class LText extends StatelessWidget {
     required this.text,
     this.color = const Color(0xff1f2223),
     this.fontSize = 22,
-    this.overflow = TextOverflow.ellipsis,
+    this.overflow = TextOverflow.ellipsis, this.textAlign,
   });
   @override
   Widget build(BuildContext context) {
     return Text(
       text,
+      textAlign:textAlign ,
       overflow: overflow,
       style: TextStyle(
         fontSize: fontSize,
