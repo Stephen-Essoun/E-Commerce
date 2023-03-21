@@ -33,7 +33,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        MText(text: widget.id),
+        MText(text: widget.id,color: black.withAlpha(150),),
         const SizedBox(
           height: 5,
         ),

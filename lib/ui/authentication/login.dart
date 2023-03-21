@@ -1,26 +1,24 @@
 import 'package:e_commerce/ui/authentication/toggle_btn.dart';
-import 'package:e_commerce/utils/constant/const.dart';
-import 'package:e_commerce/utils/widgets/big_text.dart';
-import 'package:e_commerce/utils/widgets/small_text.dart';
-import 'package:e_commerce/utils/widgets/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 import '../../utils/constant/colors.dart';
+import '../../utils/constant/const.dart';
+import '../../utils/widgets/big_text.dart';
+import '../../utils/widgets/small_text.dart';
+import '../../utils/widgets/text_field.dart';
 
-class RegisteringUi extends StatefulWidget {
+class LoginUi extends StatefulWidget {
   final Function toggle;
-  const RegisteringUi({super.key, required this.toggle});
+  const LoginUi({super.key, required this.toggle});
 
   @override
-  State<RegisteringUi> createState() => _RegisteringUiState();
+  State<LoginUi> createState() => _LoginUiState();
 }
 
-class _RegisteringUiState extends State<RegisteringUi> {
+class _LoginUiState extends State<LoginUi> {
   bool _isVisible = false;
-  final _formkey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +31,7 @@ class _RegisteringUiState extends State<RegisteringUi> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  Center(child: LText(text: 'Create account')),
+                  Center(child: LText(text: 'Welcome back')),
                   wSpacing,
                   Center(
                       child: SText(
@@ -51,7 +49,7 @@ class _RegisteringUiState extends State<RegisteringUi> {
                             width: 2, // the thickness
                             color: secondColor // the color of the border
                             )),
-                    child: const Text('Sign up with Google'),
+                    child: const Text('Login with Google'),
                   ),
                   wSpacing,
                   Row(
@@ -59,16 +57,12 @@ class _RegisteringUiState extends State<RegisteringUi> {
                       const Expanded(child: Divider()),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: SText(text: 'Or sign up with email'),
+                        child: SText(text: 'Or login with email'),
                       ),
                       const Expanded(child: Divider())
                     ],
                   ),
                   wSpacing,
-                  wSpacing,
-                  const CustomTextField(
-                    id: 'Name',
-                  ),
                   wSpacing,
                   const CustomTextField(
                     id: 'Email',
@@ -85,19 +79,18 @@ class _RegisteringUiState extends State<RegisteringUi> {
                             : Icons.visibility_off)),
                   ),
                   wSpacing,
-                  ElevatedButton(
-                      onPressed: () {}, child: const Text('Sign up')),
+                  ElevatedButton(onPressed: () {}, child: const Text('Logi n')),
                   wSpacing,
                   Center(
                     child: GestureDetector(
-                      onTap: () => widget.toggle(),
+                      onTap:()=> widget.toggle(),
                       child: RichText(
                           text: const TextSpan(
-                              text: 'Already a members? ',
+                              text: "Don't have an account? ",
                               style: TextStyle(color: black),
                               children: [
                             TextSpan(
-                                text: 'Login',
+                                text: 'Register',
                                 style: TextStyle(
                                     color: mainColor,
                                     fontWeight: FontWeight.bold,

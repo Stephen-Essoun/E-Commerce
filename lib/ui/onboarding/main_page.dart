@@ -1,4 +1,5 @@
 import 'package:e_commerce/ui/authentication/register.dart';
+import 'package:e_commerce/ui/authentication/toggle_btn.dart';
 import 'package:e_commerce/ui/onboarding/page_content.dart';
 import 'package:e_commerce/ui/pages/home/home_page.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
@@ -91,7 +92,8 @@ class _OnBoardingState extends State<OnBoarding> {
               setState(() {
                 _pageIndex == 2
                     ? Navigator.of(context).push(MaterialPageRoute(
-                        builder: (ctx) => const RegisteringUi()))
+                        builder: (ctx) =>
+                            const ToggleBetweenUi()))
                     : _controller.nextPage(
                         duration: const Duration(microseconds: 500),
                         curve: Curves.bounceInOut);
