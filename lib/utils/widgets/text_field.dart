@@ -9,7 +9,7 @@ import 'package:flutter/src/widgets/framework.dart';
 class CustomTextField extends StatefulWidget {
   final String id;
   final TextEditingController? controller;
-  final bool obscureText = false;
+  final bool obscureText;
   final Widget? prefixIcon;
   final String? Function(String?)? validator;
   final TextInputAction? textInputAction;
@@ -21,7 +21,7 @@ class CustomTextField extends StatefulWidget {
       this.textInputAction,
       this.keyboardType,
       required this.id,
-      this.prefixIcon});
+      this.prefixIcon,this.obscureText = false});
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -42,6 +42,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           obscureText: widget.obscureText,
           textInputAction: widget.textInputAction,
           enabled: true,
+          
           validator: widget.validator,
           cursorColor: mainColor,
           decoration: InputDecoration(

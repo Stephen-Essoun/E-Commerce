@@ -1,17 +1,22 @@
+import 'package:e_commerce/controllers/auth_state.dart';
+import 'package:e_commerce/firebase_options.dart';
 import 'package:e_commerce/provider/add_to_cart.dart';
 import 'package:e_commerce/provider/add_to_wishlist.dart';
+import 'package:e_commerce/provider/auth.dart';
 import 'package:e_commerce/provider/cart_counter.dart';
 import 'package:e_commerce/provider/handle_isfavorited.dart';
 import 'package:e_commerce/provider/product_detail_data.dart';
 import 'package:e_commerce/provider/user_profile_pic.dart';
-import 'package:e_commerce/ui/onboarding/main_page.dart';
-import 'package:e_commerce/ui/pages/home/home_page.dart';
-import 'package:e_commerce/ui/pages/main_page.dart';
+import 'package:e_commerce/ui/authentication/toggle_btn.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -28,17 +33,19 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (ctx) => WishListProvider()),
         ChangeNotifierProvider(create: (ctx) => IsFavoritedProvider()),
         ChangeNotifierProvider(create: (ctx) => UsersPic()),
-
+        ChangeNotifierProvider(create: (ctx) => Authentication()),
       ],
       child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Flutter Demo',
-          theme: ThemeData(
-              primarySwatch: Colors.blue,
-              elevatedButtonTheme: ElevatedButtonThemeData(
-                  style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(mainColor)))),
-          home: const OnBoarding()),
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+            primarySwatch: Colors.blue,
+            elevatedButtonTheme: ElevatedButtonThemeData(
+                style: ButtonStyle(
+                    backgroundColor: MaterialStateProperty.all(mainColor)))),
+        home: const AuthState(),
+        builder: EasyLoading.init(),
+      ),
     );
   }
 }
