@@ -8,6 +8,7 @@ import 'package:e_commerce/provider/handle_isfavorited.dart';
 import 'package:e_commerce/provider/product_detail_data.dart';
 import 'package:e_commerce/provider/user_profile_pic.dart';
 import 'package:e_commerce/ui/authentication/toggle_btn.dart';
+import 'package:e_commerce/ui/pages/main_page.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -43,9 +44,10 @@ class MyApp extends StatelessWidget {
             elevatedButtonTheme: ElevatedButtonThemeData(
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(mainColor)))),
-        home: const AuthState(),
+        home: const MainScreen(),
         builder: EasyLoading.init(),
       ),
     );
   }
 }
+ 

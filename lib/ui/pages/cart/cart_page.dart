@@ -1,11 +1,15 @@
+import 'dart:developer';
+
 import 'package:e_commerce/provider/add_to_cart.dart';
 import 'package:e_commerce/provider/cart_counter.dart';
+import 'package:e_commerce/ui/authentication/toggle_btn.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/utils/widgets/bottom_bar.dart';
 import 'package:e_commerce/utils/widgets/medium_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../provider/auth.dart';
 import '../../../utils/snackbar.dart';
 import '../../../utils/widgets/appbar.dart';
 import '../../../utils/widgets/big_text.dart';
@@ -21,9 +25,11 @@ class CartView extends StatefulWidget {
 
 class _CartViewState extends State<CartView> {
   int counter = 1;
+
   @override
   Widget build(BuildContext context) {
     var provider = context.watch<AddToCartProvider>();
+    var user = context.watch<Authentication>().user;
 
     return Scaffold(
       appBar: myTile(
@@ -72,10 +78,20 @@ class _CartViewState extends State<CartView> {
                       ),
                       ElevatedButton(
                         onPressed: () {
-                          context.read<AddToCartProvider>().emptyList();
-                          context.read<CartCounterProvider>().setToZero();
-                          ScaffoldMessenger.of(context).showSnackBar(
-                              snackBar('Successfully checked out!'));
+                          if (user != null) {
+                            if (!user.emailVerified) {
+                              log('${user.emailVerified}');
+                            } else if (user.emailVerified) {
+                              context.read<AddToCartProvider>().emptyList();
+                              context.read<CartCounterProvider>().setToZero();
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  snackBar('Successfully checked out!'));
+                            }
+                          } else {
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (ctx) => const ToggleBetweenUi()));
+                          }
                         },
                         child: const Text('Checkout'),
                       )),
