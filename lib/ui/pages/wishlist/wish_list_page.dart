@@ -1,5 +1,6 @@
 import 'package:e_commerce/provider/add_to_wishlist.dart';
 import 'package:e_commerce/ui/product_details.dart';
+import 'package:e_commerce/utils/appbar_profile_avatar.dart.dart';
 import 'package:e_commerce/utils/constant/const.dart';
 import 'package:e_commerce/utils/widgets/appbar.dart';
 import 'package:e_commerce/utils/widgets/big_text.dart';
@@ -29,15 +30,10 @@ class _WishListViewState extends State<WishListView> {
       appBar: myTile(
         leading: LText(text: 'WishList'),
         trailing: GestureDetector(
-          onTap: () {
-            debugPrint('response.body.toString()');
-          },
-          child: const CircleAvatar(
-            backgroundColor: secondColor,
-            foregroundColor: mainColor,
-            child: Icon(Icons.person),
-          ),
-        ),
+            onTap: () {
+              debugPrint('response.body.toString()');
+            },
+            child: const UserAppBarProfile()),
       ),
       body: context.watch<WishListProvider>().wishList.isEmpty
           ? Center(child: MText(text: 'No favorited products to show'))

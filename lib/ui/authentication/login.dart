@@ -1,6 +1,7 @@
 import 'package:e_commerce/provider/auth.dart';
 import 'package:e_commerce/ui/authentication/toggle_btn.dart';
 import 'package:e_commerce/utils/constant/progress_inducator.dart';
+import 'package:e_commerce/utils/constant/route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -21,14 +22,16 @@ class LoginUi extends StatefulWidget {
 }
 
 class _LoginUiState extends State<LoginUi> {
-  bool _isVisible = false;
+  bool _isVisible = true;
   final _formkey = GlobalKey<FormState>();
   late TextEditingController email;
   late TextEditingController password;
+  Authentication auth = Authentication();
   @override
   void initState() {
     email = TextEditingController();
     password = TextEditingController();
+    auth.context = context;
     super.initState();
   }
 
@@ -94,17 +97,21 @@ class _LoginUiState extends State<LoginUi> {
                           _isVisible = !_isVisible;
                         }),
                     child: Icon(
-                        _isVisible ? Icons.visibility : Icons.visibility_off)),
+                        _isVisible ? Icons.visibility_off : Icons.visibility)),
               ),
               wSpacing,
               ElevatedButton(
                   onPressed: () {
                     var auth = context.read<Authentication>();
                     if (_formkey.currentState!.validate()) {
-                      auth.logIn(
-                        email.text.trim(),
-                        password.text.trim(),
-                      );
+                      auth
+                          .logIn(
+                            email.text.trim(),
+                            password.text.trim(),
+                          )
+                          .then((value) => Navigator.of(context)
+                              .pushNamedAndRemoveUntil(
+                                  homeRoute, (route) => false));
                     }
                   },
                   child: const Text('Login')),

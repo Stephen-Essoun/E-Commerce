@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:e_commerce/controllers/network.dart';
 import 'package:e_commerce/model/wish_list.dart';
 import 'package:e_commerce/provider/add_to_wishlist.dart';
+import 'package:e_commerce/provider/auth.dart';
 import 'package:e_commerce/provider/handle_isfavorited.dart';
 import 'package:e_commerce/ui/pages/main_page.dart';
 import 'package:e_commerce/ui/product_details.dart';
@@ -15,8 +16,7 @@ import 'package:e_commerce/utils/widgets/medium_text.dart';
 import 'package:e_commerce/utils/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
-
+import '../../../utils/appbar_profile_avatar.dart.dart';
 import 'category_card.dart';
 import 'just_for_you_card.dart';
 
@@ -28,6 +28,13 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends State<HomeView> {
+  Authentication auth = Authentication();
+  @override
+  void initState() {
+    auth.context = context;
+    super.initState();
+  }
+
   @override
   void didChangeDependencies() {
     getProducts();
@@ -53,15 +60,7 @@ class _HomeViewState extends State<HomeView> {
                         SText(text: 'We have some options for you to consider.')
                       ],
                     ),
-                    trailing: GestureDetector(
-                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const UserProfile())),
-                      child: const CircleAvatar(
-                        backgroundColor: secondColor,
-                        foregroundColor: mainColor,
-                        child: Icon(Icons.person),
-                      ),
-                    ),
+                    trailing: const UserAppBarProfile(),
                   ),
                   body: ListView(
                     physics: const NeverScrollableScrollPhysics(),

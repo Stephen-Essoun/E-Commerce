@@ -8,8 +8,11 @@ import 'package:e_commerce/provider/handle_isfavorited.dart';
 import 'package:e_commerce/provider/product_detail_data.dart';
 import 'package:e_commerce/provider/user_profile_pic.dart';
 import 'package:e_commerce/ui/authentication/toggle_btn.dart';
+import 'package:e_commerce/ui/authentication/verification.dart';
+import 'package:e_commerce/ui/pages/home/home_page.dart';
 import 'package:e_commerce/ui/pages/main_page.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
+import 'package:e_commerce/utils/constant/route.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -44,10 +47,14 @@ class MyApp extends StatelessWidget {
             elevatedButtonTheme: ElevatedButtonThemeData(
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(mainColor)))),
-        home: const MainScreen(),
+        routes: {
+          homeRoute: (context) => const MainScreen(),
+          toggleBetweenUIRoute: (context) => const ToggleBetweenUi(),
+          emailVerifyRoute: (context) => const EmailVerifyView(),
+        },
+        initialRoute: homeRoute,
         builder: EasyLoading.init(),
       ),
     );
   }
 }
- 

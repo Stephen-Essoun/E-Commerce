@@ -3,7 +3,9 @@ import 'dart:developer';
 import 'package:e_commerce/provider/add_to_cart.dart';
 import 'package:e_commerce/provider/cart_counter.dart';
 import 'package:e_commerce/ui/authentication/toggle_btn.dart';
+import 'package:e_commerce/utils/appbar_profile_avatar.dart.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
+import 'package:e_commerce/utils/constant/route.dart';
 import 'package:e_commerce/utils/widgets/bottom_bar.dart';
 import 'package:e_commerce/utils/widgets/medium_text.dart';
 import 'package:flutter/material.dart';
@@ -34,17 +36,7 @@ class _CartViewState extends State<CartView> {
     return Scaffold(
       appBar: myTile(
         leading: LText(text: 'My Cart'),
-        trailing: GestureDetector(
-          onTap: () {},
-          child: CircleAvatar(
-            backgroundColor: secondColor,
-            child: Placeholder(
-                child: MText(
-              text: 'user',
-              color: white,
-            )),
-          ),
-        ),
+        trailing: const UserAppBarProfile(),
       ),
       body: provider.cart.isEmpty
           ? Center(child: MText(text: 'No added products to show'))
@@ -79,18 +71,34 @@ class _CartViewState extends State<CartView> {
                       ElevatedButton(
                         onPressed: () {
                           if (user != null) {
+                            //if user's account isn't verified
                             if (!user.emailVerified) {
                               log('${user.emailVerified}');
-                            } else if (user.emailVerified) {
+                              alertDialog(
+                                  context: context,
+                                  title: 'Authentication',
+                                  content: "User's account is\nnot verified",
+                                  onPressed: () =>
+                                      Navigator.pushReplacementNamed(
+                                          context, emailVerifyRoute));
+                            }
+                            //if user's account is verified
+                            else if (user.emailVerified) {
                               context.read<AddToCartProvider>().emptyList();
                               context.read<CartCounterProvider>().setToZero();
                               ScaffoldMessenger.of(context).showSnackBar(
                                   snackBar('Successfully checked out!'));
                             }
-                          } else {
-                            Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                    builder: (ctx) => const ToggleBetweenUi()));
+                          }
+                          //if not account is available on the device
+                          else {
+                            alertDialog(
+                                context: context,
+                                title: 'Authentication',
+                                content:
+                                    "Only signed in users\ncan check out. Continue to\ncreate or sign in",
+                                onPressed: () => Navigator.pushReplacementNamed(
+                                    context, toggleBetweenUIRoute));
                           }
                         },
                         child: const Text('Checkout'),
@@ -102,5 +110,34 @@ class _CartViewState extends State<CartView> {
               ],
             ),
     );
+  }
+
+  Future<dynamic> alertDialog({
+    required BuildContext context,
+    required String title,
+    required String content,
+    required void Function() onPressed,
+  }) {
+    return showDialog(
+        context: context,
+        builder: (ctx) => AspectRatio(
+            aspectRatio: 16 / 9,
+            child: AlertDialog(
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              actionsPadding: const EdgeInsets.symmetric(
+                horizontal: 20,
+              ),
+              title: LText(text: title),
+              content: Text(
+                content,
+              ),
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.pop(context),
+                    child: const Text('Later')),
+                TextButton(onPressed: onPressed, child: const Text('Continue'))
+              ],
+            )));
   }
 }

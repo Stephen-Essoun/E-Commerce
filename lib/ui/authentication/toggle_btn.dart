@@ -12,7 +12,7 @@ class ToggleBetweenUi extends StatefulWidget {
 }
 
 class _ToggleBetweenUiState extends State<ToggleBetweenUi> {
-  bool isLogin = false;
+  bool isLogin = true;
   void toggleUi() => setState(() {
         isLogin = !isLogin;
       });

@@ -5,6 +5,7 @@ import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/utils/widgets/badge.dart';
 import 'package:flutter/material.dart';
 
+import '../../provider/auth.dart';
 import 'cart/cart_page.dart';
 import 'home/home_page.dart';
 
@@ -16,6 +17,13 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  final Authentication auth = Authentication();
+  @override
+  void initState() {
+    auth.context = context;
+    super.initState();
+  }
+
   List<Widget> pages = const [
     HomeView(),
     WishListView(),

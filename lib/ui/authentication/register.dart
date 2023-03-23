@@ -25,16 +25,18 @@ class _RegisteringUiState extends State<RegisteringUi> {
   final _formkey = GlobalKey<FormState>();
   late TextEditingController email;
   late TextEditingController password;
+  Authentication auth = Authentication();
+
   @override
   void initState() {
     email = TextEditingController();
     password = TextEditingController();
+    auth.context = context;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final _auth = context.read<Authentication>();
     return Scaffold(
       body: SafeArea(
         child: Form(
@@ -105,8 +107,9 @@ class _RegisteringUiState extends State<RegisteringUi> {
               wSpacing,
               ElevatedButton(
                   onPressed: () {
+                    var auth = context.read<Authentication>();
                     if (_formkey.currentState!.validate()) {
-                      _auth.createUser(
+                      auth.createUser(
                         email.text.trim(),
                         password.text.trim(),
                       );

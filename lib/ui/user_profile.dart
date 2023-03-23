@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:e_commerce/provider/auth.dart';
 import 'package:e_commerce/provider/user_profile_pic.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/utils/constant/const.dart';
+import 'package:e_commerce/utils/constant/route.dart';
 import 'package:e_commerce/utils/widgets/appbar.dart';
 import 'package:e_commerce/utils/widgets/medium_text.dart';
 import 'package:e_commerce/utils/widgets/small_text.dart';
@@ -101,6 +103,14 @@ class _UserProfileState extends State<UserProfile> {
               'Log out'
             ];
             return ListTile(
+              textColor: index == 5 ? mainColor : null,
+              iconColor: index == 5 ? mainColor : null,
+              onTap: () => index == 5
+                  ? context
+                      .read<Authentication>()
+                      .logOut()
+                      .then((value) => Navigator.pop(context, homeRoute))
+                  : null,
               leading: leadingIcons[index],
               title: Text(title[index]),
               trailing: index == 5 ? null : const Icon(Icons.arrow_forward_ios),
