@@ -21,16 +21,18 @@ class AddToCartProvider extends ChangeNotifier {
     _cart.removeAt(cartIndex);
     notifyListeners();
   }
-void setToZero(){
-  _totalPrice = 0;
-  notifyListeners()
-;}
+
+  void setToZero() {
+    _totalPrice = 0;
+    notifyListeners();
+  }
+
   void addTotalPrice(String productPrice) {
     _totalPrice = _totalPrice + double.parse(productPrice);
     notifyListeners();
   }
 
-  void removeTotalPrice(String productPrice) {
+  void reduceTotalPrice(String productPrice) {
     _totalPrice = _totalPrice - double.parse(productPrice);
     notifyListeners();
   }

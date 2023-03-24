@@ -8,7 +8,6 @@ class CartCounterProvider extends ChangeNotifier {
 
   counterAdd() {
     _cartQuantity++;
-    log('cart $_cartQuantity');
     notifyListeners();
   }
 
