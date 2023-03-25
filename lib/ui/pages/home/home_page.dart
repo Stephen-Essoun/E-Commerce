@@ -32,6 +32,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     auth.context = context;
+    getProducts();
     super.initState();
   }
 
@@ -127,7 +128,7 @@ class _HomeViewState extends State<HomeView> {
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (ctx, i) {
                                       var category =
-                                          snapshot.data![i].category!;
+                                          snapshot.data![i].category;
                                       return categoriesItem(
                                           context,
                                           i,
@@ -175,19 +176,19 @@ class _HomeViewState extends State<HomeView> {
                                                         image:
                                                             product[i].images,
                                                         price: product[i]
-                                                            .price!
+                                                            .price
                                                             .toString(),
                                                         title:
-                                                            product[i].title!,
+                                                            product[i].title,
                                                         description: product[i]
-                                                            .description!))),
+                                                            .description))),
                                         child: JustForYouCard(
                                             image: product[i].images,
-                                            productName: product[i].title!,
+                                            productName: product[i].title,
                                             productPrice:
                                                 product[i].price.toString(),
                                             description:
-                                                product[i].description!,
+                                                product[i].description,
                                             index: i),
                                       );
                                     }))
