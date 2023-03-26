@@ -17,7 +17,7 @@ import '../utils/widgets/small_text.dart';
 class ProductDetails extends StatefulWidget {
   final String title;
   final dynamic image;
-  final String price;
+  final double price;
   final String description;
   const ProductDetails(
       {super.key,
@@ -115,11 +115,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                               image: widget.image,
                               price: widget.price,
                               title: widget.title,
+                              quantity: ValueNotifier(1)
                             ),
                           );
-                      context
-                          .read<AddToCartProvider>()
-                          .addTotalPrice(widget.price);
+                     
 
                       setState(() {
                         visible = true;

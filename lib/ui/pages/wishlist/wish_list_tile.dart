@@ -40,9 +40,9 @@ class _WishListTileState extends State<WishListTile> {
               MaterialPageRoute(
                 builder: (ctx) => ProductDetails(
                     image: widget.product.image,
-                    price: widget.product.description,
+                    description: widget.product.description,
                     title: widget.product.title,
-                    description: widget.product.price),
+                    price: widget.product.price),
               ),
             ),
             child: Row(
@@ -84,11 +84,10 @@ class _WishListTileState extends State<WishListTile> {
                                     image: widget.product.image,
                                     price: widget.product.price,
                                     title: widget.product.title,
+                                    quantity: ValueNotifier(1)
                                   ),
                                 );
-                            context
-                                .read<AddToCartProvider>()
-                                .addTotalPrice(widget.product.price);
+                           
                             context
                                 .read<WishListProvider>()
                                 .removeFromWishList(widget.i);

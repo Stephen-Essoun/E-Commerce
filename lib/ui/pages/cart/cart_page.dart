@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../provider/auth.dart';
+import '../../../utils/alert_dialog.dart';
 import '../../../utils/snackbar.dart';
 import '../../../utils/widgets/appbar.dart';
 import '../../../utils/widgets/big_text.dart';
@@ -52,22 +53,35 @@ class _CartViewState extends State<CartView> {
                 ),
                 Visibility(
                   visible: provider.cart.isEmpty ? false : true,
-                  child: bottomBar(
-                      context,
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          SText(
-                            text: 'Cart total:',
-                            fontSize: 15,
-                          ),
-                          LText(
-                              overflow: TextOverflow.clip,
-                              text:
-                                  'GHC ${context.watch<AddToCartProvider>().totalPrice}')
-                        ],
-                      ),
+                  child: bottomBar(context, Consumer<AddToCartProvider>(
+                    builder: (BuildContext context, value, Widget? child) {
+                      final ValueNotifier<double?>  totalPrice  =
+                          ValueNotifier(null);
+                      for (var element in value.cart) {
+                        totalPrice.value =
+                            (element.price * element.quantity.value) +
+                                (totalPrice.value ?? 0);
+                      }
+                      return ValueListenableBuilder<double?>(
+                          valueListenable: totalPrice,
+                          builder: (context, val, child) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                SText(
+                                  text: 'Cart total:',
+                                  fontSize: 15,
+                                ),
+                                LText(
+                                    overflow: TextOverflow.clip,
+                                    text:
+                                        'GHC ${val?.toStringAsFixed(2) ?? '0'}')
+                              ],
+                            );
+                          });
+                    },
+                  ),
                       ElevatedButton(
                         onPressed: () {
                           if (user != null) {
@@ -110,34 +124,5 @@ class _CartViewState extends State<CartView> {
               ],
             ),
     );
-  }
-
-  Future<dynamic> alertDialog({
-    required BuildContext context,
-    required String title,
-    required String content,
-    required void Function() onPressed,
-  }) {
-    return showDialog(
-        context: context,
-        builder: (ctx) => AspectRatio(
-            aspectRatio: 16 / 9,
-            child: AlertDialog(
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              actionsPadding: const EdgeInsets.symmetric(
-                horizontal: 20,
-              ),
-              title: LText(text: title),
-              content: Text(
-                content,
-              ),
-              actions: [
-                TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text('Later')),
-                TextButton(onPressed: onPressed, child: const Text('Continue'))
-              ],
-            )));
   }
 }

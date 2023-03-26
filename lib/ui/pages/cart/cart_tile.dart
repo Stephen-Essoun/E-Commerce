@@ -57,22 +57,23 @@ class CartTileState extends State<CartTile> {
         width: MediaQuery.of(context).size.width / 4,
         child: Row(
           children: [
-            GestureDetector(
+            InkWell(
               onTap: () {
-                if (_counter >= 1) {
+                if (_counter > 0) {
                   setState(() {
                     _counter--;
+                    widget.cart.quantity = ValueNotifier(_counter);
                   });
                   context.read<CartCounterProvider>().counterReduce();
                   context
                       .read<AddToCartProvider>()
-                      .reduceTotalPrice(widget.cart.price[id] * (_counter + 1));
+                      .reduceTotalPrice(widget.cart.price * _counter);
                 }
-                if (_counter == 0) {
+                if (_counter < 1) {
                   context.read<AddToCartProvider>().removeFromCart(widget.i);
-                  context
-                      .read<AddToCartProvider>()
-                      .reduceTotalPrice(widget.cart.price[id] * (_counter + 1));
+                  // context
+                  //     .read<AddToCartProvider>()
+                  //     .reduceTotalPrice(widget.cart.price * _counter);
                   context.read<CartCounterProvider>().counterReduce();
                 }
                 context.read<AddToCartProvider>().cart.isEmpty
@@ -84,30 +85,30 @@ class CartTileState extends State<CartTile> {
               },
               child: const Card(
                   child: Icon(
-                Icons.remove_circle,
+                Icons.remove,
                 color: mainColor,
               )),
             ),
             MText(
               text: _counter.toString(),
             ),
-            GestureDetector(
+            InkWell(
               onTap: () {
                 setState(() {
                   _counter++;
+                  widget.cart.quantity = ValueNotifier(_counter);
                 });
                 context.read<CartCounterProvider>().counterAdd();
                 //increase the amount
                 context
                     .read<AddToCartProvider>()
-                    .addTotalPrice(widget.cart.price[id] * _counter);
-                log('counted $_counter');
+                    .addTotalPrice(widget.cart.price * _counter);
                 ScaffoldMessenger.of(context)
                     .showSnackBar(snackBar('cart successfully updated'));
               },
               child: const Card(
                 child: Icon(
-                  Icons.add_circle,
+                  Icons.add,
                   color: mainColor,
                 ),
               ),

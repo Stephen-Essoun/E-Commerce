@@ -2,7 +2,7 @@ class WishList {
  final int id;
  final String title;
  final dynamic image;
- final String price;
+ final double price;
  final String description;
  final bool isFavorited;
   WishList({

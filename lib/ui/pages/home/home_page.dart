@@ -127,8 +127,7 @@ class _HomeViewState extends State<HomeView> {
                                     itemCount: snapshot.data!.length,
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (ctx, i) {
-                                      var category =
-                                          snapshot.data![i].category;
+                                      var category = snapshot.data![i].category;
                                       return categoriesItem(
                                           context,
                                           i,
@@ -175,20 +174,15 @@ class _HomeViewState extends State<HomeView> {
                                                     ProductDetails(
                                                         image:
                                                             product[i].images,
-                                                        price: product[i]
-                                                            .price
-                                                            .toString(),
-                                                        title:
-                                                            product[i].title,
+                                                        price: product[i].price,
+                                                        title: product[i].title,
                                                         description: product[i]
                                                             .description))),
                                         child: JustForYouCard(
                                             image: product[i].images,
                                             productName: product[i].title,
-                                            productPrice:
-                                                product[i].price.toString(),
-                                            description:
-                                                product[i].description,
+                                            productPrice: product[i].price,
+                                            description: product[i].description,
                                             index: i),
                                       );
                                     }))

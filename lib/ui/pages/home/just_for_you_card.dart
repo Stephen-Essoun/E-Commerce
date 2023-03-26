@@ -15,7 +15,7 @@ import '../../product_details.dart';
 class JustForYouCard extends StatefulWidget {
   final dynamic image;
   final String productName;
-  final String productPrice;
+  final double productPrice;
   final String description;
   final int index;
   const JustForYouCard(

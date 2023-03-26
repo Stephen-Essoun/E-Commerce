@@ -1,10 +1,14 @@
+import 'package:flutter/cupertino.dart';
+
 class Cart {
   String title;
   dynamic image;
-  String price;
+  dynamic price;
+  ValueNotifier<int> quantity = ValueNotifier(1);
   Cart({
     required this.image,
     required this.price,
     required this.title,
+    required this.quantity,
   });
 }
