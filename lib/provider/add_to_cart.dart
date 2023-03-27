@@ -1,6 +1,5 @@
 import 'package:e_commerce/model/cart.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:provider/provider.dart';
 
 class AddToCartProvider extends ChangeNotifier {
   final List<Cart> _cart = [];
@@ -28,12 +27,12 @@ class AddToCartProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addTotalPrice(double productPrice) {
+  void addTotalPrice(int productPrice) {
     _totalPrice = _totalPrice + productPrice;
     notifyListeners();
   }
 
-  void reduceTotalPrice(double productPrice) {
+  void reduceTotalPrice(int productPrice) {
     _totalPrice = _totalPrice - productPrice;
     notifyListeners();
   }

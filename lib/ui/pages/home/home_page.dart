@@ -174,14 +174,17 @@ class _HomeViewState extends State<HomeView> {
                                                     ProductDetails(
                                                         image:
                                                             product[i].images,
-                                                        price: product[i].price,
+                                                        price: product[i]
+                                                            .price
+                                                            .toInt(),
                                                         title: product[i].title,
                                                         description: product[i]
                                                             .description))),
                                         child: JustForYouCard(
                                             image: product[i].images,
                                             productName: product[i].title,
-                                            productPrice: product[i].price,
+                                            productPrice:
+                                                product[i].price.toInt(),
                                             description: product[i].description,
                                             index: i),
                                       );

@@ -55,7 +55,7 @@ class _CartViewState extends State<CartView> {
                   visible: provider.cart.isEmpty ? false : true,
                   child: bottomBar(context, Consumer<AddToCartProvider>(
                     builder: (BuildContext context, value, Widget? child) {
-                      final ValueNotifier<double?>  totalPrice  =
+                      final ValueNotifier<double?> totalPrice =
                           ValueNotifier(null);
                       for (var element in value.cart) {
                         totalPrice.value =
@@ -110,7 +110,7 @@ class _CartViewState extends State<CartView> {
                                 context: context,
                                 title: 'Authentication',
                                 content:
-                                    "Only signed in users\ncan check out. Continue to\ncreate or sign in",
+                                    "Only signed in users\ncan check out.\nContinue to create or\nsign in",
                                 onPressed: () => Navigator.pushReplacementNamed(
                                     context, toggleBetweenUIRoute));
                           }

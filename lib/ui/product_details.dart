@@ -17,7 +17,7 @@ import '../utils/widgets/small_text.dart';
 class ProductDetails extends StatefulWidget {
   final String title;
   final dynamic image;
-  final double price;
+  final int price;
   final String description;
   const ProductDetails(
       {super.key,

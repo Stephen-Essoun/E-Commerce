@@ -2,10 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../model/wish_list.dart';
+import '../../../provider/add_to_cart.dart';
 import '../../../provider/add_to_wishlist.dart';
+import '../../../provider/auth.dart';
+import '../../../provider/cart_counter.dart';
 import '../../../provider/handle_isfavorited.dart';
+import '../../../utils/alert_dialog.dart';
 import '../../../utils/constant/colors.dart';
 import '../../../utils/constant/const.dart';
+import '../../../utils/constant/route.dart';
 import '../../../utils/widgets/big_text.dart';
 import '../../../utils/widgets/small_text.dart';
 import '../../product_details.dart';
@@ -15,7 +20,7 @@ import '../../product_details.dart';
 class JustForYouCard extends StatefulWidget {
   final dynamic image;
   final String productName;
-  final double productPrice;
+  final int productPrice;
   final String description;
   final int index;
   const JustForYouCard(
@@ -32,6 +37,19 @@ class JustForYouCard extends StatefulWidget {
 
 class _JustForYouCardState extends State<JustForYouCard> {
   bool isLiked = false;
+  // ignore: prefer_typing_uninitialized_variables
+  var user;
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  didChangeDependencies() {
+    user = context.watch<Authentication>().user;
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     var provider = context.read<IsFavoritedProvider>();
@@ -74,19 +92,47 @@ class _JustForYouCardState extends State<JustForYouCard> {
                             padding: const EdgeInsets.all(wallPadding),
                             child: InkWell(
                               onTap: () {
-                                setState(() {
-                                  isLiked = !isLiked;
-                                });
-                                provider.setIsFavorited(isLiked);
-                                Provider.of<WishListProvider>(context,
-                                        listen: false)
-                                    .addToWishList(WishList(
-                                     id: widget.index,
-                                        image: widget.image,
-                                        price: widget.productPrice,
-                                        description: widget.description,
-                                        title: widget.productName,
-                                        isFavorited: providerWatch));
+                                if (user != null) {
+                                  //if user's account isn't verified
+                                  if (!user.emailVerified) {
+                                    alertDialog(
+                                        context: context,
+                                        title: 'Authentication',
+                                        content:
+                                            "User's account is\nnot verified",
+                                        onPressed: () =>
+                                            Navigator.pushReplacementNamed(
+                                                context, emailVerifyRoute));
+                                  }
+                                  //if user's account is verified
+                                  else if (user.emailVerified) {
+                                    setState(() {
+                                      isLiked = !isLiked;
+                                    });
+                                    provider.setIsFavorited(isLiked);
+                                    Provider.of<WishListProvider>(context,
+                                            listen: false)
+                                        .addToWishList(WishList(
+                                      id: widget.index,
+                                      image: widget.image,
+                                      price: widget.productPrice,
+                                      description: widget.description,
+                                      title: widget.productName,
+                                      isFavorited: providerWatch,
+                                    ));
+                                  }
+                                }
+                                //if not account is available on the device
+                                else {
+                                  alertDialog(
+                                      context: context,
+                                      title: 'Authentication',
+                                      content:
+                                          "Continue to create account or sign in",
+                                      onPressed: () =>
+                                          Navigator.pushReplacementNamed(
+                                              context, toggleBetweenUIRoute));
+                                }
                               },
                               child: Icon(
                                 isLiked
