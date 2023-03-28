@@ -138,7 +138,7 @@ class _JustForYouCardState extends State<JustForYouCard> {
                                 isLiked
                                     ? Icons.favorite_rounded
                                     : Icons.favorite_outline_outlined,
-                                color: favorited,
+                                color: mainColor,
                               ),
                             )),
                       ],
