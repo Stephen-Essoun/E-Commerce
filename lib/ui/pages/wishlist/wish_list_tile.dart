@@ -1,5 +1,4 @@
 import 'package:e_commerce/provider/add_to_wishlist.dart';
-import 'package:e_commerce/provider/handle_isfavorited.dart';
 import 'package:e_commerce/utils/widgets/medium_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

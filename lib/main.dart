@@ -4,7 +4,6 @@ import 'package:e_commerce/provider/add_to_cart.dart';
 import 'package:e_commerce/provider/add_to_wishlist.dart';
 import 'package:e_commerce/provider/auth.dart';
 import 'package:e_commerce/provider/cart_counter.dart';
-import 'package:e_commerce/provider/handle_isfavorited.dart';
 import 'package:e_commerce/provider/product_detail_data.dart';
 import 'package:e_commerce/provider/user_profile_pic.dart';
 import 'package:e_commerce/ui/authentication/toggle_btn.dart';
@@ -35,7 +34,6 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (ctx) => AddToCartProvider()),
         ChangeNotifierProvider(create: (ctx) => CartCounterProvider()),
         ChangeNotifierProvider(create: (ctx) => WishListProvider()),
-        ChangeNotifierProvider(create: (ctx) => IsFavoritedProvider()),
         ChangeNotifierProvider(create: (ctx) => UsersPic()),
         ChangeNotifierProvider(create: (ctx) => Authentication()),
       ],

@@ -1,19 +1,28 @@
+import 'dart:developer';
+
 import 'package:e_commerce/model/wish_list.dart';
 import 'package:flutter/cupertino.dart';
 
 class WishListProvider extends ChangeNotifier {
   final List<WishList> _list = [];
-  int _id = 0;
-  int get productId =>_id;
   List<WishList> get wishList => _list;
-  addToWishList(WishList product) {
-    _list.add(product);
+  bool _isFavorited = false;
+  bool get isFavorited => _isFavorited;
+
+  addToWishList(WishList product, int index) {
+    if (_list.isNotEmpty) {
+      _list.removeWhere((element) => index == element.id);
+      _isFavorited = false;
+      log('remove');
+    } else {
+      _list.add(product);
+      _isFavorited = true;
+      log('added');
+    }
     notifyListeners();
   }
-removeAtId(int id){
 
-}
-   removeFromWishList(int index) {
+  removeFromWishList(int index) {
     _list.removeAt(index);
     notifyListeners();
   }

@@ -1,12 +1,11 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../model/wish_list.dart';
-import '../../../provider/add_to_cart.dart';
 import '../../../provider/add_to_wishlist.dart';
 import '../../../provider/auth.dart';
-import '../../../provider/cart_counter.dart';
-import '../../../provider/handle_isfavorited.dart';
 import '../../../utils/alert_dialog.dart';
 import '../../../utils/constant/colors.dart';
 import '../../../utils/constant/const.dart';
@@ -37,8 +36,8 @@ class JustForYouCard extends StatefulWidget {
 
 class _JustForYouCardState extends State<JustForYouCard> {
   bool isLiked = false;
-  // ignore: prefer_typing_uninitialized_variables
   var user;
+  WishList? wishList;
   @override
   void initState() {
     super.initState();
@@ -47,13 +46,19 @@ class _JustForYouCardState extends State<JustForYouCard> {
   @override
   didChangeDependencies() {
     user = context.watch<Authentication>().user;
+    wishList = WishList(
+      id: widget.index,
+      image: widget.image,
+      price: widget.productPrice,
+      description: widget.description,
+      title: widget.productName,
+    );
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
-    var provider = context.read<IsFavoritedProvider>();
-    var providerWatch = context.watch<IsFavoritedProvider>().isFavorited;
+    var provider = context.read<WishListProvider>();
 
     return Padding(
       padding: const EdgeInsets.only(right: 10),
@@ -109,33 +114,28 @@ class _JustForYouCardState extends State<JustForYouCard> {
                                     setState(() {
                                       isLiked = !isLiked;
                                     });
-                                    provider.setIsFavorited(isLiked);
                                     Provider.of<WishListProvider>(context,
                                             listen: false)
-                                        .addToWishList(WishList(
-                                      id: widget.index,
-                                      image: widget.image,
-                                      price: widget.productPrice,
-                                      description: widget.description,
-                                      title: widget.productName,
-                                      isFavorited: providerWatch,
-                                    ));
+                                        .addToWishList(wishList!, widget.index);
                                   }
                                 }
                                 //if not account is available on the device
                                 else {
                                   alertDialog(
-                                      context: context,
-                                      title: 'Authentication',
-                                      content:
-                                          "Continue to create account or sign in",
-                                      onPressed: () =>
-                                          Navigator.pushReplacementNamed(
-                                              context, toggleBetweenUIRoute));
+                                    context: context,
+                                    title: 'Authentication',
+                                    content:
+                                        "Continue to create account or sign in",
+                                    onPressed: () =>
+                                        Navigator.pushReplacementNamed(
+                                      context,
+                                      toggleBetweenUIRoute,
+                                    ),
+                                  );
                                 }
                               },
                               child: Icon(
-                                isLiked
+                                provider.isFavorited
                                     ? Icons.favorite_rounded
                                     : Icons.favorite_outline_outlined,
                                 color: mainColor,
