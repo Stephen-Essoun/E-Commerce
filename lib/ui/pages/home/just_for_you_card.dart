@@ -22,6 +22,7 @@ class JustForYouCard extends StatefulWidget {
   final int productPrice;
   final String description;
   final int index;
+
   const JustForYouCard(
       {super.key,
       required this.image,
@@ -75,6 +76,7 @@ class _JustForYouCardState extends State<JustForYouCard> {
                 child: InkWell(
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (ctx) => ProductDetails(
+                        id: widget.index,
                           image: widget.image,
                           price: widget.productPrice,
                           title: widget.productName,
@@ -111,12 +113,12 @@ class _JustForYouCardState extends State<JustForYouCard> {
                                   }
                                   //if user's account is verified
                                   else if (user.emailVerified) {
-                                    setState(() {
-                                      isLiked = !isLiked;
-                                    });
                                     Provider.of<WishListProvider>(context,
                                             listen: false)
                                         .addToWishList(wishList!, widget.index);
+                                    setState(() {
+                                      isLiked = !isLiked;
+                                    });
                                   }
                                 }
                                 //if not account is available on the device
@@ -135,7 +137,7 @@ class _JustForYouCardState extends State<JustForYouCard> {
                                 }
                               },
                               child: Icon(
-                                provider.isFavorited
+                                isLiked
                                     ? Icons.favorite_rounded
                                     : Icons.favorite_outline_outlined,
                                 color: mainColor,

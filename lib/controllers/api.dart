@@ -79,7 +79,7 @@ class Category {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "name": nameValues.reverse[name],
+        "name": nameValues.reverse[name] ?? 'hello',
         "image": image,
         "creationAt": creationAt.toIso8601String(),
         "updatedAt": updatedAt.toIso8601String(),

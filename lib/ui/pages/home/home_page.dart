@@ -167,6 +167,7 @@ class _HomeViewState extends State<HomeView> {
                                             MaterialPageRoute(
                                                 builder: (ctx) =>
                                                     ProductDetails(
+                                                      id: i,
                                                         image:
                                                             product[i].images,
                                                         price: product[i]
@@ -176,6 +177,7 @@ class _HomeViewState extends State<HomeView> {
                                                         description: product[i]
                                                             .description))),
                                         child: JustForYouCard(
+                                          key: widget.key,
                                             image: product[i].images,
                                             productName: product[i].title,
                                             productPrice:

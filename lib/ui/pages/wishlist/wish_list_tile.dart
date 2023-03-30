@@ -38,6 +38,7 @@ class _WishListTileState extends State<WishListTile> {
               context,
               MaterialPageRoute(
                 builder: (ctx) => ProductDetails(
+                  id: widget.i,
                     image: widget.product.image,
                     description: widget.product.description,
                     title: widget.product.title,
@@ -80,6 +81,7 @@ class _WishListTileState extends State<WishListTile> {
                           onPressed: () {
                             context.read<AddToCartProvider>().addToCart(
                                   Cart(
+                                    id: widget.i,
                                     image: widget.product.image,
                                     price: widget.product.price,
                                     title: widget.product.title,

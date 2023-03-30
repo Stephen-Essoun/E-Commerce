@@ -16,11 +16,13 @@ import '../utils/widgets/small_text.dart';
 
 class ProductDetails extends StatefulWidget {
   final String title;
+  final int id;
   final dynamic image;
   final int price;
   final String description;
   const ProductDetails(
       {super.key,
+      required this.id,
       required this.image,
       required this.price,
       required this.title,
@@ -112,10 +114,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                       // context.read<CartCounter>().counterAdd();
                       context.read<AddToCartProvider>().addToCart(
                             Cart(
+                              id: widget.id,
                               image: widget.image,
                               price: widget.price,
                               title: widget.title,
-                              quantity: ValueNotifier(1)
+                              quantity: ValueNotifier(1),
                             ),
                           );
                      

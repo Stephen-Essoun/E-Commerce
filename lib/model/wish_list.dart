@@ -11,4 +11,12 @@ class WishList {
     required this.description,
     required this.title,
   });
+  toJson(){
+    return {
+      'item Name' : title,
+      'image' : image,
+      'item Price' : price,
+      'description' : description,
+    };
+  }
 }
