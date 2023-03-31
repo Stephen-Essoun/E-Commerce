@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:e_commerce/model/cart.dart';
 import 'package:e_commerce/provider/add_to_cart.dart';
 import 'package:e_commerce/provider/cart_counter.dart';
@@ -11,6 +13,11 @@ import 'package:e_commerce/utils/widgets/medium_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../model/wish_list.dart';
+import '../provider/add_to_wishlist.dart';
+import '../provider/auth.dart';
+import '../utils/alert_dialog.dart';
+import '../utils/constant/route.dart';
 import '../utils/widgets/badge.dart';
 import '../utils/widgets/small_text.dart';
 
@@ -34,6 +41,22 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails> {
   bool visible = false;
+  bool isLiked = false;
+  var wishList;
+  var user;
+  @override
+  didChangeDependencies() {
+    user = context.watch<Authentication>().user;
+    wishList = WishList(
+      id: widget.id,
+      image: widget.image,
+      price: widget.price,
+      description: widget.description,
+      title: widget.title,
+    );
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +93,53 @@ class _ProductDetailsState extends State<ProductDetails> {
           wSpacing,
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: wallPadding),
-            child: LText(text: widget.title),
+            child: Row(
+              children: [
+                LText(text: widget.title),
+                const Spacer(),
+                InkWell(
+                  onTap: () {
+                    if (user != null) {
+                      //if user's account isn't verified
+                      if (!user.emailVerified) {
+                        alertDialog(
+                            context: context,
+                            title: 'Authentication',
+                            content: "User's account is\nnot verified",
+                            onPressed: () => Navigator.pushReplacementNamed(
+                                context, emailVerifyRoute));
+                      }
+                      //if user's account is verified
+                      else if (user.emailVerified) {
+                        Provider.of<WishListProvider>(context, listen: false)
+                            .getProducts();
+                        setState(() {
+                          isLiked = !isLiked;
+                        });
+                      }
+                    }
+                    //if not account is available on the device
+                    else {
+                      alertDialog(
+                        context: context,
+                        title: 'Authentication',
+                        content: "Continue to create account or sign in",
+                        onPressed: () => Navigator.pushReplacementNamed(
+                          context,
+                          toggleBetweenUIRoute,
+                        ),
+                      );
+                    }
+                  },
+                  child: Icon(
+                    isLiked
+                        ? Icons.favorite_rounded
+                        : Icons.favorite_outline_outlined,
+                    color: mainColor,
+                  ),
+                )
+              ],
+            ),
           ),
           wSpacing,
           Padding(
@@ -121,7 +190,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                               quantity: ValueNotifier(1),
                             ),
                           );
-                     
 
                       setState(() {
                         visible = true;

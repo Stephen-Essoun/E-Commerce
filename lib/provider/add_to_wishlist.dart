@@ -6,20 +6,43 @@ import 'package:flutter/cupertino.dart';
 
 class WishListProvider extends ChangeNotifier {
   final _db = FirebaseFirestore.instance;
-  final List<WishList> _list = [];
-  List<WishList> get wishList => _list;
+
+  List _list = [];
+  get wishList => _list;
   bool _isFavorited = false;
   bool get isFavorited => _isFavorited;
+
+  addProduct(WishList product) {
+    final wishlist = _db.collection('wishList');
+    wishlist
+        .withConverter(
+          fromFirestore: WishList.fromJson,
+          toFirestore: (value, options) => value.toJson(),
+        )
+        .add(product);
+    notifyListeners();
+  }
+
+  getProducts() async {
+    final docRef = _db.collection('wishList');
+    final dbRef = docRef.withConverter(
+      fromFirestore: WishList.fromJson,
+      toFirestore: (value, options) => value.toJson(),
+    );
+    final docSnap = await dbRef.get();
+    final wishlist = docSnap.docs;
+    _list = wishList;
+    if (wishlist.isNotEmpty) {
+      log('${wishlist.asMap()}');
+    }
+    notifyListeners();
+  }
 
   addToWishList(WishList product, int index) async {
     if (_list.any((element) => index == element.id)) {
       _list.removeWhere((element) => index == element.id);
       log('remove');
     } else {
-      await _db
-          .collection('wishList')
-          .add(product.toJson())
-          .whenComplete(() => log('wishList => firestore'));
       _list.add(product);
       log('added');
     }

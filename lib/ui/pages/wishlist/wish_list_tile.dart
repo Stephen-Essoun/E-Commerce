@@ -40,9 +40,9 @@ class _WishListTileState extends State<WishListTile> {
                 builder: (ctx) => ProductDetails(
                   id: widget.i,
                     image: widget.product.image,
-                    description: widget.product.description,
-                    title: widget.product.title,
-                    price: widget.product.price),
+                    description: widget.product.description!,
+                    title: widget.product.title!,
+                    price: widget.product.price!),
               ),
             ),
             child: Row(
@@ -58,7 +58,7 @@ class _WishListTileState extends State<WishListTile> {
                         color: secondColor,
                         image: DecorationImage(
                           fit: BoxFit.contain,
-                          image: NetworkImage(widget.product.image[0]),
+                          image: NetworkImage(widget.product.image![0]),
                         ),
                       ),
                     ),
@@ -73,7 +73,7 @@ class _WishListTileState extends State<WishListTile> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       MText(
-                        text: widget.product.title,
+                        text: widget.product.title!,
                         overflow: TextOverflow.ellipsis,
                       ),
                       MText(text: 'GHC ${widget.product.price}'),
@@ -83,8 +83,8 @@ class _WishListTileState extends State<WishListTile> {
                                   Cart(
                                     id: widget.i,
                                     image: widget.product.image,
-                                    price: widget.product.price,
-                                    title: widget.product.title,
+                                    price: widget.product.price!,
+                                    title: widget.product.title!,
                                     quantity: ValueNotifier(1)
                                   ),
                                 );

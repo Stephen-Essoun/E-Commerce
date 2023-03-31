@@ -36,30 +36,10 @@ class JustForYouCard extends StatefulWidget {
 }
 
 class _JustForYouCardState extends State<JustForYouCard> {
-  bool isLiked = false;
-  var user;
-  WishList? wishList;
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  didChangeDependencies() {
-    user = context.watch<Authentication>().user;
-    wishList = WishList(
-      id: widget.index,
-      image: widget.image,
-      price: widget.productPrice,
-      description: widget.description,
-      title: widget.productName,
-    );
-    super.didChangeDependencies();
-  }
-
+ 
+  
   @override
   Widget build(BuildContext context) {
-    var provider = context.read<WishListProvider>();
 
     return Padding(
       padding: const EdgeInsets.only(right: 10),
@@ -76,10 +56,10 @@ class _JustForYouCardState extends State<JustForYouCard> {
                 child: InkWell(
                   onTap: () => Navigator.of(context).push(MaterialPageRoute(
                       builder: (ctx) => ProductDetails(
-                        id: widget.index,
+                          id: widget.index,
+                          title: widget.productName,
                           image: widget.image,
                           price: widget.productPrice,
-                          title: widget.productName,
                           description: widget.description))),
                   onDoubleTap: () {},
                   child: Center(
@@ -95,54 +75,7 @@ class _JustForYouCardState extends State<JustForYouCard> {
                                     fit: BoxFit.cover)),
                           ),
                         ),
-                        Padding(
-                            padding: const EdgeInsets.all(wallPadding),
-                            child: InkWell(
-                              onTap: () {
-                                if (user != null) {
-                                  //if user's account isn't verified
-                                  if (!user.emailVerified) {
-                                    alertDialog(
-                                        context: context,
-                                        title: 'Authentication',
-                                        content:
-                                            "User's account is\nnot verified",
-                                        onPressed: () =>
-                                            Navigator.pushReplacementNamed(
-                                                context, emailVerifyRoute));
-                                  }
-                                  //if user's account is verified
-                                  else if (user.emailVerified) {
-                                    Provider.of<WishListProvider>(context,
-                                            listen: false)
-                                        .addToWishList(wishList!, widget.index);
-                                    setState(() {
-                                      isLiked = !isLiked;
-                                    });
-                                  }
-                                }
-                                //if not account is available on the device
-                                else {
-                                  alertDialog(
-                                    context: context,
-                                    title: 'Authentication',
-                                    content:
-                                        "Continue to create account or sign in",
-                                    onPressed: () =>
-                                        Navigator.pushReplacementNamed(
-                                      context,
-                                      toggleBetweenUIRoute,
-                                    ),
-                                  );
-                                }
-                              },
-                              child: Icon(
-                                isLiked
-                                    ? Icons.favorite_rounded
-                                    : Icons.favorite_outline_outlined,
-                                color: mainColor,
-                              ),
-                            )),
+                        
                       ],
                     ),
                   ),
