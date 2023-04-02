@@ -1,7 +1,11 @@
-import 'package:e_commerce/provider/add_to_wishlist.dart';
+import 'dart:developer';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce/provider/wishlist.dart';
 import 'package:e_commerce/ui/product_details.dart';
 import 'package:e_commerce/utils/appbar_profile_avatar.dart.dart';
 import 'package:e_commerce/utils/constant/const.dart';
+import 'package:e_commerce/utils/constant/progress_inducator.dart';
 import 'package:e_commerce/utils/widgets/appbar.dart';
 import 'package:e_commerce/utils/widgets/big_text.dart';
 import 'package:e_commerce/utils/widgets/medium_text.dart';
@@ -9,6 +13,7 @@ import 'package:e_commerce/utils/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../../model/wish_list.dart';
 import '../../../utils/constant/colors.dart';
 import 'wish_list_tile.dart';
 
@@ -21,7 +26,18 @@ class WishListView extends StatefulWidget {
 
 class _WishListViewState extends State<WishListView> {
   bool isExpanded = false;
-  WishListProvider? getProduct;
+  late Stream<QuerySnapshot<WishList>> wishlist;
+  // @override
+  // void initState() {
+  //   wishlist = WishListProvider().getProducts();
+  //   super.initState();
+  // }
+
+  @override
+  void didChangeDependencies() {
+    wishlist = Provider.of<WishListProvider>(context).getProducts();
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,32 +51,30 @@ class _WishListViewState extends State<WishListView> {
             },
             child: const UserAppBarProfile()),
       ),
-      body: context.watch<WishListProvider>().wishList.isEmpty
-          ? Center(child: MText(text: 'No favorited products to show'))
-          : ListView(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: wallPadding, vertical: wallPadding),
-                  child: wishListTile(context),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: wallPadding),
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                        elevation: 0,
-                        backgroundColor: white,
-                        foregroundColor: mainColor,
-                        side: const BorderSide(
-                            width: 2, // the thickness
-                            color: mainColor // the color of the border
-                            )),
-                    child: const Text('+ create a wishlist'),
-                  ),
-                )
-              ],
+      body: ListView(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(
+                horizontal: wallPadding, vertical: wallPadding),
+            child: wishListTile(context),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: wallPadding),
+            child: ElevatedButton(
+              onPressed: () {},
+              style: ElevatedButton.styleFrom(
+                  elevation: 0,
+                  backgroundColor: white,
+                  foregroundColor: mainColor,
+                  side: const BorderSide(
+                      width: 2, // the thickness
+                      color: mainColor // the color of the border
+                      )),
+              child: const Text('+ create a wishlist'),
             ),
+          )
+        ],
+      ),
     );
   }
 
@@ -96,13 +110,37 @@ class _WishListViewState extends State<WishListView> {
               color: secondColor,
             ),
             Expanded(
-              child: ListView.builder(
-                itemCount: getProduct.wishList.length,
-                itemBuilder: (context, i) {
-                  return WishListTile(
-                      product: getProduct.wishList[i], i: i, context: context);
-                },
-              ),
+              child: StreamBuilder<QuerySnapshot<WishList>>(
+                  stream: wishlist,
+                  builder: (context, snapshot) {
+                    final data = snapshot.data;
+                    if (snapshot.hasError) {
+                      log(snapshot.error.toString());
+                    } else if (snapshot.hasData) {
+                      final wishlist = data!.docs;
+                      log('data available');
+
+                      return ListView.builder(
+                        itemCount: wishlist.length,
+                        itemBuilder: (context, i) {
+                          final document = wishlist[i].data();
+                          return wishlist.isEmpty
+                              ? Center(
+                                  child: MText(
+                                      text: 'No favorited products to show'))
+                              : Center(
+                                  child: WishListTile(
+                                      product: document,
+                                      i: i,
+                                      context: context),
+                                );
+                        },
+                      );
+                    }
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }),
             ),
             Visibility(
               visible: getProduct.wishList.length < 4 ? false : true,

@@ -1,13 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class WishList {
-  final int? id;
   final String? title;
   final List<String>? image;
   final int? price;
   final String? description;
   WishList({
-    required this.id,
     required this.title,
     required this.image,
     required this.price,
@@ -19,10 +17,9 @@ class WishList {
   ) {
     final data = snapshot.data();
     return WishList(
-      id: data?['id'],
-      title: data?['title'],
-      image: data?['image'],
-      price: data?['price'],
+      title: data?['item Name'],
+      image: List<String>.from(data?['image']),
+      price: data?['item Price'],
       description: data?['description'],
     );
   }

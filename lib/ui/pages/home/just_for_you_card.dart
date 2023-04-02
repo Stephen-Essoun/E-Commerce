@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../model/wish_list.dart';
-import '../../../provider/add_to_wishlist.dart';
+import '../../../provider/wishlist.dart';
 import '../../../provider/auth.dart';
 import '../../../utils/alert_dialog.dart';
 import '../../../utils/constant/colors.dart';

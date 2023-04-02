@@ -1,14 +1,12 @@
-import 'package:e_commerce/controllers/auth_state.dart';
 import 'package:e_commerce/firebase_options.dart';
 import 'package:e_commerce/provider/add_to_cart.dart';
-import 'package:e_commerce/provider/add_to_wishlist.dart';
+import 'package:e_commerce/provider/wishlist.dart';
 import 'package:e_commerce/provider/auth.dart';
 import 'package:e_commerce/provider/cart_counter.dart';
 import 'package:e_commerce/provider/product_detail_data.dart';
 import 'package:e_commerce/provider/user_profile_pic.dart';
 import 'package:e_commerce/ui/authentication/toggle_btn.dart';
 import 'package:e_commerce/ui/authentication/verification.dart';
-import 'package:e_commerce/ui/pages/home/home_page.dart';
 import 'package:e_commerce/ui/pages/main_page.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/utils/constant/route.dart';

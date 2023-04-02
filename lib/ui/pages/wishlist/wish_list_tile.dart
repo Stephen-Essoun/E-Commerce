@@ -1,4 +1,4 @@
-import 'package:e_commerce/provider/add_to_wishlist.dart';
+import 'package:e_commerce/provider/wishlist.dart';
 import 'package:e_commerce/utils/widgets/medium_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +39,7 @@ class _WishListTileState extends State<WishListTile> {
               MaterialPageRoute(
                 builder: (ctx) => ProductDetails(
                   id: widget.i,
-                    image: widget.product.image,
+                    image: widget.product.image!,
                     description: widget.product.description!,
                     title: widget.product.title!,
                     price: widget.product.price!),

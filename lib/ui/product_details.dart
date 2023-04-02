@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_commerce/model/cart.dart';
 import 'package:e_commerce/provider/add_to_cart.dart';
 import 'package:e_commerce/provider/cart_counter.dart';
@@ -14,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../model/wish_list.dart';
-import '../provider/add_to_wishlist.dart';
+import '../provider/wishlist.dart';
 import '../provider/auth.dart';
 import '../utils/alert_dialog.dart';
 import '../utils/constant/route.dart';
@@ -24,7 +25,7 @@ import '../utils/widgets/small_text.dart';
 class ProductDetails extends StatefulWidget {
   final String title;
   final int id;
-  final dynamic image;
+  final List<String> image;
   final int price;
   final String description;
   const ProductDetails(
@@ -48,7 +49,6 @@ class _ProductDetailsState extends State<ProductDetails> {
   didChangeDependencies() {
     user = context.watch<Authentication>().user;
     wishList = WishList(
-      id: widget.id,
       image: widget.image,
       price: widget.price,
       description: widget.description,
@@ -83,13 +83,23 @@ class _ProductDetailsState extends State<ProductDetails> {
           ],
         ),
         body: ListView(children: [
-          Container(
-            height: MediaQuery.of(context).size.height / 3,
-            decoration: BoxDecoration(
-                color: thirdColor,
-                image: DecorationImage(
-                    fit: BoxFit.cover, image: NetworkImage(widget.image[0]))),
-          ),
+          CarouselSlider.builder(
+              itemCount: widget.image.length,
+              itemBuilder: (context, index, _) => Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 1),
+                    child: Container(
+                      height: MediaQuery.of(context).size.height / 3,
+                      decoration: BoxDecoration(
+                          color: thirdColor,
+                          image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(widget.image[index]))),
+                    ),
+                  ),
+              options: CarouselOptions(
+                  enableInfiniteScroll: false,
+                  autoPlay: true,
+                  enlargeCenterPage: true)),
           wSpacing,
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: wallPadding),
@@ -112,7 +122,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       //if user's account is verified
                       else if (user.emailVerified) {
                         Provider.of<WishListProvider>(context, listen: false)
-                            .getProducts();
+                            .addProduct(wishList);
                         setState(() {
                           isLiked = !isLiked;
                         });
