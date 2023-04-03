@@ -21,15 +21,28 @@ class WishListProvider extends ChangeNotifier {
           toFirestore: (value, options) => value.toJson(),
         )
         .add(product)
-        .then((value) { log('Created');});
+        .then((value) {
+      log('Created');
+    });
     notifyListeners();
   }
 
   getProducts() {
-    final data = db.withConverter(fromFirestore: WishList.fromJson, toFirestore: (value, options) => value.toJson(),);
-    final docSnap = data.snapshots();
+    final ref = db.withConverter(
+      fromFirestore: WishList.fromJson,
+      toFirestore: (value, options) => value.toJson(),
+    );
+    final docSnap = ref.snapshots();
     log('Read');
+    return docSnap;
+  }
 
+  deleteProduct(index) async {
+    final docRef = db.withConverter(
+        fromFirestore: WishList.fromJson,
+        toFirestore: (value, _) => value.toJson());
+    final docSnap =
+        await docRef.doc(index).delete().then((value) => log('deleted'));
     return docSnap;
   }
 

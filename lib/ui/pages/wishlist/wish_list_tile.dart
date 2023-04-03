@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/provider/wishlist.dart';
 import 'package:e_commerce/utils/widgets/medium_text.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +12,16 @@ import '../../../utils/constant/colors.dart';
 
 class WishListTile extends StatefulWidget {
   const WishListTile(
-      {Key? key, required this.product, required this.i, required this.context})
+      {Key? key,
+      required this.product,
+      required this.i,
+      required this.context,
+      required this.id})
       : super(key: key);
 
   final WishList product;
   final int i;
+  final String id;
   final BuildContext context;
 
   @override
@@ -38,7 +44,7 @@ class _WishListTileState extends State<WishListTile> {
               context,
               MaterialPageRoute(
                 builder: (ctx) => ProductDetails(
-                  id: widget.i,
+                    id: widget.i,
                     image: widget.product.image!,
                     description: widget.product.description!,
                     title: widget.product.title!,
@@ -81,17 +87,16 @@ class _WishListTileState extends State<WishListTile> {
                           onPressed: () {
                             context.read<AddToCartProvider>().addToCart(
                                   Cart(
-                                    id: widget.i,
-                                    image: widget.product.image,
-                                    price: widget.product.price!,
-                                    title: widget.product.title!,
-                                    quantity: ValueNotifier(1)
-                                  ),
+                                      id: widget.i,
+                                      image: widget.product.image,
+                                      price: widget.product.price!,
+                                      title: widget.product.title!,
+                                      quantity: ValueNotifier(1)),
                                 );
-                           
+
                             context
                                 .read<WishListProvider>()
-                                .removeFromWishList(widget.i);
+                                .deleteProduct(widget.id);
                           },
                           child: const Text('Add to cart'))
                     ],
@@ -101,11 +106,9 @@ class _WishListTileState extends State<WishListTile> {
                     alignment: Alignment.bottomRight,
                     child: IconButton(
                         onPressed: () {
-                          // context.read<IsFavoritedProvider>().setIsFavorited();
-
                           context
                               .read<WishListProvider>()
-                              .removeFromWishList(widget.i);
+                              .deleteProduct(widget.id);
                         },
                         icon: const Icon(
                           Icons.favorite,

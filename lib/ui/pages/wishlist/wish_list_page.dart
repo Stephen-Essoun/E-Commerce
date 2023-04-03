@@ -131,7 +131,8 @@ class _WishListViewState extends State<WishListView> {
                               : Center(
                                   child: WishListTile(
                                       product: document,
-                                      i: i,
+                                      id: wishlist[i].id,
+                                      i:i,
                                       context: context),
                                 );
                         },
