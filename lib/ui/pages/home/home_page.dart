@@ -1,4 +1,3 @@
-
 import 'package:e_commerce/controllers/network.dart';
 import 'package:e_commerce/provider/auth.dart';
 import 'package:e_commerce/ui/pages/main_page.dart';
@@ -12,6 +11,7 @@ import 'package:e_commerce/utils/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../../utils/appbar_profile_avatar.dart.dart';
+import '../../just_for_you/main_ui.dart';
 import 'category_card.dart';
 import 'just_for_you_card.dart';
 
@@ -110,7 +110,7 @@ class _HomeViewState extends State<HomeView> {
                                 Padding(
                                   padding:
                                       const EdgeInsets.only(right: wallPadding),
-                                  child: SText(text: 'view all'),
+                                  child: GestureDetector(onTap:()=>Navigator.of(context).push(MaterialPageRoute(builder: (context) =>const JustForYou(),)) ,child: SText(text: 'view all')),
                                 )
                               ],
                             ),
@@ -156,36 +156,21 @@ class _HomeViewState extends State<HomeView> {
                               height: wallPadding,
                             ),
                             Expanded(
-                                child: ListView.builder(
-                                    itemCount: snapshot.data!.length,
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (ctx, i) {
-                                      var product = snapshot.data!;
-
-                                      return GestureDetector(
-                                        onTap: () => Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (ctx) =>
-                                                    ProductDetails(
-                                                      id: i,
-                                                        image:
-                                                            product[i].images,
-                                                        price: product[i]
-                                                            .price
-                                                            .toInt(),
-                                                        title: product[i].title,
-                                                        description: product[i]
-                                                            .description))),
-                                        child: JustForYouCard(
-                                          key: widget.key,
-                                            image: product[i].images,
-                                            productName: product[i].title,
-                                            productPrice:
-                                                product[i].price.toInt(),
-                                            description: product[i].description,
-                                            index: i),
-                                      );
-                                    }))
+                              child: ListView.builder(
+                                itemCount: snapshot.data!.length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (ctx, i) {
+                                  var product = snapshot.data!;
+                                  return JustForYouCard(
+                                      key: widget.key,
+                                      image: product[i].images,
+                                      productName: product[i].title,
+                                      productPrice: product[i].price.toInt(),
+                                      description: product[i].description,
+                                      index: i);
+                                },
+                              ),
+                            )
                           ],
                         ),
                       ),

@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class WishList {
+  final int id;
   final String? title;
   final List<String>? image;
   final int? price;
   final String? description;
   WishList({
+    required this.id,
     required this.title,
     required this.image,
     required this.price,
@@ -17,6 +19,7 @@ class WishList {
   ) {
     final data = snapshot.data();
     return WishList(
+      id: data?['itemId'],
       title: data?['item Name'],
       image: List<String>.from(data?['image']),
       price: data?['item Price'],
@@ -25,6 +28,7 @@ class WishList {
   }
   Map<String, dynamic> toJson() {
     return {
+      if (title != null) 'itemId': id,
       if (title != null) 'item Name': title,
       if (image != null) 'image': image,
       if (price != null) 'item Price': price,

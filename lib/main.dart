@@ -47,6 +47,7 @@ class MyApp extends StatelessWidget {
           homeRoute: (context) => const MainScreen(),
           toggleBetweenUIRoute: (context) => const ToggleBetweenUi(),
           emailVerifyRoute: (context) => const EmailVerifyView(),
+          
         },
         initialRoute: homeRoute,
         builder: EasyLoading.init(),

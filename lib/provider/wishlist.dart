@@ -9,8 +9,9 @@ class WishListProvider extends ChangeNotifier {
   bool _isEmpty = false;
   bool get isEmpty => _isEmpty;
 
-  List<String> _list = [];
-  get wishList => _list;
+  final List<WishList> _list = [];
+  List<WishList> get wishList => _list;
+
   bool _isFavorited = false;
   bool get isFavorited => _isFavorited;
 
@@ -43,7 +44,20 @@ class WishListProvider extends ChangeNotifier {
         toFirestore: (value, _) => value.toJson());
     final docSnap =
         await docRef.doc(index).delete().then((value) => log('deleted'));
+
     return docSnap;
+  }
+
+  deleteWhere(id) async {
+    getProducts().listen((snapshot){for(var product in snapshot ){
+      if(snapshot.docs.any((element)=>element.data().id =id)){
+ final docRef = db.withConverter(
+        fromFirestore: WishList.fromJson,
+        toFirestore: (value, _) => value.toJson());
+          docRef.doc().delete();
+      }
+    }});
+   
   }
 
   // addToWishList(WishList product, int index) async {
@@ -57,8 +71,8 @@ class WishListProvider extends ChangeNotifier {
   //   notifyListeners();
   // }
 
-  favorite(bool yesOrNo) {
-    _isFavorited = yesOrNo;
+  favoriteProduct(yesOrNo) {
+    _isFavorited = yesOrNo ? true : false;
     notifyListeners();
   }
 

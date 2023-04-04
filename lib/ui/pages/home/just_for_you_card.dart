@@ -1,15 +1,7 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../../../model/wish_list.dart';
-import '../../../provider/wishlist.dart';
-import '../../../provider/auth.dart';
-import '../../../utils/alert_dialog.dart';
 import '../../../utils/constant/colors.dart';
-import '../../../utils/constant/const.dart';
-import '../../../utils/constant/route.dart';
 import '../../../utils/widgets/big_text.dart';
 import '../../../utils/widgets/small_text.dart';
 import '../../product_details.dart';
@@ -17,7 +9,7 @@ import '../../product_details.dart';
 // bool isLiked = false;
 
 class JustForYouCard extends StatefulWidget {
-  final dynamic image;
+  final List<String> image;
   final String productName;
   final int productPrice;
   final String description;

@@ -2,17 +2,14 @@ import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/provider/wishlist.dart';
-import 'package:e_commerce/ui/product_details.dart';
 import 'package:e_commerce/utils/appbar_profile_avatar.dart.dart';
 import 'package:e_commerce/utils/constant/const.dart';
-import 'package:e_commerce/utils/constant/progress_inducator.dart';
 import 'package:e_commerce/utils/widgets/appbar.dart';
 import 'package:e_commerce/utils/widgets/big_text.dart';
 import 'package:e_commerce/utils/widgets/medium_text.dart';
 import 'package:e_commerce/utils/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../../../model/wish_list.dart';
 import '../../../utils/constant/colors.dart';
 import 'wish_list_tile.dart';
@@ -119,7 +116,6 @@ class _WishListViewState extends State<WishListView> {
                     } else if (snapshot.hasData) {
                       final wishlist = data!.docs;
                       log('data available');
-
                       return ListView.builder(
                         itemCount: wishlist.length,
                         itemBuilder: (context, i) {
@@ -132,10 +128,10 @@ class _WishListViewState extends State<WishListView> {
                                   child: WishListTile(
                                       product: document,
                                       id: wishlist[i].id,
-                                      i:i,
+                                      i: i,
                                       context: context),
                                 );
-                        },
+                        },//0243969336
                       );
                     }
                     return const Center(

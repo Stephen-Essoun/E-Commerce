@@ -3,8 +3,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_commerce/model/cart.dart';
 import 'package:e_commerce/provider/add_to_cart.dart';
-import 'package:e_commerce/provider/cart_counter.dart';
-import 'package:e_commerce/ui/pages/cart/cart_page.dart';
 import 'package:e_commerce/ui/pages/main_page.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/utils/constant/const.dart';
@@ -45,10 +43,22 @@ class _ProductDetailsState extends State<ProductDetails> {
   bool isLiked = false;
   var wishList;
   var user;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   didChangeDependencies() {
+    context.read<WishListProvider>().getProducts().listen((snapshot) {
+      setIsLiked(
+          snapshot.docs.any((element) => element.data().id == widget.id));
+    });
+
     user = context.watch<Authentication>().user;
     wishList = WishList(
+      id: widget.id,
       image: widget.image,
       price: widget.price,
       description: widget.description,
@@ -56,6 +66,8 @@ class _ProductDetailsState extends State<ProductDetails> {
     );
     super.didChangeDependencies();
   }
+
+  setIsLiked(bool value) => setState(() => isLiked = value);
 
   @override
   Widget build(BuildContext context) {
@@ -121,11 +133,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                       }
                       //if user's account is verified
                       else if (user.emailVerified) {
-                        Provider.of<WishListProvider>(context, listen: false)
-                            .addProduct(wishList);
-                        setState(() {
-                          isLiked = !isLiked;
-                        });
+                        isLiked
+                            ? Provider.of<WishListProvider>(context,
+                                    listen: false)
+                                .deleteWhere(widget.id)
+                            : Provider.of<WishListProvider>(context,
+                                    listen: false)
+                                .addProduct(wishList);
                       }
                     }
                     //if not account is available on the device
