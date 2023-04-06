@@ -4,6 +4,7 @@ import 'package:e_commerce/ui/pages/main_page.dart';
 import 'package:e_commerce/ui/product_details.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/utils/constant/const.dart';
+import 'package:e_commerce/utils/constant/route.dart';
 import 'package:e_commerce/utils/widgets/appbar.dart';
 import 'package:e_commerce/utils/widgets/big_text.dart';
 import 'package:e_commerce/utils/widgets/medium_text.dart';
@@ -110,7 +111,8 @@ class _HomeViewState extends State<HomeView> {
                                 Padding(
                                   padding:
                                       const EdgeInsets.only(right: wallPadding),
-                                  child: GestureDetector(onTap:()=>Navigator.of(context).push(MaterialPageRoute(builder: (context) =>const JustForYou(),)) ,child: SText(text: 'view all')),
+                                  child: GestureDetector(
+                                      child: SText(text: 'view all')),
                                 )
                               ],
                             ),
@@ -145,10 +147,14 @@ class _HomeViewState extends State<HomeView> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 LText(text: 'Just for you'),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.only(right: wallPadding),
-                                  child: SText(text: 'view all'),
+                                GestureDetector(
+                                  onTap: () => Navigator.of(context)
+                                      .pushNamed(justForYouRoute),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        right: wallPadding),
+                                    child: SText(text: 'view all'),
+                                  ),
                                 )
                               ],
                             ),
@@ -190,11 +196,14 @@ class _HomeViewState extends State<HomeView> {
                             'Please check your internet connection\nand click or pull down to reload',
                           ),
                           TextButton(
-                              onPressed: () => Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (ctx) => const MainScreen())),
-                              child: const Text('Refresh'))
+                            onPressed: () => Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const MainScreen(),
+                                ),
+                                (route) => false),
+                            child: const Text('Refresh'),
+                          ),
                         ],
                       ),
                     ),

@@ -116,6 +116,7 @@ class _WishListViewState extends State<WishListView> {
                     } else if (snapshot.hasData) {
                       final wishlist = data!.docs;
                       log('data available');
+                      
                       return ListView.builder(
                         itemCount: wishlist.length,
                         itemBuilder: (context, i) {
@@ -131,7 +132,7 @@ class _WishListViewState extends State<WishListView> {
                                       i: i,
                                       context: context),
                                 );
-                        },//0243969336
+                        },
                       );
                     }
                     return const Center(

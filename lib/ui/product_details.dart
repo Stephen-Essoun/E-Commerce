@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/model/cart.dart';
 import 'package:e_commerce/provider/add_to_cart.dart';
 import 'package:e_commerce/ui/pages/main_page.dart';
@@ -9,6 +10,7 @@ import 'package:e_commerce/utils/constant/const.dart';
 import 'package:e_commerce/utils/widgets/big_text.dart';
 import 'package:e_commerce/utils/widgets/bottom_bar.dart';
 import 'package:e_commerce/utils/widgets/medium_text.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -43,7 +45,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   bool isLiked = false;
   var wishList;
   var user;
-
+  var delete;
   @override
   void initState() {
     super.initState();
@@ -51,12 +53,16 @@ class _ProductDetailsState extends State<ProductDetails> {
 
   @override
   didChangeDependencies() {
-    context.read<WishListProvider>().getProducts().listen((snapshot) {
-      setIsLiked(
-          snapshot.docs.any((element) => element.data().id == widget.id));
-    });
-
     user = context.watch<Authentication>().user;
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      // context.read<WishListProvider>().favPro(widget.id, isLiked);
+      setIsLiked(bool value) => setState(() => isLiked = value);
+
+      context.read<WishListProvider>().getProducts().listen((snapshot) {
+        setIsLiked(
+            snapshot.docs.any((element) => element.data().id == widget.id));
+      });
+    });
     wishList = WishList(
       id: widget.id,
       image: widget.image,
@@ -66,8 +72,6 @@ class _ProductDetailsState extends State<ProductDetails> {
     );
     super.didChangeDependencies();
   }
-
-  setIsLiked(bool value) => setState(() => isLiked = value);
 
   @override
   Widget build(BuildContext context) {
@@ -120,26 +124,26 @@ class _ProductDetailsState extends State<ProductDetails> {
                 LText(text: widget.title),
                 const Spacer(),
                 InkWell(
-                  onTap: () {
+                  onTap: () async {
                     if (user != null) {
                       //if user's account isn't verified
                       if (!user.emailVerified) {
                         alertDialog(
-                            context: context,
-                            title: 'Authentication',
-                            content: "User's account is\nnot verified",
-                            onPressed: () => Navigator.pushReplacementNamed(
-                                context, emailVerifyRoute));
+                          context: context,
+                          title: 'Authentication',
+                          content: "User's account is\nnot verified",
+                          onPressed: () => Navigator.pushReplacementNamed(
+                              context, emailVerifyRoute),
+                        );
                       }
                       //if user's account is verified
                       else if (user.emailVerified) {
-                        isLiked
-                            ? Provider.of<WishListProvider>(context,
-                                    listen: false)
-                                .deleteWhere(widget.id)
-                            : Provider.of<WishListProvider>(context,
-                                    listen: false)
-                                .addProduct(wishList);
+                        // isLiked
+                        //     ?Provider.of<WishListProvider>(context,
+                        //             listen: false)
+                        //         .deleteWhere(widget.id.toString()):
+                        Provider.of<WishListProvider>(context, listen: false)
+                            .addProduct(wishList, widget.id.toString());
                       }
                     }
                     //if not account is available on the device

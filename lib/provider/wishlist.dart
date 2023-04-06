@@ -4,24 +4,34 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/model/wish_list.dart';
 import 'package:flutter/cupertino.dart';
 
+import 'auth.dart';
+
 class WishListProvider extends ChangeNotifier {
-  final db = FirebaseFirestore.instance.collection('wishList');
-  bool _isEmpty = false;
-  bool get isEmpty => _isEmpty;
+  final db = FirebaseFirestore.instance
+      .collection('wishList')
+      .doc(Authentication().user!.email!)
+      .collection('favorite');
 
   final List<WishList> _list = [];
   List<WishList> get wishList => _list;
 
   bool _isFavorited = false;
   bool get isFavorited => _isFavorited;
+  String? _setId;
+  get setId => _setId;
+  setID(String id) {
+    _setId = id;
+    notifyListeners();
+  }
 
-  addProduct(WishList product) {
+  addProduct(WishList product, productId) {
     db
         .withConverter(
           fromFirestore: WishList.fromJson,
           toFirestore: (value, options) => value.toJson(),
         )
-        .add(product)
+        .doc(productId)
+        .set(product)
         .then((value) {
       log('Created');
     });
@@ -34,7 +44,6 @@ class WishListProvider extends ChangeNotifier {
       toFirestore: (value, options) => value.toJson(),
     );
     final docSnap = ref.snapshots();
-    log('Read');
     return docSnap;
   }
 
@@ -44,20 +53,24 @@ class WishListProvider extends ChangeNotifier {
         toFirestore: (value, _) => value.toJson());
     final docSnap =
         await docRef.doc(index).delete().then((value) => log('deleted'));
-
+    notifyListeners();
     return docSnap;
   }
 
-  deleteWhere(id) async {
-    getProducts().listen((snapshot){for(var product in snapshot ){
-      if(snapshot.docs.any((element)=>element.data().id =id)){
- final docRef = db.withConverter(
-        fromFirestore: WishList.fromJson,
-        toFirestore: (value, _) => value.toJson());
-          docRef.doc().delete();
-      }
-    }});
-   
+  deleteWhere(productId) async {
+    final ref = db.withConverter(
+      fromFirestore: WishList.fromJson,
+      toFirestore: (value, options) => value.toJson(),
+    );
+    ref.doc(productId).delete();
+    notifyListeners();
+  }
+
+  favPro(id, liked) {
+    getProducts().listen((snapshot) {
+      snapshot.docs.any((element) => liked = element.data().id == id);
+    });
+    notifyListeners();
   }
 
   // addToWishList(WishList product, int index) async {
@@ -71,10 +84,17 @@ class WishListProvider extends ChangeNotifier {
   //   notifyListeners();
   // }
 
-  favoriteProduct(yesOrNo) {
-    _isFavorited = yesOrNo ? true : false;
-    notifyListeners();
-  }
+  // favoriteProduct( id,) {
+  //   final ref = db.withConverter(
+  //     fromFirestore: WishList.fromJson,
+  //     toFirestore: (value, options) => value.toJson(),
+  //   );
+  //   final docSnap = ref.snapshots();
+  //   docSnap.listen((snapshot) {
+  //     snapshot.docs.any((element) => _isFavorited = element.data().id == id);
+  //   });
+  //   notifyListeners();
+  // }
 
   removeFromWishList(int index) {
     _list.removeAt(index);

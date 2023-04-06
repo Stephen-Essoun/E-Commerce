@@ -7,6 +7,7 @@ import 'package:e_commerce/provider/product_detail_data.dart';
 import 'package:e_commerce/provider/user_profile_pic.dart';
 import 'package:e_commerce/ui/authentication/toggle_btn.dart';
 import 'package:e_commerce/ui/authentication/verification.dart';
+import 'package:e_commerce/ui/just_for_you/main_ui.dart';
 import 'package:e_commerce/ui/pages/main_page.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/utils/constant/route.dart';
@@ -47,7 +48,7 @@ class MyApp extends StatelessWidget {
           homeRoute: (context) => const MainScreen(),
           toggleBetweenUIRoute: (context) => const ToggleBetweenUi(),
           emailVerifyRoute: (context) => const EmailVerifyView(),
-          
+          justForYouRoute:(context) => const JustForYou(),
         },
         initialRoute: homeRoute,
         builder: EasyLoading.init(),
