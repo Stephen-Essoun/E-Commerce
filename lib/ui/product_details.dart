@@ -48,21 +48,16 @@ class _ProductDetailsState extends State<ProductDetails> {
   var delete;
   @override
   void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<WishListProvider>().favPro(widget.id, isLiked);
+    });
     super.initState();
   }
 
   @override
   didChangeDependencies() {
     user = context.watch<Authentication>().user;
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      // context.read<WishListProvider>().favPro(widget.id, isLiked);
-      setIsLiked(bool value) => setState(() => isLiked = value);
 
-      context.read<WishListProvider>().getProducts().listen((snapshot) {
-        setIsLiked(
-            snapshot.docs.any((element) => element.data().id == widget.id));
-      });
-    });
     wishList = WishList(
       id: widget.id,
       image: widget.image,
@@ -70,161 +65,168 @@ class _ProductDetailsState extends State<ProductDetails> {
       description: widget.description,
       title: widget.title,
     );
+
     super.didChangeDependencies();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: white,
-          elevation: 0,
-          foregroundColor: black,
-          actions: [
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.only(right: wallPadding),
-                child: ValueListenableBuilder(
-                    valueListenable: OnTap(),
-                    builder: (context, val, _) {
-                      return GestureDetector(
-                          onTap: () {
-                            OnTap().whenTapped(1);
-                            Navigator.of(context).pop();
-                          },
-                          child: CartBadge());
-                    }),
-              ),
-            )
-          ],
-        ),
-        body: ListView(children: [
-          CarouselSlider.builder(
-              itemCount: widget.image.length,
-              itemBuilder: (context, index, _) => Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 1),
-                    child: Container(
-                      height: MediaQuery.of(context).size.height / 3,
-                      decoration: BoxDecoration(
-                          color: thirdColor,
-                          image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(widget.image[index]))),
+      appBar: AppBar(
+        backgroundColor: white,
+        elevation: 0,
+        foregroundColor: black,
+        actions: [
+          Center(
+            child: Padding(
+              padding: const EdgeInsets.only(right: wallPadding),
+              child: ValueListenableBuilder(
+                  valueListenable: OnTap(),
+                  builder: (context, val, _) {
+                    return GestureDetector(
+                        onTap: () {
+                          OnTap().whenTapped(1);
+                          Navigator.of(context).pop();
+                        },
+                        child: CartBadge());
+                  }),
+            ),
+          )
+        ],
+      ),
+      body: ListView(children: [
+        CarouselSlider.builder(
+            itemCount: widget.image.length,
+            itemBuilder: (context, index, _) => Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 1),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height / 3,
+                    decoration: BoxDecoration(
+                      color: thirdColor,
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                          widget.image[index],
+                        ),
+                      ),
                     ),
                   ),
-              options: CarouselOptions(
-                  enableInfiniteScroll: false,
-                  autoPlay: true,
-                  enlargeCenterPage: true)),
-          wSpacing,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: wallPadding),
-            child: Row(
-              children: [
-                LText(text: widget.title),
-                const Spacer(),
-                InkWell(
-                  onTap: () async {
-                    if (user != null) {
-                      //if user's account isn't verified
-                      if (!user.emailVerified) {
-                        alertDialog(
-                          context: context,
-                          title: 'Authentication',
-                          content: "User's account is\nnot verified",
-                          onPressed: () => Navigator.pushReplacementNamed(
-                              context, emailVerifyRoute),
-                        );
-                      }
-                      //if user's account is verified
-                      else if (user.emailVerified) {
-                        // isLiked
-                        //     ?Provider.of<WishListProvider>(context,
-                        //             listen: false)
-                        //         .deleteWhere(widget.id.toString()):
-                        Provider.of<WishListProvider>(context, listen: false)
-                            .addProduct(wishList, widget.id.toString());
-                      }
-                    }
-                    //if not account is available on the device
-                    else {
+                ),
+            options: CarouselOptions(
+                enableInfiniteScroll: false,
+                autoPlay: true,
+                enlargeCenterPage: true)),
+        wSpacing,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: wallPadding),
+          child: Row(
+            children: [
+              LText(text: widget.title),
+              const Spacer(),
+              InkWell(
+                onTap: () async {
+                  if (user != null) {
+                    //if user's account isn't verified
+                    if (!user.emailVerified) {
                       alertDialog(
                         context: context,
                         title: 'Authentication',
-                        content: "Continue to create account or sign in",
+                        content: "User's account is\nnot verified",
                         onPressed: () => Navigator.pushReplacementNamed(
-                          context,
-                          toggleBetweenUIRoute,
-                        ),
+                            context, emailVerifyRoute),
                       );
                     }
-                  },
-                  child: Icon(
-                    isLiked
-                        ? Icons.favorite_rounded
-                        : Icons.favorite_outline_outlined,
-                    color: mainColor,
-                  ),
-                )
-              ],
-            ),
-          ),
-          wSpacing,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: wallPadding),
-            child: MText(
-              text: 'Description',
-              fontSize: 18,
-            ),
-          ),
-          wSpacing,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: wallPadding),
-            child: SText(
-              text: widget.description,
-              fontSize: 15,
-              overflow: TextOverflow.clip,
-            ),
-          ),
-        ]),
-        bottomNavigationBar: bottomBar(
-            context,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SText(text: 'Price:'),
-                LText(
-                  text: 'GHC ${widget.price}',
-                  fontSize: 18,
-                )
-              ],
-            ),
-            ElevatedButton(
-              style: ButtonStyle(
-                  foregroundColor: MaterialStateProperty.all(
-                      visible == true ? mainColor : null),
-                  backgroundColor:
-                      MaterialStateProperty.all(visible == true ? grey : null)),
-              onPressed: visible == false
-                  ? () {
-                      // context.read<CartCounter>().counterAdd();
-                      context.read<AddToCartProvider>().addToCart(
-                            Cart(
-                              id: widget.id,
-                              image: widget.image,
-                              price: widget.price,
-                              title: widget.title,
-                              quantity: ValueNotifier(1),
-                            ),
-                          );
-
-                      setState(() {
-                        visible = true;
-                      });
+                    //if user's account is verified
+                    else if (user.emailVerified) {
+                      // isLiked
+                      //     ?Provider.of<WishListProvider>(context,
+                      //             listen: false)
+                      //         .deleteWhere(widget.id.toString()):
+                      Provider.of<WishListProvider>(context, listen: false)
+                          .addProduct(wishList, widget.id.toString());
                     }
-                  : null,
-              child: Text(visible == true ? 'Product added' : 'Add to cart'),
-            )));
+                  }
+                  //if not account is available on the device
+                  else {
+                    alertDialog(
+                      context: context,
+                      title: 'Authentication',
+                      content: "Continue to create account or sign in",
+                      onPressed: () => Navigator.pushReplacementNamed(
+                        context,
+                        toggleBetweenUIRoute,
+                      ),
+                    );
+                  }
+                },
+                child: Icon(
+                  isLiked
+                      ? Icons.favorite_rounded
+                      : Icons.favorite_outline_outlined,
+                  color: mainColor,
+                ),
+              )
+            ],
+          ),
+        ),
+        wSpacing,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: wallPadding),
+          child: MText(
+            text: 'Description',
+            fontSize: 18,
+          ),
+        ),
+        wSpacing,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: wallPadding),
+          child: SText(
+            text: widget.description,
+            fontSize: 15,
+            overflow: TextOverflow.clip,
+          ),
+        ),
+      ]),
+      bottomNavigationBar: bottomBar(
+        context,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SText(text: 'Price:'),
+            LText(
+              text: 'GHC ${widget.price}',
+              fontSize: 18,
+            )
+          ],
+        ),
+        ElevatedButton(
+          style: ButtonStyle(
+              foregroundColor:
+                  MaterialStateProperty.all(visible == true ? mainColor : null),
+              backgroundColor:
+                  MaterialStateProperty.all(visible == true ? grey : null)),
+          onPressed: visible == false
+              ? () {
+                  // context.read<CartCounter>().counterAdd();
+                  context.read<AddToCartProvider>().addToCart(
+                        Cart(
+                          id: widget.id,
+                          image: widget.image,
+                          price: widget.price,
+                          title: widget.title,
+                          quantity: ValueNotifier(1),
+                        ),
+                      );
+
+                  setState(() {
+                    visible = true;
+                  });
+                }
+              : null,
+          child: Text(visible == true ? 'Product added' : 'Add to cart'),
+        ),
+      ),
+    );
   }
 }
