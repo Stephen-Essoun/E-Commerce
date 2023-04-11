@@ -9,9 +9,8 @@ import 'auth.dart';
 class WishListProvider extends ChangeNotifier {
   final db = FirebaseFirestore.instance
       .collection('wishList')
-      .doc(Authentication().user!.email!)
+      .doc(Authentication().user?.email)
       .collection('favorite');
-
   final List<WishList> _list = [];
   List<WishList> get wishList => _list;
 

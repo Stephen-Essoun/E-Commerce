@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:e_commerce/controllers/api.dart';
 import 'package:e_commerce/controllers/network.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
@@ -5,7 +6,7 @@ import 'package:e_commerce/utils/constant/progress_inducator.dart';
 import 'package:e_commerce/utils/widgets/appbar.dart';
 import 'package:e_commerce/utils/widgets/big_text.dart';
 import 'package:e_commerce/utils/widgets/medium_text.dart';
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 
 import '../../utils/widgets/small_text.dart';
 
@@ -58,16 +59,35 @@ class _JustForYouState extends State<JustForYou> {
     );
   }
 
-  Card productCard(Shop product) {
+  Card productCard(product) {
     return Card(
         child: Stack(
       children: [
-        Image.network(product.images[0]),
+        CachedNetworkImage(
+          imageUrl: product.images[0],
+          imageBuilder: (context, imageProvider) => Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: imageProvider,
+                fit: BoxFit.cover,
+                colorFilter: const ColorFilter.mode(
+                  Colors.red,
+                  BlendMode.colorBurn,
+                ),
+              ),
+            ),
+          ),
+          placeholder: (context, url) =>
+              const Center(child: CircularProgressIndicator()),
+          errorWidget: (context, url, error) => const Icon(Icons.error),
+        ),
         Positioned(
           top: 95,
           left: 10,
           child: InkWell(
-              onTap: () {}, child: const Icon(Icons.favorite_border_outlined),),
+            onTap: () {},
+            child: const Icon(Icons.favorite_border_outlined),
+          ),
         ),
         Positioned(
           top: 130,
@@ -78,7 +98,7 @@ class _JustForYouState extends State<JustForYou> {
           top: 145,
           left: 10,
           child: MText(
-            text: 'GHC ${product.price}',
+            text: 'GHC ${500}',
           ),
         ),
         Positioned.fill(

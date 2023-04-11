@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/constant/colors.dart';
 import '../../../utils/widgets/big_text.dart';
@@ -28,11 +29,8 @@ class JustForYouCard extends StatefulWidget {
 }
 
 class _JustForYouCardState extends State<JustForYouCard> {
- 
-  
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: const EdgeInsets.only(right: 10),
       child: SizedBox(
@@ -58,16 +56,33 @@ class _JustForYouCardState extends State<JustForYouCard> {
                     child: Stack(
                       alignment: AlignmentDirectional.topEnd,
                       children: [
-                        Center(
-                          child: Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                image: DecorationImage(
-                                    image: NetworkImage(widget.image[0]),
-                                    fit: BoxFit.cover)),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
                           ),
                         ),
-                        
+                        Center(
+                          child: CachedNetworkImage(
+                            imageUrl: widget.image[0],
+                            imageBuilder: (context, imageProvider) => Container(
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
+                                  colorFilter: const ColorFilter.mode(
+                                    Colors.red,
+                                    BlendMode.colorBurn,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            placeholder: (context, url) =>
+                                const CircularProgressIndicator(),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                          ),
+                         
+                        ),
                       ],
                     ),
                   ),

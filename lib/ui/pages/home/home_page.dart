@@ -121,7 +121,7 @@ class _HomeViewState extends State<HomeView> {
                             ),
                             Expanded(
                                 child: ListView.builder(
-                                    itemCount: snapshot.data!.length,
+                                    itemCount: 10,
                                     scrollDirection: Axis.horizontal,
                                     itemBuilder: (ctx, i) {
                                       var category = snapshot.data![i].category;
