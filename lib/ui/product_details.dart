@@ -96,9 +96,9 @@ class _ProductDetailsState extends State<ProductDetails> {
       ),
       body: ListView(children: [
         CarouselSlider.builder(
-            itemCount: widget.image.length,
+            itemCount: 3,
             itemBuilder: (context, index, _) => Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 1),
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: Container(
                     height: MediaQuery.of(context).size.height / 3,
                     decoration: BoxDecoration(
@@ -113,9 +113,10 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                 ),
             options: CarouselOptions(
-                enableInfiniteScroll: false,
+                enableInfiniteScroll: true,
                 autoPlay: true,
-                enlargeCenterPage: true)),
+                initialPage: 1,
+                enlargeCenterPage: false)),
         wSpacing,
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: wallPadding),

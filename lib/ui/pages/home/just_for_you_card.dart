@@ -56,31 +56,32 @@ class _JustForYouCardState extends State<JustForYouCard> {
                     child: Stack(
                       alignment: AlignmentDirectional.topEnd,
                       children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                          ),
+                        ),
                         Center(
                           child: CachedNetworkImage(
                             imageUrl: widget.image[0],
                             imageBuilder: (context, imageProvider) => Container(
                               decoration: BoxDecoration(
                                 image: DecorationImage(
-                                    image: imageProvider,
-                                    fit: BoxFit.cover,
-                                    colorFilter: ColorFilter.mode(
-                                        Colors.red, BlendMode.colorBurn)),
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
+                                  colorFilter: const ColorFilter.mode(
+                                    Colors.red,
+                                    BlendMode.colorBurn,
+                                  ),
+                                ),
                               ),
                             ),
                             placeholder: (context, url) =>
-                                CircularProgressIndicator(),
+                                const CircularProgressIndicator(),
                             errorWidget: (context, url, error) =>
                                 Icon(Icons.error),
                           ),
-                          // child: Container(
-                          //   decoration: BoxDecoration(
-                          //       borderRadius: BorderRadius.circular(5),
-                          //       image: DecorationImage(
-                          //           image: CachedNetworkImageProvider(widget.image[0]),
-                          //           fit: BoxFit.cover)
-                          // ),
-                          // ),
+                         
                         ),
                       ],
                     ),

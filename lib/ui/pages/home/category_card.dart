@@ -15,21 +15,29 @@ Widget categoriesItem(BuildContext context, int i, image, String name) {
       width: MediaQuery.of(context).size.width / 2.8,
       child: Stack(
         children: [
-          Center(
-            child: CachedNetworkImage(
-              imageUrl: image,
-              imageBuilder: (context, imageProvider) => Container(
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                      image: imageProvider,
-                      fit: BoxFit.cover,
-                      colorFilter:
-                          ColorFilter.mode(Colors.red, BlendMode.colorBurn)),
-                ),
-              ),
-              placeholder: (context, url) => CircularProgressIndicator(),
-              errorWidget: (context, url, error) => Icon(Icons.error),
-            ),
+          Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(5),
+                                image: DecorationImage(
+                                    image: CachedNetworkImageProvider(image),
+                                    fit: BoxFit.cover)
+                          ),
+                          ),
+          // Center(
+          //   child: CachedNetworkImage(
+          //     imageUrl: image,
+          //     imageBuilder: (context, imageProvider) => Container(
+          //       decoration: BoxDecoration(
+          //         image: DecorationImage(
+          //             image: imageProvider,
+          //             fit: BoxFit.cover,
+          //             colorFilter:
+          //                 ColorFilter.mode(Colors.red, BlendMode.colorBurn)),
+          //       ),
+          //     ),
+          //     placeholder: (context, url) => CircularProgressIndicator(),
+          //     errorWidget: (context, url, error) => Icon(Icons.error),
+          //   ),
 
             // child: Container(
             //   foregroundDecoration:
@@ -40,7 +48,7 @@ Widget categoriesItem(BuildContext context, int i, image, String name) {
             //         image: CachedNetworkImageProvider(image), fit: BoxFit.cover)
             //   ),
             // ),
-          ),
+          // ),
           Align(
               alignment: Alignment.center,
               child: Padding(
