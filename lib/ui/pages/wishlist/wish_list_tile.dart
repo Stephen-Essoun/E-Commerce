@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/provider/wishlist.dart';
 import 'package:e_commerce/utils/widgets/medium_text.dart';
@@ -59,15 +60,15 @@ class _WishListTileState extends State<WishListTile> {
                   aspectRatio: 1,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Container(
+                    child:CachedNetworkImage(imageUrl: widget.product.image![0],progressIndicatorBuilder: (context, url, progress) => const Center(child: CircularProgressIndicator(),),imageBuilder: (context, imageProvider) =>  Container(
                       decoration: BoxDecoration(
                         color: secondColor,
                         image: DecorationImage(
                           fit: BoxFit.contain,
-                          image: NetworkImage(widget.product.image![0]),
+                          image: imageProvider,
                         ),
                       ),
-                    ),
+                    ),)
                   ),
                 ),
                 const SizedBox(

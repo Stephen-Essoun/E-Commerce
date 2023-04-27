@@ -62,7 +62,7 @@ class _JustForYouCardState extends State<JustForYouCard> {
                           ),
                         ),
                         Center(
-                          child: CachedNetworkImage(
+                          child:widget.image[0].isNotEmpty? CachedNetworkImage(
                             imageUrl: widget.image[0],
                             imageBuilder: (context, imageProvider) => Container(
                               decoration: BoxDecoration(
@@ -80,7 +80,7 @@ class _JustForYouCardState extends State<JustForYouCard> {
                                 const CircularProgressIndicator(),
                             errorWidget: (context, url, error) =>
                                 Icon(Icons.error),
-                          ),
+                          ):const Center(child:Text('No image')),
                          
                         ),
                       ],

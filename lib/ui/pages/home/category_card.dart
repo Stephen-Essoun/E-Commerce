@@ -14,15 +14,17 @@ Widget categoriesItem(BuildContext context, int i, image, String name) {
       ),
       width: MediaQuery.of(context).size.width / 2.8,
       child: Stack(
+
+        
         children: [
-          Container(
+         image !=null? Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(5),
                                 image: DecorationImage(
                                     image: CachedNetworkImageProvider(image),
                                     fit: BoxFit.cover)
                           ),
-                          ),
+                          ):Center(child:Text('No image')),
           // Center(
           //   child: CachedNetworkImage(
           //     imageUrl: image,

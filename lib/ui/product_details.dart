@@ -48,11 +48,10 @@ class _ProductDetailsState extends State<ProductDetails> {
   var delete;
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<WishListProvider>().favPro(widget.id, isLiked);
-    });
     super.initState();
   }
+
+  setstate(bool value) => isLiked = value;
 
   @override
   didChangeDependencies() {
@@ -66,6 +65,9 @@ class _ProductDetailsState extends State<ProductDetails> {
       title: widget.title,
     );
 
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<WishListProvider>().favPro(widget.id, isLiked);
+    });
     super.didChangeDependencies();
   }
 
@@ -76,6 +78,7 @@ class _ProductDetailsState extends State<ProductDetails> {
         backgroundColor: white,
         elevation: 0,
         foregroundColor: black,
+        title:const Text('Product Details'),
         actions: [
           Center(
             child: Padding(
@@ -139,15 +142,11 @@ class _ProductDetailsState extends State<ProductDetails> {
                     }
                     //if user's account is verified
                     else if (user.emailVerified) {
-                      // isLiked
-                      //     ?Provider.of<WishListProvider>(context,
-                      //             listen: false)
-                      //         .deleteWhere(widget.id.toString()):
                       Provider.of<WishListProvider>(context, listen: false)
                           .addProduct(wishList, widget.id.toString());
                     }
                   }
-                  //if not account is available on the device
+                  //if no account is available on the device
                   else {
                     alertDialog(
                       context: context,
