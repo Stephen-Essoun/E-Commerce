@@ -128,7 +128,7 @@ class _HomeViewState extends State<HomeView> {
                                       return categoriesItem(
                                           context,
                                           i,
-                                          category.image,
+                                          'https://fakestoreapi.com/img/61pHAEJ4NML._AC_UX679_.jpg',
                                           category.name.toString());
                                     }))
                           ],
@@ -169,7 +169,7 @@ class _HomeViewState extends State<HomeView> {
                                   var product = snapshot.data!;
                                   return JustForYouCard(
                                       key: widget.key,
-                                      image: product[i].images,
+                                      image: product[0].image,
                                       productName: product[i].title,
                                       productPrice: product[i].price.toInt(),
                                       description: product[i].description,

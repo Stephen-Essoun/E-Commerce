@@ -10,7 +10,7 @@ import '../../product_details.dart';
 // bool isLiked = false;
 
 class JustForYouCard extends StatefulWidget {
-  final List<String> image;
+  final dynamic image;
   final String productName;
   final int productPrice;
   final String description;
@@ -79,7 +79,7 @@ class _JustForYouCardState extends State<JustForYouCard> {
                             placeholder: (context, url) =>
                                 const CircularProgressIndicator(),
                             errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
+                                const Icon(Icons.error),
                           ):const Center(child:Text('No image')),
                          
                         ),
