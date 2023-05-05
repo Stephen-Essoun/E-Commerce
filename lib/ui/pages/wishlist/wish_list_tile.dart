@@ -59,17 +59,23 @@ class _WishListTileState extends State<WishListTile> {
                 AspectRatio(
                   aspectRatio: 1,
                   child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child:CachedNetworkImage(imageUrl: widget.product.image![0],progressIndicatorBuilder: (context, url, progress) => const Center(child: CircularProgressIndicator(),),imageBuilder: (context, imageProvider) =>  Container(
-                      decoration: BoxDecoration(
-                        color: secondColor,
-                        image: DecorationImage(
-                          fit: BoxFit.contain,
-                          image: imageProvider,
+                      padding: const EdgeInsets.all(8.0),
+                      child: CachedNetworkImage(
+                        imageUrl: widget.product.image!,
+                        progressIndicatorBuilder: (context, url, progress) =>
+                            const Center(
+                          child: CircularProgressIndicator(),
                         ),
-                      ),
-                    ),)
-                  ),
+                        imageBuilder: (context, imageProvider) => Container(
+                          decoration: BoxDecoration(
+                            color: secondColor,
+                            image: DecorationImage(
+                              fit: BoxFit.contain,
+                              image: imageProvider,
+                            ),
+                          ),
+                        ),
+                      )),
                 ),
                 const SizedBox(
                   width: 5,

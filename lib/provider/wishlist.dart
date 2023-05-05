@@ -66,9 +66,11 @@ class WishListProvider extends ChangeNotifier {
   }
 
   favPro(id, liked) {
-    getProducts().listen((snapshot) {
-      snapshot.docs.any((element) => liked = element.data().id == id);
-    });
+    if (Authentication().user != null || Authentication().user!.emailVerified) {
+      getProducts().listen((snapshot) {
+        snapshot.docs.any((element) => liked = element.data().id == id);
+      });
+    }
     notifyListeners();
   }
 

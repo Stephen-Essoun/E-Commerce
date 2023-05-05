@@ -12,7 +12,6 @@ import 'package:e_commerce/utils/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import '../../../utils/appbar_profile_avatar.dart.dart';
-import '../../just_for_you/main_ui.dart';
 import 'category_card.dart';
 import 'just_for_you_card.dart';
 
@@ -28,7 +27,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     auth.context = context;
-    getProducts();
+    fetchProducts();
     super.initState();
   }
 
@@ -128,7 +127,7 @@ class _HomeViewState extends State<HomeView> {
                                       return categoriesItem(
                                           context,
                                           i,
-                                          'https://fakestoreapi.com/img/61pHAEJ4NML._AC_UX679_.jpg',
+                                          'http://fakestoreapi.com/img/61pHAEJ4NML._AC_UX679_.jpg',
                                           category.name.toString());
                                     }))
                           ],
@@ -169,7 +168,7 @@ class _HomeViewState extends State<HomeView> {
                                   var product = snapshot.data!;
                                   return JustForYouCard(
                                       key: widget.key,
-                                      image: product[0].image,
+                                      image: product[i].image,
                                       productName: product[i].title,
                                       productPrice: product[i].price.toInt(),
                                       description: product[i].description,

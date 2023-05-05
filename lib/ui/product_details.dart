@@ -25,7 +25,7 @@ import '../utils/widgets/small_text.dart';
 class ProductDetails extends StatefulWidget {
   final String title;
   final int id;
-  final List<String> image;
+  final dynamic image;
   final int price;
   final String description;
   const ProductDetails(
@@ -78,7 +78,7 @@ class _ProductDetailsState extends State<ProductDetails> {
         backgroundColor: white,
         elevation: 0,
         foregroundColor: black,
-        title:const Text('Product Details'),
+        title: const Text('Product Details'),
         actions: [
           Center(
             child: Padding(
@@ -109,7 +109,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       image: DecorationImage(
                         fit: BoxFit.cover,
                         image: NetworkImage(
-                          widget.image[index],
+                          widget.image,
                         ),
                       ),
                     ),
@@ -125,8 +125,13 @@ class _ProductDetailsState extends State<ProductDetails> {
           padding: const EdgeInsets.symmetric(horizontal: wallPadding),
           child: Row(
             children: [
-              LText(text: widget.title),
-              const Spacer(),
+              Expanded(
+                child: LText(
+                  text: widget.title,
+                  overflow: TextOverflow.clip,
+                ),
+              ),
+              // const Spacer(),
               InkWell(
                 onTap: () async {
                   if (user != null) {
@@ -160,7 +165,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   }
                 },
                 child: Icon(
-                  isLiked
+                  isLiked 
                       ? Icons.favorite_rounded
                       : Icons.favorite_outline_outlined,
                   color: mainColor,

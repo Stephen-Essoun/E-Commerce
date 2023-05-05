@@ -62,8 +62,8 @@ class _JustForYouCardState extends State<JustForYouCard> {
                           ),
                         ),
                         Center(
-                          child:widget.image[0].isNotEmpty? CachedNetworkImage(
-                            imageUrl: widget.image[0],
+                          child:widget.image.isNotEmpty? CachedNetworkImage(
+                            imageUrl: widget.image,
                             imageBuilder: (context, imageProvider) => Container(
                               decoration: BoxDecoration(
                                 image: DecorationImage(
@@ -86,6 +86,7 @@ class _JustForYouCardState extends State<JustForYouCard> {
                       ],
                     ),
                   ),
+               
                 ),
               ),
             ),

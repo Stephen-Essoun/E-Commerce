@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class WishList {
   final int id;
   final String? title;
-  final List<String>? image;
+  final dynamic image;
   final int? price;
   final String? description;
   WishList({
@@ -21,7 +21,7 @@ class WishList {
     return WishList(
       id: data?['itemId'],
       title: data?['item Name'],
-      image: List<String>.from(data?['image']),
+      image: data?['image'],
       price: data?['item Price'],
       description: data?['description'],
     );

@@ -42,7 +42,7 @@ class _JustForYouState extends State<JustForYou> {
                 gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 200,
                   // childAspectRatio: 1,
-                  mainAxisExtent: 215,
+                  mainAxisExtent: 330,
                   crossAxisSpacing: 5,
                   mainAxisSpacing: 5,
                 ),
@@ -61,53 +61,55 @@ class _JustForYouState extends State<JustForYou> {
 
   Card productCard(product) {
     return Card(
-        child: Stack(
+        child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        CachedNetworkImage(
-          imageUrl: product.images[0],
-          imageBuilder: (context, imageProvider) => Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: imageProvider,
-                fit: BoxFit.cover,
-                colorFilter: const ColorFilter.mode(
-                  Colors.red,
-                  BlendMode.colorBurn,
+        Expanded(
+          child: CachedNetworkImage(
+            imageUrl: product.image,
+            imageBuilder: (context, imageProvider) => Container(
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: BoxFit.cover,
+                  colorFilter: const ColorFilter.mode(
+                    Colors.red,
+                    BlendMode.colorBurn,
+                  ),
                 ),
               ),
             ),
-          ),
-          placeholder: (context, url) =>
-              const Center(child: CircularProgressIndicator()),
-          errorWidget: (context, url, error) => const Icon(Icons.error),
-        ),
-        Positioned(
-          top: 95,
-          left: 10,
-          child: InkWell(
-            onTap: () {},
-            child: const Icon(Icons.favorite_border_outlined),
+            placeholder: (context, url) =>
+                const Center(child: CircularProgressIndicator()),
+            errorWidget: (context, url, error) => const Icon(Icons.error),
           ),
         ),
-        Positioned(
-          top: 130,
-          left: 10,
-          child: SText(text: product.title),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: SText(
+            text: product.title,
+            overflow: TextOverflow.clip,
+          ),
         ),
-        Positioned(
-          top: 145,
-          left: 10,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
           child: MText(
-            text: 'GHC ${500}',
+            text: 'GHC ${product.price}',
           ),
         ),
-        Positioned.fill(
-          top: 165,
-          child: ElevatedButton(
-            onPressed: () {},
-            child: const Text('Add to cart'),
-          ),
-        )
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text('Add to cart'),
+            ),
+            IconButton(
+                splashRadius: 15,
+                onPressed: () {},
+                icon: const Icon(Icons.favorite_border_outlined)),
+          ],
+        ),
       ],
     ));
   }
