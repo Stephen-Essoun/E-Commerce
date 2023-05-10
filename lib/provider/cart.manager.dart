@@ -8,9 +8,9 @@ class CartManagerProvider extends ChangeNotifier {
   double _totalPrice = 0.0;
   double get totalPrice => _totalPrice;
   Box<Cart> get cartBox => Hive.box<Cart>('myCarts');
-  void addToCart(Cart cart) async {
+  void addToCart(Cart cart,key) async {
     // _cart.add(cart);
-    await cartBox.add(cart).then((value) => log(value.toString()));
+    await cartBox.put(key,cart);
     notifyListeners();
   }
 

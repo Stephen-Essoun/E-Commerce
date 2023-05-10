@@ -216,7 +216,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           price: widget.price,
                           title: widget.title,
                           quantity: ValueNotifier(1),
-                        ),
+                        ),widget.id
                       );
 
                   setState(() {
