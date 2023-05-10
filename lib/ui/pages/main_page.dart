@@ -1,9 +1,11 @@
 import 'package:badges/badges.dart';
+import 'package:e_commerce/provider/cart.manager.dart';
 import 'package:e_commerce/ui/pages/wishlist/wish_list_page.dart';
 import 'package:e_commerce/ui/user_profile.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/utils/widgets/badge.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../provider/auth.dart';
 import 'cart/cart_page.dart';
@@ -23,6 +25,8 @@ class _MainScreenState extends State<MainScreen> {
     auth.context = context;
     super.initState();
   }
+
+  
 
   List<Widget> pages = const [
     HomeView(),

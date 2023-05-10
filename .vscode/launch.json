@@ -1,0 +1,28 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        
+
+        {
+            "name": "custom_lint_clientDKZALM",
+            "cwd": "tmp/custom_lint_clientDKZALM",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "custom_lint_clientSTUYGI",
+            "cwd": "tmp/custom_lint_clientSTUYGI",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "custom_lint_clientVWEWLU",
+            "cwd": "tmp/custom_lint_clientVWEWLU",
+            "request": "launch",
+            "type": "dart"
+        }
+    ]
+}

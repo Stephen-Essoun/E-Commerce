@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-snackBar(String content) {
-  return SnackBar(
+void showSnackBar(BuildContext context,String content) {
+final snackBar = SnackBar(
     elevation: 0,
     duration: const Duration(milliseconds: 600),
     behavior: SnackBarBehavior.floating,
@@ -10,4 +10,6 @@ snackBar(String content) {
     backgroundColor: Colors.green,
     content: Text(content),
   );
+  ScaffoldMessenger.of(context)
+                                .showSnackBar(snackBar);
 }

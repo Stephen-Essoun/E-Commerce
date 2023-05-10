@@ -1,24 +1,27 @@
-import 'package:e_commerce/model/cart.dart';
-import 'package:flutter/cupertino.dart';
+import 'dart:developer';
 
-class AddToCartProvider extends ChangeNotifier {
-  final List<Cart> _cart = [];
-  List<Cart> get cart => _cart;
+import 'package:e_commerce/model/cart.dart';
+import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+
+class CartManagerProvider extends ChangeNotifier {
   double _totalPrice = 0.0;
   double get totalPrice => _totalPrice;
-  void addToCart(Cart cart) {
-    _cart.add(cart);
+  Box<Cart> get cartBox => Hive.box<Cart>('myCarts');
+  void addToCart(Cart cart) async {
+    // _cart.add(cart);
+    await cartBox.add(cart).then((value) => log(value.toString()));
     notifyListeners();
   }
 
   void emptyList() {
-    _cart.clear();
+    cartBox.clear();
     _totalPrice = 0;
     notifyListeners();
   }
 
   void removeFromCart(int cartIndex) {
-    _cart.removeAt(cartIndex);
+    cartBox.deleteAt(cartIndex);
     notifyListeners();
   }
 

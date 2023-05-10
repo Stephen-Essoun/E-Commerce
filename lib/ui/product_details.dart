@@ -3,7 +3,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/model/cart.dart';
-import 'package:e_commerce/provider/add_to_cart.dart';
+import 'package:e_commerce/provider/cart.manager.dart';
 import 'package:e_commerce/ui/pages/main_page.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/utils/constant/const.dart';
@@ -46,10 +46,6 @@ class _ProductDetailsState extends State<ProductDetails> {
   var wishList;
   var user;
   var delete;
-  @override
-  void initState() {
-    super.initState();
-  }
 
   setstate(bool value) => isLiked = value;
 
@@ -65,9 +61,8 @@ class _ProductDetailsState extends State<ProductDetails> {
       title: widget.title,
     );
 
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      context.read<WishListProvider>().favPro(widget.id, isLiked);
-    });
+    // context.read<WishListProvider>().favPro(widget.id, isLiked);
+
     super.didChangeDependencies();
   }
 
@@ -165,7 +160,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   }
                 },
                 child: Icon(
-                  isLiked 
+                  isLiked
                       ? Icons.favorite_rounded
                       : Icons.favorite_outline_outlined,
                   color: mainColor,
@@ -214,7 +209,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           onPressed: visible == false
               ? () {
                   // context.read<CartCounter>().counterAdd();
-                  context.read<AddToCartProvider>().addToCart(
+                  context.read<CartManagerProvider>().addToCart(
                         Cart(
                           id: widget.id,
                           image: widget.image,

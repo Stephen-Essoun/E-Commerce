@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../model/cart.dart';
-import '../../../provider/add_to_cart.dart';
+import '../../../provider/cart.manager.dart';
 import '../../../provider/cart_counter.dart';
 import '../../../utils/constant/colors.dart';
 import '../../../utils/snackbar.dart';
@@ -39,8 +39,8 @@ class CartTileState extends State<CartTile> {
           width: 70,
           decoration: BoxDecoration(
             image: DecorationImage(
-              fit: BoxFit.cover,
-              image: NetworkImage(widget.cart.image[0]),
+              fit: BoxFit.contain,
+              image: NetworkImage(widget.cart.image),
             ),
           )),
       title: MText(
@@ -66,22 +66,21 @@ class CartTileState extends State<CartTile> {
                   });
                   context.read<CartCounterProvider>().counterReduce();
                   context
-                      .read<AddToCartProvider>()
+                      .read<CartManagerProvider>()
                       .reduceTotalPrice(widget.cart.price * _counter);
                 }
                 if (_counter < 1) {
-                  context.read<AddToCartProvider>().removeFromCart(widget.i);
+                  context.read<CartManagerProvider>().removeFromCart(widget.i);
                   // context
                   //     .read<AddToCartProvider>()
                   //     .reduceTotalPrice(widget.cart.price * _counter);
                   context.read<CartCounterProvider>().counterReduce();
                 }
-                context.read<AddToCartProvider>().cart.isEmpty
-                    ? context.read<AddToCartProvider>().setToZero()
+                context.read<CartManagerProvider>().cartBox.isEmpty
+                    ? context.read<CartManagerProvider>().setToZero()
                     : null;
 
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(snackBar('cart successfully updated'));
+                showSnackBar(context, 'cart successfully updated');
               },
               child: const Card(
                   child: Icon(
@@ -101,10 +100,9 @@ class CartTileState extends State<CartTile> {
                 context.read<CartCounterProvider>().counterAdd();
                 //increase the amount
                 context
-                    .read<AddToCartProvider>()
+                    .read<CartManagerProvider>()
                     .addTotalPrice(widget.cart.price * _counter);
-                ScaffoldMessenger.of(context)
-                    .showSnackBar(snackBar('cart successfully updated'));
+                showSnackBar(context, 'cart successfully updated');
               },
               child: const Card(
                 child: Icon(

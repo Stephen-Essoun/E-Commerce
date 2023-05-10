@@ -1,5 +1,7 @@
+import 'dart:developer';
+
 import 'package:e_commerce/firebase_options.dart';
-import 'package:e_commerce/provider/add_to_cart.dart';
+import 'package:e_commerce/provider/cart.manager.dart';
 import 'package:e_commerce/provider/wishlist.dart';
 import 'package:e_commerce/provider/auth.dart';
 import 'package:e_commerce/provider/cart_counter.dart';
@@ -14,11 +16,19 @@ import 'package:e_commerce/utils/constant/route.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:provider/provider.dart';
+
+import 'model/cart.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Hive.initFlutter();
+  Hive
+    ..registerAdapter(CartAdapter())
+    ..registerAdapter(ValueNotifierAdapter());
+  await Hive.openBox<Cart>('myCarts');
   runApp(const MyApp());
 }
 
@@ -30,7 +40,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => ProductDetailsProvider()),
-        ChangeNotifierProvider(create: (ctx) => AddToCartProvider()),
+        ChangeNotifierProvider(create: (ctx) => CartManagerProvider()),
         ChangeNotifierProvider(create: (ctx) => CartCounterProvider()),
         ChangeNotifierProvider(create: (ctx) => WishListProvider()),
         ChangeNotifierProvider(create: (ctx) => UsersPic()),
@@ -48,9 +58,10 @@ class MyApp extends StatelessWidget {
           homeRoute: (context) => const MainScreen(),
           toggleBetweenUIRoute: (context) => const ToggleBetweenUi(),
           emailVerifyRoute: (context) => const EmailVerifyView(),
-          justForYouRoute:(context) => const JustForYou(),
+          justForYouRoute: (context) => const JustForYou(),
         },
         initialRoute: homeRoute,
+        // home: HiveExp(),
         builder: EasyLoading.init(),
       ),
     );

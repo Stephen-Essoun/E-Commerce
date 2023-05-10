@@ -66,36 +66,15 @@ class WishListProvider extends ChangeNotifier {
   }
 
   favPro(id, liked) {
-    if (Authentication().user != null || Authentication().user!.emailVerified) {
-      getProducts().listen((snapshot) {
-        snapshot.docs.any((element) => liked = element.data().id == id);
-      });
+    if (Authentication().user != null) {
+      if (Authentication().user!.emailVerified) {
+        getProducts().listen((snapshot) {
+          snapshot.docs.any((element) => liked = element.data().id == id);
+        });
+      }
     }
     notifyListeners();
   }
-
-  // addToWishList(WishList product, int index) async {
-  //   if (_list.any((element) => index == element.id)) {
-  //     _list.removeWhere((element) => index == element.id);
-  //     log('remove');
-  //   } else {
-  //     _list.add(product);
-  //     log('added');
-  //   }
-  //   notifyListeners();
-  // }
-
-  // favoriteProduct( id,) {
-  //   final ref = db.withConverter(
-  //     fromFirestore: WishList.fromJson,
-  //     toFirestore: (value, options) => value.toJson(),
-  //   );
-  //   final docSnap = ref.snapshots();
-  //   docSnap.listen((snapshot) {
-  //     snapshot.docs.any((element) => _isFavorited = element.data().id == id);
-  //   });
-  //   notifyListeners();
-  // }
 
   removeFromWishList(int index) {
     _list.removeAt(index);

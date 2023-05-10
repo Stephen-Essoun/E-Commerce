@@ -1,5 +1,6 @@
 import 'package:e_commerce/controllers/network.dart';
 import 'package:e_commerce/provider/auth.dart';
+import 'package:e_commerce/provider/cart.manager.dart';
 import 'package:e_commerce/ui/pages/main_page.dart';
 import 'package:e_commerce/ui/product_details.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
@@ -11,6 +12,7 @@ import 'package:e_commerce/utils/widgets/medium_text.dart';
 import 'package:e_commerce/utils/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:provider/provider.dart';
 import '../../../utils/appbar_profile_avatar.dart.dart';
 import 'category_card.dart';
 import 'just_for_you_card.dart';
@@ -33,7 +35,6 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   void didChangeDependencies() {
-    getProducts();
     super.didChangeDependencies();
   }
 

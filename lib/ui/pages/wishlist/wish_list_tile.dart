@@ -1,13 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/provider/wishlist.dart';
+import 'package:e_commerce/utils/snackbar.dart';
 import 'package:e_commerce/utils/widgets/medium_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../../model/cart.dart';
 import '../../../model/wish_list.dart';
-import '../../../provider/add_to_cart.dart';
+import '../../../provider/cart.manager.dart';
 import '../../product_details.dart';
 import '../../../utils/constant/colors.dart';
 
@@ -92,7 +93,7 @@ class _WishListTileState extends State<WishListTile> {
                       MText(text: 'GHC ${widget.product.price}'),
                       ElevatedButton(
                           onPressed: () {
-                            context.read<AddToCartProvider>().addToCart(
+                            context.read<CartManagerProvider>().addToCart(
                                   Cart(
                                       id: widget.i,
                                       image: widget.product.image,
@@ -104,6 +105,7 @@ class _WishListTileState extends State<WishListTile> {
                             context
                                 .read<WishListProvider>()
                                 .deleteProduct(widget.id);
+                            showSnackBar(context, 'wishList updated');
                           },
                           child: const Text('Add to cart'))
                     ],

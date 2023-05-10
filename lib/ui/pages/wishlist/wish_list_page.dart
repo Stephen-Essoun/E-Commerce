@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:e_commerce/provider/auth.dart';
 import 'package:e_commerce/provider/wishlist.dart';
 import 'package:e_commerce/utils/appbar_profile_avatar.dart.dart';
 import 'package:e_commerce/utils/constant/const.dart';
@@ -116,28 +117,31 @@ class _WishListViewState extends State<WishListView> {
                     } else if (snapshot.hasData) {
                       final wishlist = data!.docs;
                       log('data available');
-                      
-                      return ListView.builder(
-                        itemCount: wishlist.length,
-                        itemBuilder: (context, i) {
-                          final document = wishlist[i].data();
-                          return wishlist.isEmpty
-                              ? Center(
-                                  child: MText(
-                                      text: 'No favorited products to show'))
-                              : Center(
+                      return wishlist.isEmpty
+                          ? Center(
+                              child:
+                                  MText(text: 'No favorited products to show'))
+                          : ListView.builder(
+                              itemCount: wishlist.length,
+                              itemBuilder: (context, i) {
+                                final document = wishlist[i].data();
+                                return Center(
                                   child: WishListTile(
                                       product: document,
                                       id: wishlist[i].id,
                                       i: i,
                                       context: context),
                                 );
-                        },
-                      );
+                              },
+                            );
                     }
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
+                    return Authentication().user != null
+                        ? const Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : const Center(
+                            child: Text('Log in to view your items'),
+                          );
                   }),
             ),
             Visibility(
