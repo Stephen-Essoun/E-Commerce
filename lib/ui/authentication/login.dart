@@ -109,7 +109,7 @@ class _LoginUiState extends State<LoginUi> {
                             email.text.trim(),
                             password.text.trim(),
                           )
-                          .then((value) => Navigator.of(context)
+                          .whenComplete(() => Navigator.of(context)
                               .pushNamedAndRemoveUntil(
                                   homeRoute, (route) => false));
                     }
