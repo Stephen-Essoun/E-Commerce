@@ -100,7 +100,7 @@ class _WishListTileState extends State<WishListTile> {
                                     price: widget.product.price!,
                                     title: widget.product.title!,
                                     quantity: ValueNotifier(1)),
-                                widget.i);
+                                    widget.i);
 
                             context
                                 .read<WishListProvider>()
