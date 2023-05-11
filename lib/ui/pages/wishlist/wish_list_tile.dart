@@ -94,13 +94,13 @@ class _WishListTileState extends State<WishListTile> {
                       ElevatedButton(
                           onPressed: () {
                             context.read<CartManagerProvider>().addToCart(
-                                  Cart(
-                                      id: widget.i,
-                                      image: widget.product.image,
-                                      price: widget.product.price!,
-                                      title: widget.product.title!,
-                                      quantity: ValueNotifier(1)),
-                                );
+                                Cart(
+                                    id: widget.i,
+                                    image: widget.product.image,
+                                    price: widget.product.price!,
+                                    title: widget.product.title!,
+                                    quantity: ValueNotifier(1)),
+                                widget.i);
 
                             context
                                 .read<WishListProvider>()
