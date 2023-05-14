@@ -48,7 +48,7 @@ class _CartViewState extends State<CartView> {
                     child: ListView.builder(
                         itemCount: box.values.length,
                         itemBuilder: (context, index) {
-                          var cart = box.getAt(index) as Cart;
+                          var cart = box.get(index) as Cart;
                           return CartTile(i: index, cart: cart, context: context);
                         }),
                   ),
