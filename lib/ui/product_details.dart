@@ -42,17 +42,20 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails> {
   bool visible = false;
-  bool isLiked = false;
   var wishList;
   var user;
   var delete;
-
-  setstate(bool value) => isLiked = value;
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      context.read<WishListProvider>().favPro(widget.id.toString());
+    });
+  }
 
   @override
   didChangeDependencies() {
     user = context.watch<Authentication>().user;
-
     wishList = WishList(
       id: widget.id,
       image: widget.image,
@@ -60,8 +63,6 @@ class _ProductDetailsState extends State<ProductDetails> {
       description: widget.description,
       title: widget.title,
     );
-
-    // context.read<WishListProvider>().favPro(widget.id, isLiked);
 
     super.didChangeDependencies();
   }
@@ -144,6 +145,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                     else if (user.emailVerified) {
                       Provider.of<WishListProvider>(context, listen: false)
                           .addProduct(wishList, widget.id.toString());
+                      context
+                          .read<WishListProvider>()
+                          .favPro(widget.id.toString());
                     }
                   }
                   //if no account is available on the device
@@ -160,7 +164,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   }
                 },
                 child: Icon(
-                  isLiked
+                  Provider.of<WishListProvider>(context).isFavorited
                       ? Icons.favorite_rounded
                       : Icons.favorite_outline_outlined,
                   color: mainColor,
@@ -210,14 +214,14 @@ class _ProductDetailsState extends State<ProductDetails> {
               ? () {
                   // context.read<CartCounter>().counterAdd();
                   context.read<CartManagerProvider>().addToCart(
-                        Cart(
-                          id: widget.id,
-                          image: widget.image,
-                          price: widget.price,
-                          title: widget.title,
-                          quantity: ValueNotifier(1),
-                        ),widget.id
-                      );
+                      Cart(
+                        id: widget.id,
+                        image: widget.image,
+                        price: widget.price,
+                        title: widget.title,
+                        quantity: ValueNotifier(1),
+                      ),
+                      widget.id);
 
                   setState(() {
                     visible = true;

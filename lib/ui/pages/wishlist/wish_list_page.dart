@@ -116,7 +116,6 @@ class _WishListViewState extends State<WishListView> {
                       log(snapshot.error.toString());
                     } else if (snapshot.hasData) {
                       final wishlist = data!.docs;
-                      log('data available');
                       return wishlist.isEmpty
                           ? Center(
                               child:

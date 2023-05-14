@@ -24,6 +24,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     auth.context = context;
     super.initState();
+    
   }
 
   
