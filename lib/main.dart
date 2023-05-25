@@ -29,6 +29,7 @@ void main() async {
     ..registerAdapter(CartAdapter())
     ..registerAdapter(ValueNotifierAdapter());
   await Hive.openBox<Cart>('myCarts');
+  await Hive.openBox<int>('cartQuantity');
   runApp(const MyApp());
 }
 
@@ -61,7 +62,6 @@ class MyApp extends StatelessWidget {
           justForYouRoute: (context) => const JustForYou(),
         },
         initialRoute: homeRoute,
-        // home: HiveExp(),
         builder: EasyLoading.init(),
       ),
     );

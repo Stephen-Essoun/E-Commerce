@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../provider/auth.dart';
+import '../../provider/cart_counter.dart';
 import 'cart/cart_page.dart';
 import 'home/home_page.dart';
 
@@ -24,7 +25,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     auth.context = context;
     super.initState();
-    
+    CartCounterProvider().getCartQuantity();
   }
 
   

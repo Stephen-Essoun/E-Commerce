@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_typing_uninitialized_variables
 
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/model/cart.dart';
 import 'package:e_commerce/provider/cart.manager.dart';
 import 'package:e_commerce/ui/pages/main_page.dart';
@@ -10,7 +9,6 @@ import 'package:e_commerce/utils/constant/const.dart';
 import 'package:e_commerce/utils/widgets/big_text.dart';
 import 'package:e_commerce/utils/widgets/bottom_bar.dart';
 import 'package:e_commerce/utils/widgets/medium_text.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -49,6 +47,7 @@ class _ProductDetailsState extends State<ProductDetails> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      //to toglle btn favorited and unfavorited icon
       context.read<WishListProvider>().favPro(widget.id.toString());
     });
   }
@@ -87,7 +86,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                           OnTap().whenTapped(1);
                           Navigator.of(context).pop();
                         },
-                        child: CartBadge());
+                        child: const CartBadge());
                   }),
             ),
           )
@@ -101,9 +100,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                   child: Container(
                     height: MediaQuery.of(context).size.height / 3,
                     decoration: BoxDecoration(
-                      color: thirdColor,
+                      color: white,
                       image: DecorationImage(
-                        fit: BoxFit.cover,
+                        fit: BoxFit.contain,
                         image: NetworkImage(
                           widget.image,
                         ),
@@ -145,9 +144,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                     else if (user.emailVerified) {
                       Provider.of<WishListProvider>(context, listen: false)
                           .addProduct(wishList, widget.id.toString());
-                      context
-                          .read<WishListProvider>()
-                          .favPro(widget.id.toString());
+                      context.read<WishListProvider>().favPro(widget.id
+                          .toString()); //to immidiately toglle btn favorited and unfavorited icon
                     }
                   }
                   //if no account is available on the device
@@ -210,24 +208,21 @@ class _ProductDetailsState extends State<ProductDetails> {
                   MaterialStateProperty.all(visible == true ? mainColor : null),
               backgroundColor:
                   MaterialStateProperty.all(visible == true ? grey : null)),
-          onPressed: visible == false
-              ? () {
-                  // context.read<CartCounter>().counterAdd();
-                  context.read<CartManagerProvider>().addToCart(
-                      Cart(
-                        id: widget.id,
-                        image: widget.image,
-                        price: widget.price,
-                        title: widget.title,
-                        quantity: ValueNotifier(1),
-                      ),
-                      widget.id);
+          onPressed: () {
+            context.read<CartManagerProvider>().addToCart(
+                Cart(
+                  id: widget.id,    
+                  image: widget.image,
+                  price: widget.price,
+                  title: widget.title,
+                  quantity: ValueNotifier(1),
+                ),
+                widget.id);
 
-                  setState(() {
-                    visible = true;
-                  });
-                }
-              : null,
+            setState(() {
+              visible = true;
+            });
+          },
           child: Text(visible == true ? 'Product added' : 'Add to cart'),
         ),
       ),

@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:e_commerce/provider/wishlist.dart';
 import 'package:e_commerce/utils/snackbar.dart';
 import 'package:e_commerce/utils/widgets/medium_text.dart';
