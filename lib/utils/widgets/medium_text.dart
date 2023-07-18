@@ -3,9 +3,9 @@ import 'package:flutter/cupertino.dart';
 class MText extends StatelessWidget {
   final String text;
   final Color? color;
-  double? fontSize;
-  TextOverflow? overflow;
-  MText({
+ final double? fontSize;
+  final TextOverflow? overflow;
+  const MText({
     super.key,
     required this.text,
     this.color = const Color(0xff1f2223),

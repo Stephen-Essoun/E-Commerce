@@ -1,10 +1,7 @@
 import 'package:e_commerce/provider/auth.dart';
-import 'package:e_commerce/ui/authentication/toggle_btn.dart';
 import 'package:e_commerce/utils/constant/progress_inducator.dart';
 import 'package:e_commerce/utils/constant/route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/constant/colors.dart';
@@ -48,9 +45,9 @@ class _LoginUiState extends State<LoginUi> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.1,
               ),
-              Center(child: LText(text: 'Welcome back')),
+              const Center(child: LText(text: 'Welcome back')),
               wSpacing,
-              Center(
+              const Center(
                   child: SText(
                 text: 'Uncover what truly resonates with\nyour interest',
                 textAlign: TextAlign.center,
@@ -69,14 +66,14 @@ class _LoginUiState extends State<LoginUi> {
                 child: const Text('Login with Google'),
               ),
               wSpacing,
-              Row(
+              const Row(
                 children: [
-                  const Expanded(child: Divider()),
+                  Expanded(child: Divider()),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    padding: EdgeInsets.symmetric(horizontal: 5),
                     child: SText(text: 'Or login with email'),
                   ),
-                  const Expanded(child: Divider())
+                  Expanded(child: Divider())
                 ],
               ),
               wSpacing,

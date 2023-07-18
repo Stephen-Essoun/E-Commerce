@@ -9,7 +9,6 @@ import 'package:e_commerce/utils/widgets/appbar.dart';
 import 'package:e_commerce/utils/widgets/medium_text.dart';
 import 'package:e_commerce/utils/widgets/small_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +35,7 @@ class _UserProfileState extends State<UserProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: white,
-      appBar: myTile(leading: MText(text: 'Profile')),
+      appBar: myTile(leading: const MText(text: 'Profile')),
       body: Column(
         children: [
           GestureDetector(
@@ -66,8 +65,8 @@ class _UserProfileState extends State<UserProfile> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      MText(text: 'Stephen Essoun'),
-                      SText(text: 'essoun379@gmail.com'),
+                      const MText(text: 'Stephen Essoun'),
+                      const SText(text: 'essoun379@gmail.com'),
                       ElevatedButton.icon(
                         onPressed: () {},
                         icon: const Icon(Icons.edit_outlined),

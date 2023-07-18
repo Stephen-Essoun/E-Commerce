@@ -1,8 +1,6 @@
 import 'package:e_commerce/controllers/network.dart';
 import 'package:e_commerce/provider/auth.dart';
-import 'package:e_commerce/provider/cart.manager.dart';
 import 'package:e_commerce/ui/pages/main_page.dart';
-import 'package:e_commerce/ui/product_details.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/utils/constant/const.dart';
 import 'package:e_commerce/utils/constant/route.dart';
@@ -12,7 +10,6 @@ import 'package:e_commerce/utils/widgets/medium_text.dart';
 import 'package:e_commerce/utils/widgets/small_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:provider/provider.dart';
 import '../../../utils/appbar_profile_avatar.dart.dart';
 import 'category_card.dart';
 import 'just_for_you_card.dart';
@@ -34,11 +31,6 @@ class _HomeViewState extends State<HomeView> {
   }
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
         onRefresh: getProducts,
@@ -50,7 +42,7 @@ class _HomeViewState extends State<HomeView> {
               if (snapshot.hasData) {
                 return Scaffold(
                   appBar: myTile(
-                    leading: Column(
+                    leading: const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         LText(text: 'Hello Stephen!'),
@@ -107,12 +99,12 @@ class _HomeViewState extends State<HomeView> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                LText(text: 'Categories'),
+                                const LText(text: 'Categories'),
                                 Padding(
                                   padding:
                                       const EdgeInsets.only(right: wallPadding),
                                   child: GestureDetector(
-                                      child: SText(text: 'view all')),
+                                      child: const SText(text: 'view all')),
                                 )
                               ],
                             ),
@@ -120,17 +112,20 @@ class _HomeViewState extends State<HomeView> {
                               height: wallPadding,
                             ),
                             Expanded(
-                                child: ListView.builder(
-                                    itemCount: 10,
-                                    scrollDirection: Axis.horizontal,
-                                    itemBuilder: (ctx, i) {
-                                      var category = snapshot.data![i].category;
-                                      return categoriesItem(
-                                          context,
-                                          i,
-                                          'http://fakestoreapi.com/img/61pHAEJ4NML._AC_UX679_.jpg',
-                                          category.name.toString());
-                                    }))
+                              child: ListView.builder(
+                                itemCount: 10,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder: (ctx, i) {
+                                  var category = snapshot.data![i].category;
+                                  return categoriesItem(
+                                    context,
+                                    i,
+                                    'http://fakestoreapi.com/img/61pHAEJ4NML._AC_UX679_.jpg',
+                                    category.name,
+                                  );
+                                },
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -146,13 +141,13 @@ class _HomeViewState extends State<HomeView> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                LText(text: 'Just for you'),
+                                const LText(text: 'Just for you'),
                                 GestureDetector(
                                   onTap: () => Navigator.of(context)
                                       .pushNamed(justForYouRoute),
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(
-                                        right: wallPadding),
+                                  child: const Padding(
+                                    padding:
+                                        EdgeInsets.only(right: wallPadding),
                                     child: SText(text: 'view all'),
                                   ),
                                 )
@@ -166,14 +161,15 @@ class _HomeViewState extends State<HomeView> {
                                 itemCount: snapshot.data!.length,
                                 scrollDirection: Axis.horizontal,
                                 itemBuilder: (ctx, i) {
-                                  var product = snapshot.data!;
+                                  var product = snapshot.data![i];
                                   return JustForYouCard(
-                                      key: widget.key,
-                                      image: product[i].image,
-                                      productName: product[i].title,
-                                      productPrice: product[i].price.toInt(),
-                                      description: product[i].description,
-                                      index: i);
+                                    key: widget.key,
+                                    image: product.image,
+                                    productName: product.title,
+                                    productPrice: product.price.toInt(),
+                                    description: product.description,
+                                    index: product.id,
+                                  );
                                 },
                               ),
                             )
@@ -227,7 +223,7 @@ class _HomeViewState extends State<HomeView> {
                   const SizedBox(
                     height: 5,
                   ),
-                  MText(
+                  const MText(
                     text: 'Loading...',
                     fontSize: 12,
                   )

@@ -17,6 +17,9 @@ class Cart extends HiveObject {
   @HiveField(3)
   int price;
 
+
+  
+
   @HiveField(4)
   ValueNotifier<int> quantity = ValueNotifier(1);
 

@@ -65,15 +65,24 @@ class WishListProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  favPro(id, liked) {
+  Future<bool> favPro(String id) async {
     if (Authentication().user != null) {
       if (Authentication().user!.emailVerified) {
-        getProducts().listen((snapshot) {
-          snapshot.docs.any((element) => liked = element.data().id == id);
-        });
+        final item = await FirebaseFirestore.instance
+            .collection('wishList')
+            .doc(Authentication().user?.email)
+            .collection('favorite')
+            .doc(id)
+            .get();
+        if (item.exists) {
+          _isFavorited = true;
+        } else {
+          _isFavorited = false;
+        }
+        notifyListeners();
       }
     }
-    notifyListeners();
+    return false;
   }
 
   removeFromWishList(int index) {

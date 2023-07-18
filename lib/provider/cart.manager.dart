@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:e_commerce/model/cart.dart';
 import 'package:flutter/material.dart';
@@ -8,14 +7,14 @@ class CartManagerProvider extends ChangeNotifier {
   double _totalPrice = 0.0;
   double get totalPrice => _totalPrice;
   Box<Cart> get cartBox => Hive.box<Cart>('myCarts');
+
   void addToCart(Cart cart,key) async {
     await cartBox.put(key,cart);
-
     notifyListeners();
   }
 
   void emptyList() {
-    cartBox.clear();
+    cartBox.deleteAll(cartBox.keys);
     _totalPrice = 0;
     notifyListeners();
   }

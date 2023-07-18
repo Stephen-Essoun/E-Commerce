@@ -42,7 +42,7 @@ class _WishListViewState extends State<WishListView> {
     return Scaffold(
       backgroundColor: white,
       appBar: myTile(
-        leading: LText(text: 'WishList'),
+        leading: const LText(text: 'WishList'),
         trailing: GestureDetector(
             onTap: () {
               debugPrint('response.body.toString()');
@@ -91,15 +91,15 @@ class _WishListViewState extends State<WishListView> {
             borderRadius: BorderRadius.circular(10)),
         child: Column(
           children: [
-            ListTile(
-                visualDensity: const VisualDensity(vertical: -4),
+            const ListTile(
+                visualDensity: VisualDensity(vertical: -4),
                 dense: true,
-                shape: const RoundedRectangleBorder(
+                shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(10),
                         topRight: Radius.circular(10))),
                 leading: MText(text: 'Must buy'),
-                trailing: const Icon(
+                trailing: Icon(
                   Icons.more_horiz,
                   color: grey,
                 )),
@@ -116,9 +116,8 @@ class _WishListViewState extends State<WishListView> {
                       log(snapshot.error.toString());
                     } else if (snapshot.hasData) {
                       final wishlist = data!.docs;
-                      log('data available');
                       return wishlist.isEmpty
-                          ? Center(
+                          ? const Center(
                               child:
                                   MText(text: 'No favorited products to show'))
                           : ListView.builder(

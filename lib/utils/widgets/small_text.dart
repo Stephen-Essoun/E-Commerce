@@ -1,14 +1,13 @@
-import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:flutter/cupertino.dart';
 
 class SText extends StatelessWidget {
   final String text;
   final Color? color;
-  double? fontSize;
-  TextOverflow? overflow;
+ final double? fontSize;
+ final TextOverflow? overflow;
  final Color? backgroundColor;
   final TextAlign? textAlign;
-  SText({
+  const SText({
     super.key,
     required this.text,
     this.backgroundColor,

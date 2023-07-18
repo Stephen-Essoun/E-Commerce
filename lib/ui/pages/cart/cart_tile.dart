@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -71,9 +70,6 @@ class CartTileState extends State<CartTile> {
                 }
                 if (_counter < 1) {
                   context.read<CartManagerProvider>().removeFromCart(widget.i);
-                  // context
-                  //     .read<AddToCartProvider>()
-                  //     .reduceTotalPrice(widget.cart.price * _counter);
                   context.read<CartCounterProvider>().counterReduce();
                 }
                 context.read<CartManagerProvider>().cartBox.isEmpty

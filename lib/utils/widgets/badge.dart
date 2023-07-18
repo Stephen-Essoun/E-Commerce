@@ -4,13 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../provider/cart.manager.dart';
 import '../constant/colors.dart';
-import '../../ui/pages/cart/cart_tile.dart';
 
 class CartBadge extends StatelessWidget {
-  CartBadge({
+  const CartBadge({
     Key? key,
   }) : super(key: key);
-  final CartTileState counter = CartTileState();
   @override
   Widget build(BuildContext context) {
     return badge.Badge(

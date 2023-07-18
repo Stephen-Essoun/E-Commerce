@@ -1,11 +1,8 @@
-import 'dart:developer';
 
-import 'package:e_commerce/ui/authentication/toggle_btn.dart';
 import 'package:e_commerce/utils/constant/const.dart';
 import 'package:e_commerce/utils/widgets/big_text.dart';
 import 'package:e_commerce/utils/widgets/small_text.dart';
 import 'package:e_commerce/utils/widgets/text_field.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../provider/auth.dart';
@@ -48,9 +45,9 @@ class _RegisteringUiState extends State<RegisteringUi> {
               SizedBox(
                 height: MediaQuery.of(context).size.height * 0.1,
               ),
-              Center(child: LText(text: 'Create account')),
+              const Center(child: LText(text: 'Create account')),
               wSpacing,
-              Center(
+              const Center(
                   child: SText(
                 text: 'Uncover what truly resonates with\nyour interest',
                 textAlign: TextAlign.center,
@@ -69,14 +66,14 @@ class _RegisteringUiState extends State<RegisteringUi> {
                 child: const Text('Sign up with Google'),
               ),
               wSpacing,
-              Row(
+              const Row(
                 children: [
-                  const Expanded(child: Divider()),
+                  Expanded(child: Divider()),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 5),
+                    padding: EdgeInsets.symmetric(horizontal: 5),
                     child: SText(text: 'Or sign up with email'),
                   ),
-                  const Expanded(child: Divider())
+                  Expanded(child: Divider())
                 ],
               ),
               wSpacing,

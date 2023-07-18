@@ -1,7 +1,5 @@
-import 'package:e_commerce/ui/authentication/register.dart';
 import 'package:e_commerce/ui/authentication/toggle_btn.dart';
 import 'package:e_commerce/ui/onboarding/page_content.dart';
-import 'package:e_commerce/ui/pages/home/home_page.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/utils/constant/const.dart';
 import 'package:e_commerce/utils/widgets/small_text.dart';
@@ -39,10 +37,10 @@ class _OnBoardingState extends State<OnBoarding> {
       body: SafeArea(
         child: Column(
           children: [
-            Align(
+            const Align(
                 alignment: Alignment.topRight,
                 child: Padding(
-                  padding: const EdgeInsets.all(wallPadding),
+                  padding: EdgeInsets.all(wallPadding),
                   child: SText(text: 'Skip'),
                 )),
             Expanded(
