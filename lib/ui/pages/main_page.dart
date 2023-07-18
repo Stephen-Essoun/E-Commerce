@@ -1,11 +1,8 @@
-import 'package:badges/badges.dart';
-import 'package:e_commerce/provider/cart.manager.dart';
 import 'package:e_commerce/ui/pages/wishlist/wish_list_page.dart';
 import 'package:e_commerce/ui/user_profile.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/utils/widgets/badge.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 import '../../provider/auth.dart';
 import '../../provider/cart_counter.dart';
@@ -62,10 +59,10 @@ class _MainScreenState extends State<MainScreen> {
               selectedFontSize: 12,
               unselectedFontSize: 10,
               onTap: (index) => onTap.whenTapped(index),
-              items: [
-                const BottomNavigationBarItem(
+              items: const [
+                BottomNavigationBarItem(
                     icon: Icon(Icons.home_outlined), label: 'Home'),
-                const BottomNavigationBarItem(
+                BottomNavigationBarItem(
                     icon: Icon(Icons.favorite_outline), label: 'Wishlist'),
                 BottomNavigationBarItem(icon: CartBadge(), label: 'Cart'),
               ]),

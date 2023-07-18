@@ -18,11 +18,11 @@ Widget categoriesItem(BuildContext context, int i, image, String name) {
           image != null
               ? Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    // image: DecorationImage(
-                    //     image: CachedNetworkImageProvider(image),
-                    //     fit: BoxFit.cover)
-                  ),
+                      borderRadius: BorderRadius.circular(5),
+                      image: DecorationImage(
+                        image: CachedNetworkImageProvider(image),
+                        fit: BoxFit.cover,
+                      )),
                 )
               : const Center(child: Text('No image')),
           Align(

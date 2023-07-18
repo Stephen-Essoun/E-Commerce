@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:e_commerce/ui/pages/main_page.dart';
 import 'package:e_commerce/utils/constant/progress_inducator.dart';
 import 'package:e_commerce/utils/constant/route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -65,7 +64,7 @@ class Authentication extends ChangeNotifier {
 
   //create account with Goggle account
   Future<void> goggleCreateUser() async {
-    try {} on FirebaseAuthException catch (e) {}
+    try {} on FirebaseAuthException {}
   }
 
   //login using Goggle account
@@ -106,7 +105,7 @@ class Authentication extends ChangeNotifier {
     try {
       startLoading('Logging out...');
       await _firebaseAuth.signOut().then((value) => stopLoading());
-    } on FirebaseAuthException catch (e) {
+    } on FirebaseAuthException {
       stopLoading();
     }
   }

@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:e_commerce/firebase_options.dart';
 import 'package:e_commerce/provider/cart.manager.dart';
@@ -49,12 +48,13 @@ class MyApp extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
         theme: ThemeData(
+            useMaterial3: true,
             primarySwatch: Colors.blue,
             elevatedButtonTheme: ElevatedButtonThemeData(
                 style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(mainColor)))),
+                    backgroundColor: MaterialStateProperty.all(mainColor),
+                    foregroundColor: MaterialStateProperty.all(white)))),
         routes: {
           homeRoute: (context) => const MainScreen(),
           toggleBetweenUIRoute: (context) => const ToggleBetweenUi(),

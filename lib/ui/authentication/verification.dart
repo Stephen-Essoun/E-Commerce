@@ -14,7 +14,7 @@ class EmailVerifyView extends StatelessWidget {
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(
             'Be a verified user',
-            style: Theme.of(context).textTheme.headline5,
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
           ElevatedButton(
               onPressed: () {

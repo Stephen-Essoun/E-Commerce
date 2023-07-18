@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:e_commerce/model/cart.dart';
 import 'package:e_commerce/provider/cart.manager.dart';
 import 'package:e_commerce/ui/pages/main_page.dart';
+import 'package:e_commerce/ui/pages/wishlist/handle.favorite.ontapped.dart';
 import 'package:e_commerce/utils/constant/colors.dart';
 import 'package:e_commerce/utils/constant/const.dart';
 import 'package:e_commerce/utils/widgets/big_text.dart';
@@ -13,10 +14,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../model/wish_list.dart';
-import '../provider/wishlist.dart';
-import '../provider/auth.dart';
-import '../utils/alert_dialog.dart';
-import '../utils/constant/route.dart';
 import '../utils/widgets/badge.dart';
 import '../utils/widgets/small_text.dart';
 
@@ -40,34 +37,16 @@ class ProductDetails extends StatefulWidget {
 
 class _ProductDetailsState extends State<ProductDetails> {
   bool visible = false;
-  var wishList;
-  var user;
-  var delete;
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      //to toglle btn favorited and unfavorited icon
-      context.read<WishListProvider>().favPro(widget.id.toString());
-    });
-  }
 
   @override
-  didChangeDependencies() {
-    user = context.watch<Authentication>().user;
-    wishList = WishList(
+  Widget build(BuildContext context) {
+    var wishList = WishList(
       id: widget.id,
       image: widget.image,
       price: widget.price,
       description: widget.description,
       title: widget.title,
     );
-
-    super.didChangeDependencies();
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: white,
@@ -127,53 +106,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                 ),
               ),
               // const Spacer(),
-              InkWell(
-                onTap: () async {
-                  if (user != null) {
-                    //if user's account isn't verified
-                    if (!user.emailVerified) {
-                      alertDialog(
-                        context: context,
-                        title: 'Authentication',
-                        content: "User's account is\nnot verified",
-                        onPressed: () => Navigator.pushReplacementNamed(
-                            context, emailVerifyRoute),
-                      );
-                    }
-                    //if user's account is verified
-                    else if (user.emailVerified) {
-                      Provider.of<WishListProvider>(context, listen: false)
-                          .addProduct(wishList, widget.id.toString());
-                      context.read<WishListProvider>().favPro(widget.id
-                          .toString()); //to immidiately toglle btn favorited and unfavorited icon
-                    }
-                  }
-                  //if no account is available on the device
-                  else {
-                    alertDialog(
-                      context: context,
-                      title: 'Authentication',
-                      content: "Continue to create account or sign in",
-                      onPressed: () => Navigator.pushReplacementNamed(
-                        context,
-                        toggleBetweenUIRoute,
-                      ),
-                    );
-                  }
-                },
-                child: Icon(
-                  Provider.of<WishListProvider>(context).isFavorited
-                      ? Icons.favorite_rounded
-                      : Icons.favorite_outline_outlined,
-                  color: mainColor,
-                ),
-              )
+              FavoriteButton(id: widget.id, wishList: wishList)
             ],
           ),
         ),
         wSpacing,
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: wallPadding),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: wallPadding),
           child: MText(
             text: 'Description',
             fontSize: 18,
@@ -195,7 +134,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            SText(text: 'Price:'),
+            const SText(text: 'Price:'),
             LText(
               text: 'GHC ${widget.price}',
               fontSize: 18,
@@ -211,7 +150,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           onPressed: () {
             context.read<CartManagerProvider>().addToCart(
                 Cart(
-                  id: widget.id,    
+                  id: widget.id,
                   image: widget.image,
                   price: widget.price,
                   title: widget.title,

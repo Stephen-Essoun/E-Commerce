@@ -35,7 +35,7 @@ class _CartViewState extends State<CartView> {
 
     return Scaffold(
         appBar: myTile(
-          leading: LText(text: 'My Cart'),
+          leading: const LText(text: 'My Cart'),
           trailing: const UserAppBarProfile(),
         ),
         body: Builder(builder: (context) {
@@ -68,7 +68,7 @@ class _CartViewState extends State<CartView> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                SText(
+                                const SText(
                                   text: 'Cart subtotal:',
                                   fontSize: 15,
                                 ),

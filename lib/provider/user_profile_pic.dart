@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 
 class UsersPic extends ChangeNotifier{
   File? _imagePath;
-  String _imageStringPath ='images/avatar.png';
+  final String _imageStringPath ='images/avatar.png';
   String get imagePath =>_imageStringPath;
   File? get imagePickPath =>_imagePath;
   pickImage()async{

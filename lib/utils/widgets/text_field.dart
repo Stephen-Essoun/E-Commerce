@@ -1,10 +1,6 @@
 import 'package:e_commerce/utils/constant/colors.dart';
-import 'package:e_commerce/utils/constant/const.dart';
 import 'package:e_commerce/utils/widgets/medium_text.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class CustomTextField extends StatefulWidget {
   final String id;
